@@ -130,7 +130,7 @@ model CourseChapter {
   parentId    String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-
+  chapterType String   @default("content") // Add this line
   children    CourseChapter[] @relation("ChapterChildren")
   parent      CourseChapter?  @relation("ChapterChildren", fields: [parentId], references: [id])
 }
