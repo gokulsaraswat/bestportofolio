@@ -3,8 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model AdminUser {
@@ -130,9 +131,9 @@ model CourseChapter {
   createdAt   DateTime        @default(now())
   updatedAt   DateTime        @updatedAt
   chapterType String          @default("content")
+  course      Course          @relation(fields: [courseId], references: [id], onDelete: Cascade)
   parent      CourseChapter?  @relation("ChapterChildren", fields: [parentId], references: [id])
   children    CourseChapter[] @relation("ChapterChildren")
-  course      Course          @relation(fields: [courseId], references: [id], onDelete: Cascade)
 }
 
 model ContactMessage {
