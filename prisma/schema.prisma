@@ -65,6 +65,8 @@ model BlogPost {
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
   embeds              String   @default("")
+  writtenBy           String?  @default("")
+  acceptedBy          String?  @default("")
 }
 
 model Project {
