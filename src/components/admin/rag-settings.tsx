@@ -295,7 +295,7 @@ useEffect(() => {
             <p className="font-medium text-muted-foreground">Required .env.local variables:</p>
             <code className="block text-[11px] bg-background rounded px-2 py-1">NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co</code>
             <code className="block text-[11px] bg-background rounded px-2 py-1">SUPABASE_SERVICE_ROLE_KEY=eyJ...</code>
-            <code className="block text-[11px] bg-background rounded px-2 py-1">OPENAI_API_KEY=sk-...</code>
+            <code className="block text-[11px] bg-background rounded px-2 py-1">GEMINI_API_KEY=sk-...</code>
           </div>
 
           <Button variant="outline" size="sm" onClick={checkConfig} className="gap-1.5">
