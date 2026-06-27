@@ -28,7 +28,9 @@ function isInputFocused(e: KeyboardEvent): boolean {
 
 export function useKeyboardShortcuts(options: KeyboardShortcutsOptions) {
   const optsRef = useRef(options);
-  optsRef.current = options;
+  useEffect(() => {
+  optsRef.current = options
+  })
 
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if (optsRef.current.disabled) return;

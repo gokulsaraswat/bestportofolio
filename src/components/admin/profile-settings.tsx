@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import {
   Save, RotateCcw, Loader2, Eye, User, Palette, Layout,
   Type, Zap, Monitor, Moon, Sun, Globe, Code2, MessageSquare,
@@ -61,7 +61,33 @@ function safeParseStringArray(value: unknown): string[] {
   }
   return [];
 }
+
 function safeStringifyArray(lines: string[]): string { try { return JSON.stringify(lines); } catch { return "[]"; } }
+
+
+function FeatureRow({
+  k, label, desc, icon, settings, us,
+}: {
+  k: keyof SiteSettings
+  label: string
+  desc: string
+  icon: React.ReactNode
+  settings: SiteSettings
+  us: (key: keyof SiteSettings, value: string | boolean) => void
+}) {
+  return (
+    <div className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+      <div className="flex items-center gap-3">
+        <div className="text-gray-400 dark:text-gray-500">{icon}</div>
+        <div>
+          <div className="text-sm font-medium text-gray-900 dark:text-white">{label}</div>
+          <div className="text-[11px] text-gray-500 dark:text-gray-400">{desc}</div>
+        </div>
+      </div>
+      <Switch checked={!!settings[k]} onCheckedChange={(v) => us(k, v)} />
+    </div>
+  )
+}
 
 export function ProfileSettings() {
   const { theme, setTheme } = useTheme();
@@ -78,24 +104,32 @@ export function ProfileSettings() {
     setTimeout(() => setMessage(null), 4000);
   };
 
-  const fetchSettings = useCallback(async () => {
-    try {
-      setLoading(true);
-      const res = await fetch("/api/settings");
-      if (res.ok) {
-        const data = await res.json();
-        const merged = { ...DEFAULT_SETTINGS, ...data };
-        const pl = safeParseStringArray(merged.heroTypingLines);
-        setTypingLines(pl.length > 0 ? pl : ["Full Stack Developer", "Problem Solver"]);
-        merged.heroTypingLines = safeStringifyArray(pl.length > 0 ? pl : ["Full Stack Developer", "Problem Solver"]);
-        setSettings(merged);
-        setOriginalSettings(merged);
+ useEffect(() => {
+    let cancelled = false
+    void (async () => {
+      try {
+        setLoading(true)
+        const res = await fetch("/api/settings")
+        if (!cancelled && res.ok) {
+          const data = await res.json()
+          const merged = { ...DEFAULT_SETTINGS, ...data }
+          const pl = safeParseStringArray(merged.heroTypingLines)
+          merged.heroTypingLines = safeStringifyArray(pl.length > 0 ? pl : ["Full Stack Developer", "Problem Solver"])
+          if (!cancelled) {
+            setTypingLines(pl.length > 0 ? pl : ["Full Stack Developer", "Problem Solver"])
+            setSettings(merged)
+            setOriginalSettings(merged)
+          }
+        }
+      } catch {
+        if (!cancelled) setTypingLines(["Full Stack Developer", "Problem Solver"])
+      } finally {
+        if (!cancelled) setLoading(false)
       }
-    } catch { setTypingLines(["Full Stack Developer", "Problem Solver"]); }
-    finally { setLoading(false); }
-  }, []);
+    })()
+    return () => { cancelled = true }
+  }, [])
 
-  useEffect(() => { fetchSettings(); }, [fetchSettings]);
   const us = (key: keyof SiteSettings, value: string | boolean) => setSettings((p) => ({ ...p, [key]: value }));
   const hasChanges = JSON.stringify(settings) !== JSON.stringify(originalSettings);
 
@@ -116,12 +150,7 @@ export function ProfileSettings() {
 
   if (loading) return <div className="flex items-center justify-center py-20"><Loader2 className="w-6 h-6 animate-spin text-gray-400 mr-3" /><span className="text-gray-400">Loading...</span></div>;
 
-  const FeatureRow = ({ k, label, desc, icon }: { k: keyof SiteSettings; label: string; desc: string; icon: React.ReactNode }) => (
-    <div className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
-      <div className="flex items-center gap-3"><div className="text-gray-400 dark:text-gray-500">{icon}</div><div><div className="text-sm font-medium text-gray-900 dark:text-white">{label}</div><div className="text-[11px] text-gray-500 dark:text-gray-400">{desc}</div></div></div>
-      <Switch checked={!!settings[k]} onCheckedChange={(v) => us(k, v)} />
-    </div>
-  );
+
 
   return (
     <div className="space-y-4">
@@ -204,9 +233,9 @@ export function ProfileSettings() {
               <div><Label>Accent</Label><div className="flex items-center gap-2 mt-1"><input type="color" value={settings.accentColor} onChange={(e) => us("accentColor", e.target.value)} className="w-10 h-10 rounded-lg border-0 cursor-pointer" /><Input value={settings.accentColor} onChange={(e) => us("accentColor", e.target.value)} className="flex-1 font-mono text-sm" /></div></div>
             </div>
             <div className="space-y-3 pt-2">
-              <FeatureRow k="enableAnimations" label="Animations" desc="Transitions and hover effects" icon={<Zap className="w-4 h-4" />} />
-              <FeatureRow k="enableParticles" label="Particles" desc="Background particles" icon={<Zap className="w-4 h-4" />} />
-              <FeatureRow k="roundedCorners" label="Rounded" desc="Rounded cards and buttons" icon={<Layout className="w-4 h-4" />} />
+              <FeatureRow k="enableAnimations" label="Animations" desc="Transitions and hover effects" icon={<Zap className="w-4 h-4" />} settings={settings} us={us} />
+              <FeatureRow k="enableParticles" label="Particles" desc="Background particles" icon={<Zap className="w-4 h-4" />} settings={settings} us={us} />
+              <FeatureRow k="roundedCorners" label="Rounded" desc="Rounded cards and buttons" icon={<Layout className="w-4 h-4" />} settings={settings} us={us} />
             </div>
           </div>
         )}
@@ -215,15 +244,15 @@ export function ProfileSettings() {
         {activeTab === "features" && (
           <div className="space-y-3">
             <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">Features</h3>
-            <FeatureRow k="enableBlog" label="Blog" desc="Blog section" icon={<MessageSquare className="w-4 h-4" />} />
-            <FeatureRow k="enableProjects" label="Projects" desc="Projects section" icon={<Layout className="w-4 h-4" />} />
-            <FeatureRow k="enableCourses" label="Courses" desc="Courses section" icon={<GraduationCap className="w-4 h-4" />} />
-            <FeatureRow k="enableSnippets" label="Snippets" desc="Code snippets section" icon={<Code2 className="w-4 h-4" />} />
-            <FeatureRow k="enableComments" label="Comments" desc="Allow comments" icon={<MessageSquare className="w-4 h-4" />} />
-            <FeatureRow k="enableRag" label="AI Chat" desc="RAG chatbot" icon={<Zap className="w-4 h-4" />} />
-            <FeatureRow k="enableContact" label="Contact" desc="Contact form" icon={<Globe className="w-4 h-4" />} />
-            <FeatureRow k="showVisitorCount" label="Visitor Counter" desc="Public visitor count" icon={<Eye className="w-4 h-4" />} />
-            <FeatureRow k="showGithubStats" label="GitHub Stats" desc="Contribution stats" icon={<Code2 className="w-4 h-4" />} />
+            <FeatureRow k="enableBlog" label="Blog" desc="Blog section" icon={<MessageSquare className="w-4 h-4" />} settings={settings} us={us} />
+            <FeatureRow k="enableProjects" label="Projects" desc="Projects section" icon={<Layout className="w-4 h-4" />} settings={settings} us={us} />
+            <FeatureRow k="enableCourses" label="Courses" desc="Courses section" icon={<GraduationCap className="w-4 h-4" />} settings={settings} us={us} />
+            <FeatureRow k="enableSnippets" label="Snippets" desc="Code snippets section" icon={<Code2 className="w-4 h-4" />} settings={settings} us={us} />
+            <FeatureRow k="enableComments" label="Comments" desc="Allow comments" icon={<MessageSquare className="w-4 h-4" />} settings={settings} us={us} />
+            <FeatureRow k="enableRag" label="AI Chat" desc="RAG chatbot" icon={<Zap className="w-4 h-4" />} settings={settings} us={us} />
+            <FeatureRow k="enableContact" label="Contact" desc="Contact form" icon={<Globe className="w-4 h-4" />} settings={settings} us={us} />
+            <FeatureRow k="showVisitorCount" label="Visitor Counter" desc="Public visitor count" icon={<Eye className="w-4 h-4" />} settings={settings} us={us} />
+            <FeatureRow k="showGithubStats" label="GitHub Stats" desc="Contribution stats" icon={<Code2 className="w-4 h-4" />} settings={settings} us={us} />
             <div className="pt-2"><Label>Contact Email</Label><Input value={settings.contactEmail} onChange={(e) => us("contactEmail", e.target.value)} className="mt-1" /></div>
           </div>
         )}

@@ -200,22 +200,41 @@ export function TodoManager() {
   /*  Data fetching                                                     */
   /* ================================================================ */
 
-  const fetchActiveTodos = useCallback(async () => {
+  const fetchActiveTodos = async () => {
+  try {
+    const params = new URLSearchParams()
+    params.set('includeArchived', 'false')
+    const res = await fetch(`/api/todos?${params.toString()}`)
+    if (res.ok) {
+      const data = await res.json()
+      setActiveTodos(data.filter((t: Todo) => t.status !== 'done'))
+    }
+  } catch {
+    toast({ title: 'Failed to fetch todos', variant: 'destructive' })
+  } finally {
+    setLoading(false)
+  }
+}
+
+useEffect(() => {
+  let cancelled = false
+  void (async () => {
     try {
       const params = new URLSearchParams()
       params.set('includeArchived', 'false')
       const res = await fetch(`/api/todos?${params.toString()}`)
-      if (res.ok) {
+      if (!cancelled && res.ok) {
         const data = await res.json()
-        // Only keep non-done items as active
         setActiveTodos(data.filter((t: Todo) => t.status !== 'done'))
       }
     } catch {
-      toast({ title: 'Failed to fetch todos', variant: 'destructive' })
+      if (!cancelled) toast({ title: 'Failed to fetch todos', variant: 'destructive' })
     } finally {
-      setLoading(false)
+      if (!cancelled) setLoading(false)
     }
-  }, [toast])
+  })()
+  return () => { cancelled = true }
+}, [toast])
 
   const fetchCompletedTodos = useCallback(async () => {
     setCompletedLoading(true)
@@ -236,9 +255,7 @@ export function TodoManager() {
     }
   }, [toast])
 
-  useEffect(() => {
-    fetchActiveTodos()
-  }, [fetchActiveTodos])
+ 
 
   /* ================================================================ */
   /*  Sorting & filtering                                               */

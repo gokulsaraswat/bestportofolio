@@ -55,8 +55,40 @@ export function OperationLogsPanel() {
     setLoading(false)
   }
 
-  useEffect(() => { fetchLogs() }, [])
+  // Remove fetchLogs function definition entirely
 
+// Replace useEffect with:
+useEffect(() => {
+      let cancelled = false
+      void (async () => {
+        setLoading(true)
+        try {
+          const res = await fetch('/api/operation-logs')
+          if (!cancelled && res.ok) {
+            const data = await res.json()
+            setLogs(data)
+          }
+        } catch { /* ignore */ }
+        finally {
+          if (!cancelled) setLoading(false)
+        }
+      })()
+      return () => { cancelled = true }
+    }, [])
+
+  const handleRefresh = async () => {
+    setLoading(true)
+    try {
+      const res = await fetch('/api/operation-logs')
+      if (res.ok) {
+        const data = await res.json()
+        setLogs(data)
+      }
+    } catch { /* ignore */ }
+    finally {
+      setLoading(false)
+    }
+  }
   const uniqueActions = [...new Set(logs.map(l => l.action))]
 
   const filtered = logs.filter(l => {
@@ -73,7 +105,7 @@ export function OperationLogsPanel() {
             Last {filtered.length} operations (max 1000 retained)
           </p>
         </div>
-        <Button variant="outline" size="sm" onClick={fetchLogs} className="gap-1.5">
+        <Button variant="outline" size="sm" onClick={handleRefresh} className="gap-1.5">
           <RefreshCw className="h-3.5 w-3.5" />
           Refresh
         </Button>

@@ -8,131 +8,131 @@ datasource db {
 }
 
 model AdminUser {
-  id        String   @id @default(cuid())
-  username  String   @unique
-  password  String
-  role      String   @default("admin")
-  totpSecret String  @default("")
-  totpEnabled Boolean @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String   @id @default(cuid())
+  username    String   @unique
+  password    String
+  role        String   @default("admin")
+  totpSecret  String   @default("")
+  totpEnabled Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model Profile {
-  id                    String @id @default(cuid())
-  name                  String @default("Gokul Saraswat")
-  shortname             String @default("Gokul")
-  avatar                String @default("/avatar.jpeg")
-  occupation            String @default("Backend Engineer")
-  company               String @default("Oracle Financial Services Software")
-  email                 String @default("gokulsaraswat07@gmail.com")
-  phone                 String @default("+91-9829086012")
-  location              String @default("Bangalore, India")
-  bio                   String @default("")
-  tagline               String @default("")
-  resumeUrl             String @default("/Gokul_Saraswat.pdf")
-  twitter               String @default("https://twitter.com/gokulsaraswat")
-  linkedin              String @default("https://www.linkedin.com/in/gokulsaraswat")
-  github                String @default("https://github.com/gokulsaraswat")
-  youtube               String @default("")
-  spotify               String @default("")
-      website               String @default("https://gokulsaraswat.com")
-  codechef              String @default("")
-  leetcode              String @default("")
-  codeReviewPhilosophy  String @default("")
-  agileExperience       String @default("")
-  skills                String @default("[]")
-  certifications        String @default("[]")
-  carouselImages        String @default("[]")
-  typingLines           String @default("[]")
-  chatBotEnabled        Boolean @default(false)
-  createdAt             DateTime @default(now())
-  updatedAt             DateTime @updatedAt
+  id                   String   @id @default(cuid())
+  name                 String   @default("Gokul Saraswat")
+  shortname            String   @default("Gokul")
+  avatar               String   @default("/avatar.jpeg")
+  occupation           String   @default("Backend Engineer")
+  company              String   @default("Oracle Financial Services Software")
+  email                String   @default("gokulsaraswat07@gmail.com")
+  phone                String   @default("+91-9829086012")
+  location             String   @default("Bangalore, India")
+  bio                  String   @default("")
+  tagline              String   @default("")
+  resumeUrl            String   @default("/Gokul_Saraswat.pdf")
+  twitter              String   @default("https://twitter.com/gokulsaraswat")
+  linkedin             String   @default("https://www.linkedin.com/in/gokulsaraswat")
+  github               String   @default("https://github.com/gokulsaraswat")
+  youtube              String   @default("")
+  spotify              String   @default("")
+  website              String   @default("https://gokulsaraswat.com")
+  codechef             String   @default("")
+  leetcode             String   @default("")
+  codeReviewPhilosophy String   @default("")
+  agileExperience      String   @default("")
+  skills               String   @default("[]")
+  certifications       String   @default("[]")
+  carouselImages       String   @default("[]")
+  typingLines          String   @default("[]")
+  chatBotEnabled       Boolean  @default(false)
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
 }
 
 model BlogPost {
-  id                  String   @id @default(cuid())
-  title               String
-  slug                String   @unique
-  excerpt             String   @default("")
-  content             String   @default("")
-  coverImage          String   @default("")
-  tags                String   @default("")
-  type                String   @default("article")
-  embedUrl            String   @default("")
-  behindTheScenes     String   @default("")
-  published           Boolean  @default(false)
-  createdAt           DateTime @default(now())
-  updatedAt           DateTime @updatedAt
-  embeds              String   @default("")
-  writtenBy           String?  @default("")
-  acceptedBy          String?  @default("")
+  id              String   @id @default(cuid())
+  title           String
+  slug            String   @unique
+  excerpt         String   @default("")
+  content         String   @default("")
+  coverImage      String   @default("")
+  tags            String   @default("")
+  type            String   @default("article")
+  embedUrl        String   @default("")
+  behindTheScenes String   @default("")
+  published       Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  embeds          String   @default("")
+  acceptedBy      String?  @default("")
+  writtenBy       String?  @default("")
 }
 
 model Project {
-  id                    String   @id @default(cuid())
-  title                 String
-  slug                  String   @unique
-  description           String
-  shortDesc             String   @default("")
-  banner                String   @default("")
-  website               String   @default("")
-  downloadLink          String   @default("")
-  repository            String   @default("")
-  stack                 String   @default("[]")
-  screenshots           String   @default("[]")
-  role                  String   @default("")
-  process               String   @default("")
-  results               String   @default("")
-  architectureDiagramUrl String @default("")
-  dbSchemaUrl           String @default("")
-  adrContent            String   @default("")
-  cicdSnippet           String   @default("")
-  iacSnippet            String   @default("")
-  observabilityUrl      String   @default("")
-  testCoverageUrl       String   @default("")
-  performanceMetrics    String   @default("")
-  securityImplementation String @default("")
-  swaggerUrl            String   @default("")
-  terminalSessionUrl    String   @default("")
-  behindTheScenes       String   @default("")
-  videoUrl              String   @default("")
-  featured              Boolean  @default(false)
-  complexity            Int      @default(1)
-  createdAt             DateTime @default(now())
-  updatedAt             DateTime @updatedAt
-  contributors  String   @default("[]")
-  showTeam      Boolean  @default(false)
-  embeds        String   @default("")
+  id                     String   @id @default(cuid())
+  title                  String
+  slug                   String   @unique
+  description            String
+  shortDesc              String   @default("")
+  banner                 String   @default("")
+  website                String   @default("")
+  downloadLink           String   @default("")
+  repository             String   @default("")
+  stack                  String   @default("[]")
+  screenshots            String   @default("[]")
+  role                   String   @default("")
+  process                String   @default("")
+  results                String   @default("")
+  architectureDiagramUrl String   @default("")
+  dbSchemaUrl            String   @default("")
+  adrContent             String   @default("")
+  cicdSnippet            String   @default("")
+  iacSnippet             String   @default("")
+  observabilityUrl       String   @default("")
+  testCoverageUrl        String   @default("")
+  performanceMetrics     String   @default("")
+  securityImplementation String   @default("")
+  swaggerUrl             String   @default("")
+  terminalSessionUrl     String   @default("")
+  behindTheScenes        String   @default("")
+  videoUrl               String   @default("")
+  featured               Boolean  @default(false)
+  complexity             Int      @default(1)
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+  contributors           String   @default("[]")
+  showTeam               Boolean  @default(false)
+  embeds                 String   @default("")
 }
 
 model Course {
-  id          String   @id @default(cuid())
+  id          String          @id @default(cuid())
   title       String
-  slug        String   @unique
-  description String   @default("")
-  banner      String   @default("")
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  slug        String          @unique
+  description String          @default("")
+  banner      String          @default("")
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  embeds      String          @default("")
   chapters    CourseChapter[]
-  embeds      String   @default("")
 }
 
 model CourseChapter {
-  id          String   @id @default(cuid())
+  id          String          @id @default(cuid())
   title       String
   slug        String
-  content     String   @default("")
-  order       Int      @default(0)
-  sectionName String   @default("")
+  content     String          @default("")
+  order       Int             @default(0)
+  sectionName String          @default("")
   courseId    String
-  course      Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
   parentId    String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  chapterType String   @default("content") // Add this line
-  children    CourseChapter[] @relation("ChapterChildren")
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  chapterType String          @default("content")
   parent      CourseChapter?  @relation("ChapterChildren", fields: [parentId], references: [id])
+  children    CourseChapter[] @relation("ChapterChildren")
+  course      Course          @relation(fields: [courseId], references: [id], onDelete: Cascade)
 }
 
 model ContactMessage {
@@ -146,20 +146,20 @@ model ContactMessage {
 }
 
 model Todo {
-  id          String   @id @default(cuid())
+  id          String        @id @default(cuid())
   title       String
-  description String   @default("")
-  status      String   @default("draft")
-  priority    String   @default("medium")
-  entityType  String   @default("")
-  entityId    String   @default("")
-  assignee    String   @default("")
-  remarks     String   @default("")
+  description String        @default("")
+  status      String        @default("draft")
+  priority    String        @default("medium")
+  entityType  String        @default("")
+  entityId    String        @default("")
+  assignee    String        @default("")
+  remarks     String        @default("")
   completedAt DateTime?
-  archived    Boolean  @default(false)
-  dueDate     String   @default("")
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  archived    Boolean       @default(false)
+  dueDate     String        @default("")
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
   history     TodoHistory[]
 }
 
@@ -187,26 +187,24 @@ model Comment {
 }
 
 model CodeSnippet {
-  id          String   @id @default(cuid())
-  title       String
-  slug        String   @unique
-  description String   @default("")
-  type        String   @default("code")
-  language    String   @default("")
-  tags        String   @default("")
-  content     String   @default("")
-  // JSON array of { name, language, content } for multi-language tabs
-  tabs        String   @default("[]")
-  comment     String   @default("")
-  // Demo section: image URL, output text, or external link
-  demoType    String   @default("")
-  demoUrl     String   @default("")
-  demoOutput  String   @default("")
-  published   Boolean  @default(false)
-  includeInRag Boolean @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  embeds      String   @default("")
+  id           String   @id @default(cuid())
+  title        String
+  slug         String   @unique
+  description  String   @default("")
+  type         String   @default("code")
+  language     String   @default("")
+  tags         String   @default("")
+  content      String   @default("")
+  tabs         String   @default("[]")
+  comment      String   @default("")
+  demoType     String   @default("")
+  demoUrl      String   @default("")
+  demoOutput   String   @default("")
+  published    Boolean  @default(false)
+  includeInRag Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  embeds       String   @default("")
 }
 
 model OperationLog {

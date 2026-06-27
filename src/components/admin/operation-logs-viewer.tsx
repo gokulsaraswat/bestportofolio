@@ -79,8 +79,38 @@ export default function OperationLogsViewer() {
   }, []);
 
   useEffect(() => {
-    fetchLogs();
-  }, [fetchLogs]);
+  let cancelled = false
+  void (async () => {
+    try {
+      setLoading(true)
+      const res = await fetch("/api/operation-logs")
+      if (!cancelled && res.ok) {
+        const data = await res.json()
+        setLogs(data)
+      }
+    } catch (err) {
+      if (!cancelled) console.error("Failed to fetch operation logs:", err)
+    } finally {
+      if (!cancelled) setLoading(false)
+    }
+  })()
+  return () => { cancelled = true }
+}, [])
+
+// Add a separate handler for the Refresh button:
+const handleRefresh = async () => {
+    try {
+      setLoading(true)
+      const res = await fetch("/api/operation-logs")
+      if (!res.ok) throw new Error("Failed to fetch logs")
+      const data = await res.json()
+      setLogs(data)
+    } catch (err) {
+      console.error("Failed to fetch operation logs:", err)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const filteredLogs = logs
     .filter((log) => {
@@ -162,7 +192,7 @@ export default function OperationLogsViewer() {
           </p>
         </div>
         <button
-          onClick={fetchLogs}
+          onClick={handleRefresh}
           disabled={loading}
           className="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors disabled:opacity-50"
         >

@@ -55,6 +55,7 @@ interface Chapter {
   parentId: string | null
   createdAt: string
   children?: Chapter[]
+  embeds: string
 }
 
 interface Course {
@@ -83,7 +84,7 @@ interface ChapterForm {
   chapterType: string
   order: number
   parentId: string | null
-  embeds: string[] // Add this line
+  embeds: string // Add this line
 }
 
 const emptyCourseForm: CourseForm = {
@@ -101,7 +102,7 @@ const emptyChapterForm: ChapterForm = {
   chapterType: 'content',
   order: 0,
   parentId: null,
-  embeds: [], // Add this line
+  embeds: '', // Add this line
 }
 
 const courseSortOptions: SortOption[] = [
@@ -279,9 +280,23 @@ export function CourseManager() {
     })
   }, [courses, sortBy])
 
-  useEffect(() => {
-    fetchCourses()
-  }, [fetchCourses])
+useEffect(() => {
+  let cancelled = false
+  void (async () => {
+    try {
+      const res = await fetch('/api/courses')
+      if (!cancelled && res.ok) {
+        const data = await res.json()
+        setCourses(data)
+      }
+    } catch {
+      if (!cancelled) toast({ title: 'Failed to fetch courses', variant: 'destructive' })
+    } finally {
+      if (!cancelled) setLoading(false)
+    }
+  })()
+  return () => { cancelled = true }
+}, [toast])
 
   const selectCourse = (course: Course) => {
     setSelectedCourse(course)
@@ -393,6 +408,7 @@ export function CourseManager() {
       chapterType: chapter.chapterType || 'content',
       order: chapter.order,
       parentId: chapter.parentId,
+      embeds: chapter.embeds || '',  // added this
     })
     setChapterTab('edit')
     setChapterDialogOpen(true)

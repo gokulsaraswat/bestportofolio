@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useCallback, useMemo } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { Mail, MailOpen, MailCheck, Circle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -52,23 +52,24 @@ export function MessageManager() {
   const [selectedMessage, setSelectedMessage] = useState<Message | null>(null)
   const [sortBy, setSortBy] = useState('date:desc')
 
-  const fetchMessages = useCallback(async () => {
+
+useEffect(() => {
+  let cancelled = false
+  void (async () => {
     try {
       const res = await fetch('/api/messages')
-      if (res.ok) {
+      if (!cancelled && res.ok) {
         const data = await res.json()
         setMessages(data)
       }
     } catch {
-      toast({ title: 'Failed to fetch messages', variant: 'destructive' })
+      if (!cancelled) toast({ title: 'Failed to fetch messages', variant: 'destructive' })
     } finally {
-      setLoading(false)
+      if (!cancelled) setLoading(false)
     }
-  }, [toast])
-
-  useEffect(() => {
-    fetchMessages()
-  }, [fetchMessages])
+  })()
+  return () => { cancelled = true }
+}, [toast])
 
   const sortedMessages = useMemo(() => {
     const [field, dir] = sortBy.split(':')

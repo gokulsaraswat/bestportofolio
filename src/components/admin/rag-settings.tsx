@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import { Bot, Upload, Trash2, CheckCircle2, XCircle, Loader2, Database, Key, RefreshCw, FileText, Sparkles } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -56,36 +56,53 @@ export function RagSettings() {
   const [batching, setBatching] = useState(false)
   const [batchProgress, setBatchProgress] = useState('')
 
-  const fetchConfig = useCallback(async () => {
-    try {
-      const res = await fetch('/api/profile')
-      if (res.ok) {
-        const data = await res.json()
-        setChatBotEnabled(data.chatBotEnabled === true)
+  const checkConfig = async () => {
+  setConfigStatus('checking')
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages: [{ role: 'user', content: 'test' }] }),
+    })
+    setConfigStatus('ok')
+  } catch {
+    setConfigStatus('missing')
+  }
+}
+
+
+
+useEffect(() => {
+    let cancelled = false
+    void (async () => {
+      try {
+        const res = await fetch('/api/profile')
+        if (!cancelled && res.ok) {
+          const data = await res.json()
+          setChatBotEnabled(data.chatBotEnabled === true)
+        }
+      } catch { /* ignore */ }
+      finally {
+        if (!cancelled) setLoading(false)
       }
-    } catch { /* ignore */ }
-    setLoading(false)
+    })()
+    void (async () => {
+      setConfigStatus('checking')
+      try {
+        await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ messages: [{ role: 'user', content: 'test' }] }),
+        })
+        if (!cancelled) setConfigStatus('ok')
+      } catch {
+        if (!cancelled) setConfigStatus('missing')
+      }
+    })()
+    return () => { cancelled = true }
   }, [])
 
-  useEffect(() => {
-    fetchConfig()
-    checkConfig()
-  }, [fetchConfig])
 
-  const checkConfig = async () => {
-    setConfigStatus('checking')
-    try {
-      const res = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: [{ role: 'user', content: 'test' }] }),
-      })
-      // If we get a response (even fallback), the route works
-      setConfigStatus('ok')
-    } catch {
-      setConfigStatus('missing')
-    }
-  }
 
   const handleToggleBot = async (checked: boolean) => {
     setChatBotEnabled(checked)

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useCallback, useMemo } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { Plus, Pencil, Trash2, Eye, Search, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -58,7 +58,7 @@ interface Blog {
   coverImage: string
   tags: string
   type: string
-  embeds: string[]; // <-- Replace embedUrl: string with this
+  embeds: string
   published: boolean
   writtenBy: string
   acceptedBy: string
@@ -74,7 +74,7 @@ interface BlogForm {
   coverImage: string
   tags: string
   type: string
-  embeds: string[]; // <-- Replace embedUrl: string with this
+  embeds: string
   published: boolean
   writtenBy: string
   acceptedBy: string
@@ -88,7 +88,7 @@ const emptyForm: BlogForm = {
   coverImage: '',
   tags: '',
   type: 'article',
-  embeds: [], // <-- Replace embedUrl: '' with this
+  embeds: '',
   published: false,
   writtenBy: '',
   acceptedBy: '',
@@ -133,25 +133,29 @@ export function BlogManager() {
   // Active tab in editor
   const [editorTab, setEditorTab] = useState<'edit' | 'preview'>('edit')
 
-  const fetchBlogs = useCallback(async () => {
-    try {
-      const params = new URLSearchParams()
-      if (search) params.set('search', search)
-      const res = await fetch(`/api/blogs?${params.toString()}`)
-      if (res.ok) {
-        const data = await res.json()
-        setBlogs(data)
+  useEffect(() => {
+    let cancelled = false
+    void (async () => {
+      try {
+        const params = new URLSearchParams()
+        if (search) params.set('search', search)
+        const res = await fetch(`/api/blogs?${params.toString()}`)
+        if (!cancelled && res.ok) {
+          const data = await res.json()
+          setBlogs(data)
+        }
+      } catch {
+        if (!cancelled) {
+          toast({ title: 'Failed to fetch blogs', variant: 'destructive' })
+        }
+      } finally {
+        if (!cancelled) setLoading(false)
       }
-    } catch {
-      toast({ title: 'Failed to fetch blogs', variant: 'destructive' })
-    } finally {
-      setLoading(false)
+    })()
+    return () => {
+      cancelled = true
     }
   }, [search, toast])
-
-  useEffect(() => {
-    fetchBlogs()
-  }, [fetchBlogs])
 
   const sortedBlogs = useMemo(() => {
     const [field, dir] = sortBy.split(':')
@@ -187,7 +191,7 @@ export function BlogManager() {
       coverImage: blog.coverImage,
       tags: blog.tags,
       type: blog.type,
-      embeds: blog.embeds || [], // <-- Replace embedUrl: blog.embedUrl with this
+      embeds: blog.embeds || '',
       published: blog.published,
       writtenBy: blog.writtenBy || '',
       acceptedBy: blog.acceptedBy || '',
@@ -232,7 +236,19 @@ export function BlogManager() {
         description: `"${form.title}" has been saved successfully.`,
       })
       setEditorOpen(false)
-      fetchBlogs()
+      void (async () => {
+        try {
+          const params = new URLSearchParams()
+          if (search) params.set('search', search)
+          const res = await fetch(`/api/blogs?${params.toString()}`)
+          if (res.ok) {
+            const data = await res.json()
+            setBlogs(data)
+          }
+        } catch {
+          toast({ title: 'Failed to fetch blogs', variant: 'destructive' })
+        }
+      })()
     } catch (err) {
       toast({
         title: 'Error',
@@ -252,7 +268,19 @@ export function BlogManager() {
       if (!res.ok) throw new Error('Failed to delete')
       toast({ title: 'Blog deleted', description: `"${deleteTarget.title}" has been removed.` })
       setDeleteTarget(null)
-      fetchBlogs()
+      void (async () => {
+        try {
+          const params = new URLSearchParams()
+          if (search) params.set('search', search)
+          const res = await fetch(`/api/blogs?${params.toString()}`)
+          if (res.ok) {
+            const data = await res.json()
+            setBlogs(data)
+          }
+        } catch {
+          toast({ title: 'Failed to fetch blogs', variant: 'destructive' })
+        }
+      })()
     } catch {
       toast({ title: 'Error', description: 'Failed to delete blog', variant: 'destructive' })
     } finally {
@@ -482,9 +510,9 @@ export function BlogManager() {
               {form.type !== 'article' && (
                 <div className="flex flex-col gap-2">
                   <Label>Embeds</Label>
-                  <EmbedUrlInput 
-                    value={form.embeds} 
-                    onChange={(v) => setForm((f) => ({ ...f, embeds: v }))} 
+                  <EmbedUrlInput
+                    value={form.embeds}
+                    onChange={(v) => setForm((f) => ({ ...f, embeds: v }))}
                   />
                 </div>
               )}

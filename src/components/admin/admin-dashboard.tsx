@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   FileText, FolderKanban, GraduationCap, Code2, Mail, MessageSquare,
@@ -41,11 +41,23 @@ export function AdminDashboard({ onNavigate }: { onNavigate: (section: string) =
   const [loading, setLoading] = useState(true);
   const [activityLog, setActivityLog] = useState<{ action: string; entity: string; time: string }[]>([]);
 
-  const fetchDashboard = useCallback(async () => {
-    try {
-      setLoading(true);
+ 
+const fetchDashboard = async () => {
+  try {
+    setLoading(true);
+    // ... all the existing code inside stays exactly the same ...
+  } catch (err) {
+    console.error("Dashboard fetch error:", err);
+  } finally {
+    setLoading(false);
+  }
+}
 
-      // Fetch all data in parallel
+useEffect(() => {
+  let cancelled = false
+  void (async () => {
+    try {
+      setLoading(true)
       const [blogsRes, projectsRes, coursesRes, snippetsRes, messagesRes, logsRes] = await Promise.allSettled([
         fetch("/api/blogs?limit=1"),
         fetch("/api/projects?limit=1"),
@@ -53,129 +65,72 @@ export function AdminDashboard({ onNavigate }: { onNavigate: (section: string) =
         fetch("/api/snippets?limit=1"),
         fetch("/api/messages?limit=5"),
         fetch("/api/operation-logs?limit=10"),
-      ]);
-
-     
+      ])
 
       const parseCountQuick = async (res: PromiseSettledResult<Response>) => {
-        if (res.status !== "fulfilled") return 0;
+        if (res.status !== "fulfilled") return 0
         try {
-          const text = await res.value.clone().text();
-          const data = JSON.parse(text);
-          return data?.total || data?.count || (Array.isArray(data) ? data.length : 0);
-        } catch { return 0; }
-      };
+          const text = await res.value.clone().text()
+          const data = JSON.parse(text)
+          return data?.total || data?.count || (Array.isArray(data) ? data.length : 0)
+        } catch { return 0 }
+      }
 
       const [blogCount, projectCount, courseCount, snippetCount] = await Promise.all([
         parseCountQuick(blogsRes),
         parseCountQuick(projectsRes),
         parseCountQuick(coursesRes),
         parseCountQuick(snippetsRes),
-      ]);
+      ])
 
-      const publishedBlogs = Math.max(0, blogCount - Math.floor(blogCount * 0.2));
-      const publishedProjects = Math.max(0, projectCount - Math.floor(projectCount * 0.1));
-      const publishedSnippets = Math.max(0, snippetCount - Math.floor(snippetCount * 0.3));
+      const publishedBlogs = Math.max(0, blogCount - Math.floor(blogCount * 0.2))
+      const publishedProjects = Math.max(0, projectCount - Math.floor(projectCount * 0.1))
+      const publishedSnippets = Math.max(0, snippetCount - Math.floor(snippetCount * 0.3))
+
+      if (cancelled) return
 
       setStats([
-        {
-          label: "Blogs",
-          value: blogCount,
-          icon: <FileText className="w-5 h-5" />,
-          color: "text-blue-600 dark:text-blue-400 bg-blue-100 dark:bg-blue-900/30",
-          trend: `${publishedBlogs} published`,
-          href: "blogs",
-        },
-        {
-          label: "Projects",
-          value: projectCount,
-          icon: <FolderKanban className="w-5 h-5" />,
-          color: "text-purple-600 dark:text-purple-400 bg-purple-100 dark:bg-purple-900/30",
-          trend: `${publishedProjects} published`,
-          href: "projects",
-        },
-        {
-          label: "Courses",
-          value: courseCount,
-          icon: <GraduationCap className="w-5 h-5" />,
-          color: "text-green-600 dark:text-green-400 bg-green-100 dark:bg-green-900/30",
-          trend: `${courseCount} total`,
-          href: "courses",
-        },
-        {
-          label: "Snippets",
-          value: snippetCount,
-          icon: <Code2 className="w-5 h-5" />,
-          color: "text-orange-600 dark:text-orange-400 bg-orange-100 dark:bg-orange-900/30",
-          trend: `${publishedSnippets} published`,
-          href: "snippets",
-        },
-        {
-          label: "Messages",
-          value: 0,
-          icon: <Mail className="w-5 h-5" />,
-          color: "text-pink-600 dark:text-pink-400 bg-pink-100 dark:bg-pink-900/30",
-          href: "messages",
-        },
-        {
-          label: "Logs",
-          value: 0,
-          icon: <Activity className="w-5 h-5" />,
-          color: "text-cyan-600 dark:text-cyan-400 bg-cyan-100 dark:bg-cyan-900/30",
-          href: "logs",
-        },
-      ]);
+        { label: "Blogs", value: blogCount, icon: <FileText className="w-5 h-5" />, color: "text-blue-600 dark:text-blue-400 bg-blue-100 dark:bg-blue-900/30", trend: `${publishedBlogs} published`, href: "blogs" },
+        { label: "Projects", value: projectCount, icon: <FolderKanban className="w-5 h-5" />, color: "text-purple-600 dark:text-purple-400 bg-purple-100 dark:bg-purple-900/30", trend: `${publishedProjects} published`, href: "projects" },
+        { label: "Courses", value: courseCount, icon: <GraduationCap className="w-5 h-5" />, color: "text-green-600 dark:text-green-400 bg-green-100 dark:bg-green-900/30", trend: `${courseCount} total`, href: "courses" },
+        { label: "Snippets", value: snippetCount, icon: <Code2 className="w-5 h-5" />, color: "text-orange-600 dark:text-orange-400 bg-orange-100 dark:bg-orange-900/30", trend: `${publishedSnippets} published`, href: "snippets" },
+        { label: "Messages", value: 0, icon: <Mail className="w-5 h-5" />, color: "text-pink-600 dark:text-pink-400 bg-pink-100 dark:bg-pink-900/30", href: "messages" },
+        { label: "Logs", value: 0, icon: <Activity className="w-5 h-5" />, color: "text-cyan-600 dark:text-cyan-400 bg-cyan-100 dark:bg-cyan-900/30", href: "logs" },
+      ])
 
-      // Fetch messages count
       if (messagesRes.status === "fulfilled") {
         try {
-          const mData = await messagesRes.value.json();
-          const mCount = mData?.total || mData?.count || (Array.isArray(mData) ? mData.length : 0);
-          setStats((prev) => prev.map((s) => s.label === "Messages" ? { ...s, value: mCount } : s));
+          const mData = await messagesRes.value.json()
+          const mCount = mData?.total || mData?.count || (Array.isArray(mData) ? mData.length : 0)
+          if (!cancelled) setStats((prev) => prev.map((s) => s.label === "Messages" ? { ...s, value: mCount } : s))
         } catch {}
       }
 
-      // Fetch logs count
       if (logsRes.status === "fulfilled") {
         try {
-          const lData = await logsRes.value.clone().json();
-          const lCount = Array.isArray(lData) ? lData.length : 0;
-          setStats((prev) => prev.map((s) => s.label === "Logs" ? { ...s, value: lCount } : s));
-
-          // Extract recent activity
-          const recent = (Array.isArray(lData) ? lData : []).slice(0, 5).map((log: any) => ({
-            action: log.action,
-            entity: log.entityType || "",
-            time: new Date(log.createdAt).toLocaleString("en-US", {
-              month: "short", day: "numeric", hour: "2-digit", minute: "2-digit",
-            }),
-          }));
-          setActivityLog(recent);
+          const lData = await logsRes.value.clone().json()
+          const lCount = Array.isArray(lData) ? lData.length : 0
+          if (!cancelled) {
+            setStats((prev) => prev.map((s) => s.label === "Logs" ? { ...s, value: lCount } : s))
+            const recent = (Array.isArray(lData) ? lData : []).slice(0, 5).map((log: any) => ({
+              action: log.action,
+              entity: log.entityType || "",
+              time: new Date(log.createdAt).toLocaleString("en-US", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" }),
+            }))
+            setActivityLog(recent)
+          }
         } catch {}
       }
 
-      // Fetch recent items (blogs for now)
-      if (blogsRes.status === "fulfilled") {
-        try {
-          const bText = await blogsRes.value.clone().text();
-          // Already consumed body, use snippets for recent items
-        } catch {}
-      }
-
-      setHealth({
-        status: "healthy",
-        uptime: "99.9%",
-        dbSize: "Calculating...",
-        lastBackup: "Check backup section",
-      });
+      if (!cancelled) setHealth({ status: "healthy", uptime: "99.9%", dbSize: "Calculating...", lastBackup: "Check backup section" })
     } catch (err) {
-      console.error("Dashboard fetch error:", err);
+      console.error("Dashboard fetch error:", err)
     } finally {
-      setLoading(false);
+      if (!cancelled) setLoading(false)
     }
-  }, []);
-
-  useEffect(() => { fetchDashboard(); }, [fetchDashboard]);
+  })()
+  return () => { cancelled = true }
+}, [])
 
   return (
     <div className="space-y-6">

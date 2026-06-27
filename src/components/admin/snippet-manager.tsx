@@ -47,7 +47,7 @@ interface CodeSnippet {
   includeInRag: boolean;
   createdAt: string;
   updatedAt: string;
-  embeds: string[]; // <-- ADD THIS LINE
+  embeds: string; // <-- ADD THIS LINE
 }
 
 const LANGUAGES = [
@@ -147,7 +147,7 @@ export function SnippetManager() {
   const emptyForm = {
     title: "", slug: "", description: "", type: "code", language: "",
     tags: "", content: "", comment: "", demoType: "", demoUrl: "", demoOutput: "",
-    published: false, includeInRag: false,embeds: [] as string[], // <-- ADD THIS LINE
+    published: false, includeInRag: false,embeds: ''
   };
   const [form, setForm] = useState(emptyForm);
   const [tabs, setTabs] = useState<SnippetTab[]>([]);
@@ -155,22 +155,39 @@ export function SnippetManager() {
   const [copied, setCopied] = useState(false);
 
   // ─── Fetch ────────────────────────────────────────────────
-  const fetchSnippets = useCallback(async () => {
-    try {
-      setLoading(true);
-      const res = await fetch("/api/snippets?limit=200");
-      if (!res.ok) throw new Error("Failed");
-      const data = await res.json();
-      setSnippets(Array.isArray(data) ? data : data.snippets || []);
-    } catch {
-      console.error("Failed to fetch snippets");
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  const fetchSnippets = async () => {
+  try {
+    setLoading(true)
+    const res = await fetch("/api/snippets?limit=200")
+    if (!res.ok) throw new Error("Failed")
+    const data = await res.json()
+    setSnippets(Array.isArray(data) ? data : data.snippets || [])
+  } catch {
+    console.error("Failed to fetch snippets")
+  } finally {
+    setLoading(false)
+  }
+}
 
-  useEffect(() => { fetchSnippets(); }, [fetchSnippets]);
 
+useEffect(() => {
+    let cancelled = false
+    void (async () => {
+      try {
+        setLoading(true)
+        const res = await fetch("/api/snippets?limit=200")
+        if (!cancelled && res.ok) {
+          const data = await res.json()
+          setSnippets(Array.isArray(data) ? data : data.snippets || [])
+        }
+      } catch {
+        console.error("Failed to fetch snippets")
+      } finally {
+        if (!cancelled) setLoading(false)
+      }
+    })()
+    return () => { cancelled = true }
+  }, [])
   // ─── CRUD handlers ────────────────────────────────────────
   const openCreate = () => {
     setForm(emptyForm);
@@ -185,7 +202,7 @@ export function SnippetManager() {
       type: s.type, language: s.language, tags: s.tags, content: s.content,
       comment: s.comment, demoType: s.demoType, demoUrl: s.demoUrl,
       demoOutput: s.demoOutput, published: s.published, includeInRag: s.includeInRag,
-      embeds: s.embeds || [], // <-- ADD THIS LINE
+      embeds: s.embeds || '', // <-- ADD THIS LINE
     });
     try { setTabs(JSON.parse(s.tabs || "[]")); } catch { setTabs([]); }
     setSelectedId(s.id);

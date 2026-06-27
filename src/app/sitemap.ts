@@ -1,7 +1,7 @@
 import { db } from '@/lib/db'
 import type { MetadataRoute } from 'next'
 
-const BASE_URL = 'https://gokulsaraswat.com'
+const BASE_URL = '[https://gokulsaraswat.com](https://gokulsaraswat.com)'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [blogs, projects, courses, snippets] = await Promise.all([
