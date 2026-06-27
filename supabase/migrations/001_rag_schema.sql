@@ -1,6 +1,6 @@
 -- =====================================================
 -- RAG Chatbot Schema for Supabase (Free Tier)
--- Run this in your Supabase SQL Editor
+-- Optimized for Google Gemini Embeddings
 -- =====================================================
 
 -- Enable pgvector extension (available on Supabase Free Tier)
@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS documents (
   source_id TEXT DEFAULT '',        -- e.g. blog slug, project slug
   source_title TEXT DEFAULT '',
   metadata JSONB DEFAULT '{}',
-  embedding VECTOR(1536),           -- OpenAI text-embedding-3-small output dimension
+  embedding VECTOR(768),            -- UPDATED: Set to 768 to match Gemini standard/truncated sizing
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
@@ -27,9 +27,9 @@ CREATE INDEX IF NOT EXISTS documents_embedding_idx ON documents
 CREATE INDEX IF NOT EXISTS documents_type_idx ON documents (type);
 
 -- Match function: finds the top N most relevant document chunks
--- Uses cosine similarity (default for OpenAI embeddings)
+-- Uses cosine similarity (Gemini natively supports cosine distance)
 CREATE OR REPLACE FUNCTION match_documents(
-  query_embedding VECTOR(1536),
+  query_embedding VECTOR(768),      -- MATCHED: Perfectly matches table dimension sizing
   match_threshold FLOAT DEFAULT 0.7,
   match_count INT DEFAULT 5,
   filter_type TEXT DEFAULT NULL
@@ -70,7 +70,3 @@ CREATE TABLE IF NOT EXISTS chat_logs (
   role TEXT NOT NULL CHECK (role IN ('user', 'assistant')),
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
-
--- RLS policies (enable if using Supabase Auth)
--- ALTER TABLE documents ENABLE ROW LEVEL SECURITY;
--- CREATE POLICY "Allow service role full access" ON documents FOR ALL USING (true) WITH CHECK (true);
