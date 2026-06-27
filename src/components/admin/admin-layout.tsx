@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, type Transition } from 'framer-motion'
 import { useTheme } from 'next-themes'
 import {
   LayoutDashboard,
@@ -79,19 +79,20 @@ const rolePermissions: Record<string, string[]> = {
 
 function ThemeToggle() {
   const { theme, setTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
+ const [mounted, setMounted] = useState(false)
 
-  React.useEffect(() => {
-    setMounted(true)
-  }, [])
+React.useEffect(() => {
+  const timeout = setTimeout(() => setMounted(true), 0)
+  return () => clearTimeout(timeout)
+}, [])
 
-  if (!mounted) {
-    return (
-      <Button variant="ghost" size="icon" className="h-9 w-9">
-        <Sun className="h-4 w-4" />
-      </Button>
-    )
-  }
+if (!mounted) {
+  return (
+    <Button variant="ghost" size="icon" className="h-9 w-9">
+      <Sun className="h-4 w-4" />
+    </Button>
+  )
+}
 
   return (
     <TooltipProvider delayDuration={0}>
@@ -203,11 +204,12 @@ const pageVariants = {
   exit: { opacity: 0, y: -12 },
 }
 
-const pageTransition = {
-  type: 'tween',
-  ease: 'easeInOut',
-  duration: 0.2,
-}
+
+  const pageTransition: Transition = {
+    type: 'tween',
+    ease: 'easeInOut',
+    duration: 0.2,
+  }
 
 export function AdminLayout({ onLogout, role = 'admin' }: { onLogout: () => void; role?: string }) {
   const [activeSection, setActiveSection] = useState<Section>('dashboard')
@@ -216,15 +218,16 @@ export function AdminLayout({ onLogout, role = 'admin' }: { onLogout: () => void
   const allowedSections = rolePermissions[role] || rolePermissions.admin
   const filteredNavItems = navItems.filter(item => allowedSections.includes(item.id))
 
-  const handleNavigate = (section: Section) => {
-    setActiveSection(section)
+  const handleNavigate = (section: string) => {
+    setActiveSection(section as Section)
     setMobileOpen(false)
   }
 
   const renderContent = () => {
     switch (activeSection) {
       case 'dashboard':
-        return <AdminDashboard onNavigate={handleNavigate} />
+        // return <AdminDashboard onNavigate={handleNavigate} /> Error as AdminDashboard expects a function that takes a string, but handleNavigate expects a Section type. We can cast the section to Section type to fix this.
+        return <AdminDashboard onNavigate={(section: string) => handleNavigate(section as Section)} />
       case 'blogs':
         return <BlogManager />
       case 'projects':
