@@ -1,0 +1,105 @@
+▲ Next.js 16.2.9 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.56.1:3000
+- Environments: .env.local, .env
+✓ Ready in 675ms
+⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+ We detected multiple lockfiles and selected the directory of C:\Users\2AM\package-lock.json as the root directory.
+ To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+ Detected additional lockfiles: 
+   * C:\Users\2AM\Desktop\New folder\package-lock.json
+
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+
+ GET /snippets 200 in 603ms (next.js: 229ms, application-code: 374ms)
+prisma:query SELECT `main`.`CodeSnippet`.`id`, `main`.`CodeSnippet`.`title`, `main`.`CodeSnippet`.`slug`, `main`.`CodeSnippet`.`description`, `main`.`CodeSnippet`.`type`, `main`.`CodeSnippet`.`language`, `main`.`CodeSnippet`.`tags`, `main`.`CodeSnippet`.`content`, `main`.`CodeSnippet`.`tabs`, `main`.`CodeSnippet`.`comment`, `main`.`CodeSnippet`.`demoType`, `main`.`CodeSnippet`.`demoUrl`, `main`.`CodeSnippet`.`demoOutput`, `main`.`CodeSnippet`.`published`, `main`.`CodeSnippet`.`includeInRag`, `main`.`CodeSnippet`.`createdAt`, `main`.`CodeSnippet`.`updatedAt`, `main`.`CodeSnippet`.`embeds` FROM `main`.`CodeSnippet` WHERE `main`.`CodeSnippet`.`published` = ? ORDER BY `main`.`CodeSnippet`.`createdAt` DESC LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Profile`.`id`, `main`.`Profile`.`chatBotEnabled` FROM `main`.`Profile` WHERE 1=1 LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Profile`.`id`, `main`.`Profile`.`name`, `main`.`Profile`.`shortname`, `main`.`Profile`.`avatar`, `main`.`Profile`.`occupation`, `main`.`Profile`.`company`, `main`.`Profile`.`email`, `main`.`Profile`.`phone`, `main`.`Profile`.`location`, `main`.`Profile`.`bio`, `main`.`Profile`.`tagline`, `main`.`Profile`.`resumeUrl`, `main`.`Profile`.`twitter`, `main`.`Profile`.`linkedin`, `main`.`Profile`.`github`, `main`.`Profile`.`youtube`, `main`.`Profile`.`spotify`, `main`.`Profile`.`website`, `main`.`Profile`.`codechef`, `main`.`Profile`.`leetcode`, `main`.`Profile`.`codeReviewPhilosophy`, `main`.`Profile`.`agileExperience`, `main`.`Profile`.`skills`, `main`.`Profile`.`certifications`, `main`.`Profile`.`carouselImages`, `main`.`Profile`.`typingLines`, `main`.`Profile`.`chatBotEnabled`, `main`.`Profile`.`createdAt`, `main`.`Profile`.`updatedAt` FROM `main`.`Profile` WHERE 1=1 LIMIT ? OFFSET ?
+ GET /api/snippets?published=true&limit=200 200 in 309ms (next.js: 112ms, proxy.ts: 83ms, application-code: 114ms)
+ GET /api/chat-status 200 in 305ms (next.js: 166ms, proxy.ts: 79ms, application-code: 60ms)
+ GET /api/profile 200 in 305ms (next.js: 204ms, proxy.ts: 78ms, application-code: 23ms)
+ GET /api/settings 404 in 412ms (next.js: 273ms, proxy.ts: 77ms, application-code: 62ms)
+ GET / 200 in 167ms (next.js: 45ms, application-code: 122ms)
+ GET /api/settings 404 in 176ms (next.js: 29ms, proxy.ts: 8ms, application-code: 139ms)
+[browser] Uncaught Error: Hydration failed because the server rendered text didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <RedirectBoundary>
+      <RedirectErrorBoundary router={{...}}>
+        <InnerLayoutRouter url="/" tree={[...]} params={{}} cacheNode={{rsc:{...}, ...}} segmentPath={[...]} ...>
+          <SegmentViewNode type="page" pagePath="page.tsx">
+            <SegmentTrieNode>
+            <ClientPageRoot Component={function Home} serverProvidedParams={{...}}>
+              <Home params={Promise} searchParams={Promise}>
+                <div className="min-h-scre...">
+                  <Navbar>
+                    <header className="fixed top-...">
+                      <nav className="mx-auto fl...">
+                        <LinkComponent>
+                        <div className="hidden md:...">
+                          <LinkComponent>
+                          <LinkComponent>
+                          <LinkComponent>
+                          <LinkComponent>
+                          <LinkComponent>
+                          <LinkComponent href="/contact" className="px-3 py-2 ...">
+                            <a
+                              className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground tra..."
+                              ref={function}
+                              onClick={function onClick}
+                              onMouseEnter={function onMouseEnter}
+                              onTouchStart={function onTouchStart}
++                             href="/contact"
+-                             href="/snippets"
+                            >
++                             Contact
+-                             Snippets
+                        ...
+                  ...
+          ...
+        ...
+
+    at <unknown> (https://react.dev/link/hydration-mismatch)
+    at a (<anonymous>)
+    at <unknown> (../New folder/src/components/site/navbar.tsx:33:55)
+    at Array.map (<anonymous>)
+    at Navbar (../New folder/src/components/site/navbar.tsx:33:55)
+    at Home (../New folder/src/app/page.tsx:67:7)
+  31 |     const onScroll = () => setScrolled(window.scrollY > 10)
+  32 |     window.addEventListener('scroll', onScroll, { passive: true })
+> 33 |     return () => window.removeEventListener('scroll', onScroll)
+     |                                                       ^
+  34 |   }, [])
+  35 |
+  36 |   return (
+ GET / 200 in 104ms (next.js: 7ms, application-code: 97ms)
+prisma:query SELECT `main`.`Project`.`id`, `main`.`Project`.`title`, `main`.`Project`.`slug`, `main`.`Project`.`description`, `main`.`Project`.`shortDesc`, `main`.`Project`.`banner`, `main`.`Project`.`website`, `main`.`Project`.`downloadLink`, `main`.`Project`.`repository`, `main`.`Project`.`stack`, `main`.`Project`.`screenshots`, `main`.`Project`.`role`, `main`.`Project`.`process`, `main`.`Project`.`results`, `main`.`Project`.`architectureDiagramUrl`, `main`.`Project`.`dbSchemaUrl`, `main`.`Project`.`adrContent`, `main`.`Project`.`cicdSnippet`, `main`.`Project`.`iacSnippet`, `main`.`Project`.`observabilityUrl`, `main`.`Project`.`testCoverageUrl`, `main`.`Project`.`performanceMetrics`, `main`.`Project`.`securityImplementation`, `main`.`Project`.`swaggerUrl`, `main`.`Project`.`terminalSessionUrl`, `main`.`Project`.`behindTheScenes`, `main`.`Project`.`videoUrl`, `main`.`Project`.`featured`, `main`.`Project`.`complexity`, `main`.`Project`.`createdAt`, `main`.`Project`.`updatedAt`, `main`.`Project`.`contributors`, `main`.`Project`.`showTeam`, `main`.`Project`.`embeds` FROM `main`.`Project` WHERE `main`.`Project`.`featured` = ? ORDER BY `main`.`Project`.`createdAt` DESC LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`BlogPost`.`id`, `main`.`BlogPost`.`title`, `main`.`BlogPost`.`slug`, `main`.`BlogPost`.`excerpt`, `main`.`BlogPost`.`content`, `main`.`BlogPost`.`coverImage`, `main`.`BlogPost`.`tags`, `main`.`BlogPost`.`type`, `main`.`BlogPost`.`embedUrl`, `main`.`BlogPost`.`behindTheScenes`, `main`.`BlogPost`.`published`, `main`.`BlogPost`.`createdAt`, `main`.`BlogPost`.`updatedAt`, `main`.`BlogPost`.`embeds` FROM `main`.`BlogPost` WHERE `main`.`BlogPost`.`published` = ? ORDER BY `main`.`BlogPost`.`createdAt` DESC LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Course`.`id`, `main`.`Course`.`title`, `main`.`Course`.`slug`, `main`.`Course`.`description`, `main`.`Course`.`banner`, `main`.`Course`.`createdAt`, `main`.`Course`.`updatedAt`, `main`.`Course`.`embeds`, COALESCE(`aggr_selection_0_CourseChapter`.`_aggr_count_chapters`, 0) AS `_aggr_count_chapters` FROM `main`.`Course` LEFT JOIN (SELECT `main`.`CourseChapter`.`courseId`, COUNT(*) AS `_aggr_count_chapters` FROM `main`.`CourseChapter` WHERE 1=1 GROUP BY `main`.`CourseChapter`.`courseId`) AS `aggr_selection_0_CourseChapter` ON (`main`.`Course`.`id` = `aggr_selection_0_CourseChapter`.`courseId`) WHERE 1=1 ORDER BY `main`.`Course`.`createdAt` DESC LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Profile`.`id`, `main`.`Profile`.`name`, `main`.`Profile`.`shortname`, `main`.`Profile`.`avatar`, `main`.`Profile`.`occupation`, `main`.`Profile`.`company`, `main`.`Profile`.`email`, `main`.`Profile`.`phone`, `main`.`Profile`.`location`, `main`.`Profile`.`bio`, `main`.`Profile`.`tagline`, `main`.`Profile`.`resumeUrl`, `main`.`Profile`.`twitter`, `main`.`Profile`.`linkedin`, `main`.`Profile`.`github`, `main`.`Profile`.`youtube`, `main`.`Profile`.`spotify`, `main`.`Profile`.`website`, `main`.`Profile`.`codechef`, `main`.`Profile`.`leetcode`, `main`.`Profile`.`codeReviewPhilosophy`, `main`.`Profile`.`agileExperience`, `main`.`Profile`.`skills`, `main`.`Profile`.`certifications`, `main`.`Profile`.`carouselImages`, `main`.`Profile`.`typingLines`, `main`.`Profile`.`chatBotEnabled`, `main`.`Profile`.`createdAt`, `main`.`Profile`.`updatedAt` FROM `main`.`Profile` WHERE 1=1 LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Profile`.`id`, `main`.`Profile`.`chatBotEnabled` FROM `main`.`Profile` WHERE 1=1 LIMIT ? OFFSET ?
+ GET /api/projects?featured=true 200 in 195ms (next.js: 58ms, proxy.ts: 17ms, application-code: 120ms)
+ GET /api/blogs?published=true 200 in 196ms (next.js: 99ms, proxy.ts: 17ms, application-code: 80ms)
+ GET /api/courses 200 in 197ms (next.js: 141ms, proxy.ts: 18ms, application-code: 38ms)
+ GET /api/profile 200 in 198ms (next.js: 150ms, proxy.ts: 18ms, application-code: 29ms)
+ GET /api/chat-status 200 in 205ms (next.js: 157ms, proxy.ts: 20ms, application-code: 28ms)
+prisma:query SELECT `main`.`Profile`.`id`, `main`.`Profile`.`name`, `main`.`Profile`.`shortname`, `main`.`Profile`.`avatar`, `main`.`Profile`.`occupation`, `main`.`Profile`.`company`, `main`.`Profile`.`email`, `main`.`Profile`.`phone`, `main`.`Profile`.`location`, `main`.`Profile`.`bio`, `main`.`Profile`.`tagline`, `main`.`Profile`.`resumeUrl`, `main`.`Profile`.`twitter`, `main`.`Profile`.`linkedin`, `main`.`Profile`.`github`, `main`.`Profile`.`youtube`, `main`.`Profile`.`spotify`, `main`.`Profile`.`website`, `main`.`Profile`.`codechef`, `main`.`Profile`.`leetcode`, `main`.`Profile`.`codeReviewPhilosophy`, `main`.`Profile`.`agileExperience`, `main`.`Profile`.`skills`, `main`.`Profile`.`certifications`, `main`.`Profile`.`carouselImages`, `main`.`Profile`.`typingLines`, `main`.`Profile`.`chatBotEnabled`, `main`.`Profile`.`createdAt`, `main`.`Profile`.`updatedAt` FROM `main`.`Profile` WHERE 1=1 LIMIT ? OFFSET ?
+ GET /api/profile 200 in 115ms (next.js: 85ms, proxy.ts: 6ms, application-code: 24ms)
+ GET /service-worker.js 404 in 125ms (next.js: 67ms, application-code: 59ms)
+ GET /api/settings 404 in 395ms (next.js: 209ms, proxy.ts: 19ms, application-code: 167ms)
+ GET /snippets 200 in 33ms (next.js: 6ms, application-code: 27ms)
+[browser] Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+prisma:query SELECT `main`.`CodeSnippet`.`id`, `main`.`CodeSnippet`.`title`, `main`.`CodeSnippet`.`slug`, `main`.`CodeSnippet`.`description`, `main`.`CodeSnippet`.`type`, `main`.`CodeSnippet`.`language`, `main`.`CodeSnippet`.`tags`, `main`.`CodeSnippet`.`content`, `main`.`CodeSnippet`.`tabs`, `main`.`CodeSnippet`.`comment`, `main`.`CodeSnippet`.`demoType`, `main`.`CodeSnippet`.`demoUrl`, `main`.`CodeSnippet`.`demoOutput`, `main`.`CodeSnippet`.`published`, `main`.`CodeSnippet`.`includeInRag`, `main`.`CodeSnippet`.`createdAt`, `main`.`CodeSnippet`.`updatedAt`, `main`.`CodeSnippet`.`embeds` FROM `main`.`CodeSnippet` WHERE `main`.`CodeSnippet`.`published` = ? ORDER BY `main`.`CodeSnippet`.`createdAt` DESC LIMIT ? OFFSET ?
+ GET /api/snippets?published=true&limit=200 200 in 25ms (next.js: 5ms, proxy.ts: 8ms, application-code: 12ms)
+ GET /service-worker.js 404 in 89ms (next.js: 14ms, application-code: 75ms)

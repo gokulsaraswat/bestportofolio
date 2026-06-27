@@ -1,0 +1,63 @@
+// ============================================================
+//  Schema additions for v3 update
+//  Add these fields to your existing Prisma models
+//
+//  1. Project model — add contributors and embeds fields
+//  2. Blog model — add embeds field
+//  3. Course model — add embeds field
+//  4. CodeSnippet model — add embeds field
+// ============================================================
+//
+// OPEN prisma/schema.prisma and ADD these fields:
+//
+// ── In model Project, add BEFORE the closing } ──
+//   contributors  String   @default("[]")    // JSON array of { name, role, avatar?, url? }
+//   showTeam      Boolean  @default(false)   // Show/hide contributors publicly
+//   embeds        String   @default("")      // Newline-separated embed URLs
+//
+// ── In model Blog (or your blog model name), add BEFORE closing } ──
+//   embeds        String   @default("")      // Newline-separated embed URLs
+//
+// ── In model Course (if exists), add BEFORE closing } ──
+//   embeds        String   @default("")      // Newline-separated embed URLs
+//
+// ── In model CodeSnippet, add BEFORE closing } ──
+//   embeds        String   @default("")      // Newline-separated embed URLs
+//
+// THEN RUN:
+//   bun run db:push
+//
+// ============================================================
+
+// ─── TypeScript types for contributors ──────────────────────────
+
+export interface Contributor {
+  name: string;
+  role: string;
+  avatar?: string;
+  url?: string;
+  hidden?: boolean;
+}
+
+export function parseContributors(json: string): Contributor[] {
+  if (!json) return [];
+  try {
+    const parsed = JSON.parse(json);
+    if (Array.isArray(parsed)) {
+      return parsed.filter(
+        (c) => typeof c === "object" && typeof c.name === "string"
+      );
+    }
+    return [];
+  } catch {
+    return [];
+  }
+}
+
+export function stringifyContributors(contributors: Contributor[]): string {
+  try {
+    return JSON.stringify(contributors);
+  } catch {
+    return "[]";
+  }
+}
