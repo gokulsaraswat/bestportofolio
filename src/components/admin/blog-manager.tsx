@@ -1,7 +1,8 @@
 'use client'
 
-import { useEffect, useState, useMemo } from 'react'
-import { Plus, Pencil, Trash2, Eye, Search, X } from 'lucide-react'
+import { useEffect, useState, useMemo, useCallback } from 'react'
+import { Plus, Pencil, Trash2, Eye, Search, X, CheckSquare, Square, EyeOff, Clock } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -42,12 +43,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { Checkbox } from '@/components/ui/checkbox'
 import { Card, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useToast } from '@/hooks/use-toast'
 import { format } from 'date-fns'
 import ReactMarkdown from 'react-markdown'
 import { SortBar, SortOption } from './sort-bar'
+import { SeoPreview } from "@/components/admin/seo-preview"
 
 interface Blog {
   id: string
@@ -62,6 +65,8 @@ interface Blog {
   published: boolean
   writtenBy: string
   acceptedBy: string
+  category: string
+  scheduledAt: string
   createdAt: string
   updatedAt: string
 }
@@ -78,7 +83,11 @@ interface BlogForm {
   published: boolean
   writtenBy: string
   acceptedBy: string
+  category: string
+  scheduledAt: string
 }
+
+const CATEGORY_SUGGESTIONS = ['Technology', 'Tutorial', 'Career', 'Personal', 'DevOps', 'System Design', 'Database', 'Open Source']
 
 const emptyForm: BlogForm = {
   title: '',
@@ -92,6 +101,8 @@ const emptyForm: BlogForm = {
   published: false,
   writtenBy: '',
   acceptedBy: '',
+  category: '',
+  scheduledAt: '',
 }
 
 const blogSortOptions: SortOption[] = [
@@ -108,6 +119,12 @@ function generateSlug(title: string): string {
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/(^-|-$)/g, '')
+}
+
+function formatDatetimeLocal(isoString: string): string {
+  const d = new Date(isoString)
+  const pad = (n: number) => n.toString().padStart(2, '0')
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`
 }
 
 export function BlogManager() {
@@ -132,6 +149,11 @@ export function BlogManager() {
 
   // Active tab in editor
   const [editorTab, setEditorTab] = useState<'edit' | 'preview'>('edit')
+
+  // Bulk selection
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
+  const [bulkLoading, setBulkLoading] = useState(false)
+  const [bulkDeleteOpen, setBulkDeleteOpen] = useState(false)
 
   useEffect(() => {
     let cancelled = false
@@ -195,6 +217,8 @@ export function BlogManager() {
       published: blog.published,
       writtenBy: blog.writtenBy || '',
       acceptedBy: blog.acceptedBy || '',
+      category: blog.category || '',
+      scheduledAt: blog.scheduledAt ? formatDatetimeLocal(blog.scheduledAt) : '',
     })
     setEditorTab('edit')
     setEditorOpen(true)
@@ -219,6 +243,15 @@ export function BlogManager() {
           body.slug = form.slug || generateSlug(form.title)
         }
       }
+
+      // Convert scheduledAt from datetime-local to ISO string, or null
+      if (form.scheduledAt) {
+        body.scheduledAt = new Date(form.scheduledAt).toISOString()
+      } else {
+        body.scheduledAt = null
+      }
+
+      // Do NOT auto-publish when scheduling — API handles auto-publish at scheduled time
 
       const res = await fetch(url, {
         method,
@@ -288,6 +321,133 @@ export function BlogManager() {
     }
   }
 
+  // ─── Bulk selection helpers ───────────────────────────────
+  const toggleSelect = useCallback((id: string) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev)
+      if (next.has(id)) next.delete(id)
+      else next.add(id)
+      return next
+    })
+  }, [])
+
+  const toggleSelectAll = useCallback(() => {
+    setSelectedIds((prev) => {
+      if (prev.size === sortedBlogs.length) return new Set()
+      return new Set(sortedBlogs.map((b) => b.id))
+    })
+  }, [sortedBlogs])
+
+  const deselectAll = useCallback(() => setSelectedIds(new Set()), [])
+
+  const isAllSelected = sortedBlogs.length > 0 && selectedIds.size === sortedBlogs.length
+  const isIndeterminate = selectedIds.size > 0 && selectedIds.size < sortedBlogs.length
+
+  // ─── Bulk actions ─────────────────────────────────────────
+  const refreshBlogs = useCallback(async () => {
+    try {
+      const params = new URLSearchParams()
+      if (search) params.set('search', search)
+      const res = await fetch(`/api/blogs?${params.toString()}`)
+      if (res.ok) {
+        const data = await res.json()
+        setBlogs(data)
+      }
+    } catch {
+      toast({ title: 'Failed to refresh blogs', variant: 'destructive' })
+    }
+  }, [search, toast])
+
+  const bulkPublish = async () => {
+    if (selectedIds.size === 0) return
+    setBulkLoading(true)
+    let success = 0
+    let failed = 0
+    const ids = [...selectedIds]
+    await Promise.allSettled(
+      ids.map(async (id) => {
+        try {
+          const res = await fetch(`/api/blogs/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ published: true }),
+          })
+          if (res.ok) success++
+          else failed++
+        } catch {
+          failed++
+        }
+      })
+    )
+    setBulkLoading(false)
+    setSelectedIds(new Set())
+    toast({
+      title: 'Bulk Publish Complete',
+      description: `${success} published, ${failed} failed.`,
+      variant: failed > 0 ? 'destructive' : 'default',
+    })
+    void refreshBlogs()
+  }
+
+  const bulkUnpublish = async () => {
+    if (selectedIds.size === 0) return
+    setBulkLoading(true)
+    let success = 0
+    let failed = 0
+    const ids = [...selectedIds]
+    await Promise.allSettled(
+      ids.map(async (id) => {
+        try {
+          const res = await fetch(`/api/blogs/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ published: false }),
+          })
+          if (res.ok) success++
+          else failed++
+        } catch {
+          failed++
+        }
+      })
+    )
+    setBulkLoading(false)
+    setSelectedIds(new Set())
+    toast({
+      title: 'Bulk Unpublish Complete',
+      description: `${success} unpublished, ${failed} failed.`,
+      variant: failed > 0 ? 'destructive' : 'default',
+    })
+    void refreshBlogs()
+  }
+
+  const bulkDelete = async () => {
+    if (selectedIds.size === 0) return
+    setBulkLoading(true)
+    let success = 0
+    let failed = 0
+    const ids = [...selectedIds]
+    await Promise.allSettled(
+      ids.map(async (id) => {
+        try {
+          const res = await fetch(`/api/blogs/${id}`, { method: 'DELETE' })
+          if (res.ok) success++
+          else failed++
+        } catch {
+          failed++
+        }
+      })
+    )
+    setBulkLoading(false)
+    setBulkDeleteOpen(false)
+    setSelectedIds(new Set())
+    toast({
+      title: 'Bulk Delete Complete',
+      description: `${success} deleted, ${failed} failed.`,
+      variant: failed > 0 ? 'destructive' : 'default',
+    })
+    void refreshBlogs()
+  }
+
   return (
     <div className="flex flex-col gap-4">
       {/* Toolbar */}
@@ -324,6 +484,61 @@ export function BlogManager() {
         </Button>
       </div>
 
+      {/* Bulk Action Bar */}
+      <AnimatePresence>
+        {selectedIds.size > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            transition={{ duration: 0.2, ease: 'easeOut' }}
+            className="sticky bottom-0 z-10 rounded-lg border bg-primary/5 backdrop-blur-sm p-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
+          >
+            <div className="flex items-center gap-2 text-sm font-medium">
+              <CheckSquare className="h-4 w-4 text-primary" />
+              <span>{selectedIds.size} selected</span>
+            </div>
+            <div className="flex items-center gap-2 flex-wrap">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={bulkPublish}
+                disabled={bulkLoading}
+                className="text-xs"
+              >
+                {bulkLoading ? 'Publishing...' : 'Publish'}
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={bulkUnpublish}
+                disabled={bulkLoading}
+                className="text-xs"
+              >
+                {bulkLoading ? 'Unpublishing...' : 'Unpublish'}
+              </Button>
+              <Button
+                variant="destructive"
+                size="sm"
+                onClick={() => setBulkDeleteOpen(true)}
+                disabled={bulkLoading}
+                className="text-xs"
+              >
+                Delete
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={deselectAll}
+                className="text-xs"
+              >
+                Deselect All
+              </Button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Table */}
       <Card>
         <CardContent className="p-0">
@@ -345,6 +560,13 @@ export function BlogManager() {
               <Table>
                 <TableHeader>
                   <TableRow>
+                    <TableHead className="w-[40px] pl-4">
+                      <Checkbox
+                        checked={isAllSelected ? true : isIndeterminate ? 'indeterminate' : false}
+                        onCheckedChange={toggleSelectAll}
+                        className="h-4 w-4"
+                      />
+                    </TableHead>
                     <TableHead className="w-[40%]">Title</TableHead>
                     <TableHead className="hidden sm:table-cell">Type</TableHead>
                     <TableHead className="hidden md:table-cell">Tags</TableHead>
@@ -355,7 +577,14 @@ export function BlogManager() {
                 </TableHeader>
                 <TableBody>
                   {sortedBlogs.map((blog) => (
-                    <TableRow key={blog.id}>
+                    <TableRow key={blog.id} data-selected={selectedIds.has(blog.id) ? '' : undefined}>
+                      <TableCell className="pl-4">
+                        <Checkbox
+                          checked={selectedIds.has(blog.id)}
+                          onCheckedChange={() => toggleSelect(blog.id)}
+                          className="h-4 w-4"
+                        />
+                      </TableCell>
                       <TableCell>
                         <div className="min-w-0">
                           <p className="truncate font-medium">{blog.title}</p>
@@ -365,9 +594,16 @@ export function BlogManager() {
                         </div>
                       </TableCell>
                       <TableCell className="hidden sm:table-cell">
-                        <Badge variant="outline" className="text-xs capitalize">
-                          {blog.type}
-                        </Badge>
+                        <div className="flex items-center gap-1.5 flex-wrap">
+                          <Badge variant="outline" className="text-xs capitalize">
+                            {blog.type}
+                          </Badge>
+                          {blog.category && (
+                            <Badge variant="secondary" className="text-[10px]">
+                              {blog.category}
+                            </Badge>
+                          )}
+                        </div>
                       </TableCell>
                       <TableCell className="hidden md:table-cell">
                         <div className="flex flex-wrap gap-1 max-w-[200px]">
@@ -383,9 +619,20 @@ export function BlogManager() {
                         </div>
                       </TableCell>
                       <TableCell>
-                        <Badge variant={blog.published ? 'default' : 'secondary'} className="text-xs">
-                          {blog.published ? 'Published' : 'Draft'}
-                        </Badge>
+                        <div className="flex flex-col gap-1">
+                          <Badge
+                            variant={blog.published ? 'default' : 'secondary'}
+                            className="text-xs w-fit"
+                          >
+                            {blog.published ? 'Published' : 'Draft'}
+                          </Badge>
+                          {blog.scheduledAt && (
+                            <span className="flex items-center gap-1 text-[10px] text-muted-foreground">
+                              <Clock className="h-3 w-3" />
+                              {format(new Date(blog.scheduledAt), 'MMM d, yyyy HH:mm')}
+                            </span>
+                          )}
+                        </div>
                       </TableCell>
                       <TableCell className="hidden lg:table-cell text-xs text-muted-foreground">
                         {format(new Date(blog.createdAt), 'MMM d, yyyy')}
@@ -546,6 +793,29 @@ export function BlogManager() {
                     value={form.tags}
                     onChange={(e) => setForm((f) => ({ ...f, tags: e.target.value }))}
                   />
+                  <Label htmlFor="blog-category" className="mt-2">Category</Label>
+                  <Input
+                    id="blog-category"
+                    placeholder="e.g. Technology, Tutorial, Career"
+                    value={form.category}
+                    onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
+                  />
+                  <div className="flex flex-wrap gap-1.5 mt-1">
+                    {CATEGORY_SUGGESTIONS.map((cat) => (
+                      <button
+                        key={cat}
+                        type="button"
+                        className={`text-xs px-2 py-0.5 rounded-full border transition-colors cursor-pointer ${
+                          form.category === cat
+                            ? 'bg-primary text-primary-foreground border-primary'
+                            : 'bg-muted/50 text-muted-foreground border-border hover:bg-muted hover:text-foreground'
+                        }`}
+                        onClick={() => setForm((f) => ({ ...f, category: cat }))}
+                      >
+                        {cat}
+                      </button>
+                    ))}
+                  </div>
                 </div>
                 <div className="flex flex-col gap-2">
                   <Label htmlFor="blog-written-by">Written By (Maker)</Label>
@@ -565,6 +835,13 @@ export function BlogManager() {
                 </div>
               </div>
 
+              {/* SEO Preview */}
+              <SeoPreview
+                title={form.title}
+                slug={form.slug}
+                description={form.excerpt}
+              />
+
               {/* Content — full width, taller on lg */}
               <div className="flex flex-col gap-2">
                 <Label htmlFor="blog-content">Content (Markdown)</Label>
@@ -578,17 +855,46 @@ export function BlogManager() {
                 />
               </div>
 
-              {/* Published toggle */}
-              <div className="flex items-center gap-3 rounded-lg border p-3">
-                <Switch
-                  checked={form.published}
-                  onCheckedChange={(checked) => setForm((f) => ({ ...f, published: checked }))}
-                />
-                <div>
-                  <Label className="text-sm font-medium">Published</Label>
-                  <p className="text-xs text-muted-foreground">
-                    Make this blog visible to the public
-                  </p>
+              {/* Published toggle + Schedule */}
+              <div className="flex flex-col gap-3 rounded-lg border p-3">
+                <div className="flex items-center gap-3">
+                  <Switch
+                    checked={form.published}
+                    onCheckedChange={(checked) => setForm((f) => ({ ...f, published: checked }))}
+                  />
+                  <div className="flex items-center gap-2">
+                    <Label className="text-sm font-medium">Published</Label>
+                    {form.scheduledAt && !form.published && (
+                      <Badge className="bg-amber-500 text-white border-amber-500 text-[10px]">Scheduled</Badge>
+                    )}
+                    {form.scheduledAt && form.published && (
+                      <Badge className="bg-green-600 text-white border-green-600 text-[10px]">Published</Badge>
+                    )}
+                    {!form.scheduledAt && !form.published && (
+                      <Badge variant="secondary" className="text-[10px]">Draft</Badge>
+                    )}
+                    {!form.scheduledAt && form.published && (
+                      <Badge variant="default" className="text-[10px]">Published</Badge>
+                    )}
+                  </div>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Make this blog visible to the public
+                </p>
+                <div className="flex flex-col gap-1.5 mt-1">
+                  <Label htmlFor="blog-scheduled-at" className="text-sm font-medium">Schedule Publishing</Label>
+                  <Input
+                    id="blog-scheduled-at"
+                    type="datetime-local"
+                    value={form.scheduledAt}
+                    onChange={(e) => setForm((f) => ({ ...f, scheduledAt: e.target.value }))}
+                    className="max-w-xs"
+                  />
+                  {form.scheduledAt && !form.published && (
+                    <p className="text-xs text-amber-600 dark:text-amber-400">
+                      Will auto-publish at the scheduled time. Keep published off.
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
@@ -659,6 +965,28 @@ export function BlogManager() {
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
               {deleting ? 'Deleting...' : 'Delete'}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Bulk Delete Confirmation */}
+      <AlertDialog open={bulkDeleteOpen} onOpenChange={setBulkDeleteOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete {selectedIds.size} Blogs?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete {selectedIds.size} selected blog{selectedIds.size !== 1 ? 's' : ''}? This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={bulkDelete}
+              disabled={bulkLoading}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              {bulkLoading ? 'Deleting...' : `Delete ${selectedIds.size}`}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

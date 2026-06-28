@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge'
 import { Navbar, Footer } from '@/components/site/navbar'
 import { BlogCard, LoadingCards } from '@/components/site/cards'
 
-interface Blog { id: string; title: string; slug: string; excerpt: string; coverImage: string; tags: string; type: string; embedUrl: string; published: boolean; createdAt: string; writtenBy: string; acceptedBy: string }
+interface Blog { id: string; title: string; slug: string; excerpt: string; coverImage: string; tags: string; category: string; type: string; embedUrl: string; published: boolean; createdAt: string; writtenBy: string; acceptedBy: string }
 
 const types = ['all', 'article', 'youtube', 'spotify', 'tweet']
 
@@ -17,11 +17,21 @@ export default function BlogPage() {
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
   const [typeFilter, setTypeFilter] = useState('all')
+  const [categoryFilter, setCategoryFilter] = useState('')
   const [selectedTags, setSelectedTags] = useState<string[]>([])
 
   useEffect(() => {
     fetch('/api/blogs?published=true').then(r => r.json()).then(data => { setBlogs(data); setLoading(false) }).catch(() => setLoading(false))
   }, [])
+
+  const allCategories = useMemo(() => {
+    const catSet = new Set<string>()
+    blogs.forEach(b => {
+      const c = (b.category || '').trim()
+      if (c) catSet.add(c)
+    })
+    return [...catSet]
+  }, [blogs])
 
   const allTags = useMemo(() => {
     const tagSet = new Set<string>()
@@ -44,11 +54,12 @@ export default function BlogPage() {
   const filtered = blogs.filter(b => {
     const matchSearch = !search || b.title.toLowerCase().includes(search.toLowerCase()) || b.excerpt.toLowerCase().includes(search.toLowerCase())
     const matchType = typeFilter === 'all' || b.type === typeFilter
+    const matchCategory = !categoryFilter || (b.category || '').trim() === categoryFilter
     const matchTags = selectedTags.length === 0 || (() => {
       const blogTags = (b.tags || '').split(',').map(t => t.trim().toLowerCase()).filter(Boolean)
       return selectedTags.some(st => blogTags.some(bt => bt.includes(st.toLowerCase()) || st.toLowerCase().includes(bt)))
     })()
-    return matchSearch && matchType && matchTags
+    return matchSearch && matchType && matchCategory && matchTags
   })
 
   return (
@@ -79,6 +90,30 @@ export default function BlogPage() {
               ))}
             </div>
           </div>
+
+          {/* Category filters */}
+          {allCategories.length > 0 && (
+            <div className='mb-6'>
+              <div className='flex items-center gap-2 text-sm text-muted-foreground mb-2'>
+                <span>Filter by category</span>
+              </div>
+              <div className='flex flex-wrap gap-1.5'>
+                {allCategories.map(cat => (
+                  <button
+                    key={cat}
+                    onClick={() => setCategoryFilter(prev => prev === cat ? '' : cat)}
+                    className={`rounded-full border px-2.5 py-1 text-[11px] font-medium transition-colors ${
+                      categoryFilter === cat
+                        ? 'border-primary bg-primary/10 text-primary'
+                        : 'hover:border-primary/50'
+                    }`}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Tag filters */}
           {allTags.length > 0 && (
@@ -134,9 +169,9 @@ export default function BlogPage() {
             </div>
           ) : (
             <div className="rounded-xl border-2 border-dashed p-16 text-center">
-              <p className="text-muted-foreground">{search || typeFilter !== 'all' || selectedTags.length > 0 ? 'No posts match your filters.' : 'No blog posts yet.'}</p>
-              {(search || typeFilter !== 'all' || selectedTags.length > 0) && (
-                <button onClick={() => { setSearch(''); setTypeFilter('all'); setSelectedTags([]) }} className="mt-2 text-sm text-primary hover:underline">Clear all filters</button>
+              <p className="text-muted-foreground">{search || typeFilter !== 'all' || categoryFilter || selectedTags.length > 0 ? 'No posts match your filters.' : 'No blog posts yet.'}</p>
+              {(search || typeFilter !== 'all' || categoryFilter || selectedTags.length > 0) && (
+                <button onClick={() => { setSearch(''); setTypeFilter('all'); setCategoryFilter(''); setSelectedTags([]) }} className="mt-2 text-sm text-primary hover:underline">Clear all filters</button>
               )}
             </div>
           )}

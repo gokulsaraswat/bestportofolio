@@ -40,7 +40,7 @@ import { useToast } from '@/hooks/use-toast'
 import { format } from 'date-fns'
 import { SortBar, SortOption } from './sort-bar'
 import { ContributorsInput } from "@/components/contributors-input"
-
+import { SeoPreview } from "@/components/admin/seo-preview"
 
 interface Project {
   id: string
@@ -550,6 +550,11 @@ export function ProjectManager() {
                   <Label htmlFor="proj-short">Short Description</Label>
                   <Input id="proj-short" placeholder="One-line description for card preview" value={form.shortDesc} onChange={(e) => setForm((f) => ({ ...f, shortDesc: e.target.value }))} />
                 </div>
+                 <SeoPreview
+                  title={form.title}
+                  slug={form.slug}
+                  description={form.shortDesc}
+                />
                 <div className="flex flex-col gap-2">
                   <Label htmlFor="proj-desc">Description (Markdown) *</Label>
                   <Textarea id="proj-desc" placeholder="Detailed project description..." value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} rows={8} className="font-mono text-sm" />

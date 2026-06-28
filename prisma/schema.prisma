@@ -13,6 +13,7 @@ model AdminUser {
   username    String   @unique
   password    String
   role        String   @default("admin")
+  permissions String  @default("")
   totpSecret  String   @default("")
   totpEnabled Boolean  @default(false)
   createdAt   DateTime @default(now())
@@ -49,6 +50,7 @@ model Profile {
   chatBotEnabled       Boolean  @default(false)
   createdAt            DateTime @default(now())
   updatedAt            DateTime @updatedAt
+  siteSettings         String  @default("{}")
 }
 
 model BlogPost {
@@ -57,12 +59,14 @@ model BlogPost {
   slug            String   @unique
   excerpt         String   @default("")
   content         String   @default("")
+  category        String    @default("")
   coverImage      String   @default("")
   tags            String   @default("")
   type            String   @default("article")
   embedUrl        String   @default("")
   behindTheScenes String   @default("")
   published       Boolean  @default(false)
+  scheduledAt     DateTime?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
   embeds          String   @default("")

@@ -164,8 +164,8 @@ export function UserManager() {
             <div className="flex flex-col gap-2">
               <Label>Role</Label>
               <select
-                className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-                value={newUser.role}
+                className="flex h-9 w-full rounded-md border border-input bg-white dark:bg-gray-800 px-3 py-1 text-sm shadow-xs transition-colors text-gray-900 dark:text-gray-100 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring [&>option]:bg-white [&>option]:dark:bg-gray-900 [&>option]:text-gray-900 [&>option]:dark:text-gray-100"
+               value={newUser.role}
                 onChange={e => setNewUser(p => ({ ...p, role: e.target.value }))}
               >
                 {roles.map(r => <option key={r.value} value={r.value}>{r.label}</option>)}
@@ -283,7 +283,7 @@ export function UserManager() {
             <div className="flex flex-col gap-2">
               <Label>Role</Label>
               <select
-                className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                className="flex h-9 w-full rounded-md border border-input bg-white dark:bg-gray-800 px-3 py-1 text-sm shadow-xs transition-colors text-gray-900 dark:text-gray-100 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring [&>option]:bg-white [&>option]:dark:bg-gray-900 [&>option]:text-gray-900 [&>option]:dark:text-gray-100"
                 value={editRole}
                 onChange={e => setEditRole(e.target.value)}
               >

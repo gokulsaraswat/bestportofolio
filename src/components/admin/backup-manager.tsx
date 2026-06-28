@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import {
   Database, Download, Upload, RefreshCw, HardDrive, FileText, FolderKanban,
   GraduationCap, Code2, Trash2, CheckCircle2, AlertCircle, Loader2, Clock,
@@ -19,28 +19,69 @@ interface BackupMeta {
   types: string[];
 }
 
+// FIX: Configurable backup entity types
+const BACKUP_ENTITIES = [
+  { key: "blogs", label: "Blogs", icon: <FileText className="w-4 h-4" />, color: "text-blue-500" },
+  { key: "projects", label: "Projects", icon: <FolderKanban className="w-4 h-4" />, color: "text-purple-500" },
+  { key: "courses", label: "Courses", icon: <GraduationCap className="w-4 h-4" />, color: "text-green-500" },
+  { key: "snippets", label: "Snippets", icon: <Code2 className="w-4 h-4" />, color: "text-orange-500" },
+  { key: "messages", label: "Messages", icon: <Trash2 className="w-4 h-4" />, color: "text-pink-500" },
+  { key: "todos", label: "Todos", icon: <CheckCircle2 className="w-4 h-4" />, color: "text-amber-500" },
+  { key: "profile", label: "Profile & Settings", icon: <Database className="w-4 h-4" />, color: "text-cyan-500" },
+  { key: "comments", label: "Comments", icon: <FileText className="w-4 h-4" />, color: "text-teal-500" },
+  { key: "users", label: "Admin Users", icon: <Database className="w-4 h-4" />, color: "text-rose-500" },
+] as const;
+
+type BackupEntityKey = typeof BACKUP_ENTITIES[number]["key"];
+
 export function BackupManager() {
   const [loading, setLoading] = useState(false);
   const [restoring, setRestoring] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
   const [restoreDialog, setRestoreDialog] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [backupStats, setBackupStats] = useState<{ blogs: number; projects: number; courses: number; snippets: number; messages: number } | null>(null);
+  const [backupStats, setBackupStats] = useState<Record<string, number> | null>(null);
+
+  // FIX: Track which entities to include in backup
+// Track which entities to include in backup (initially none selected)
+  const [selectedEntities, setSelectedEntities] = useState<Set<BackupEntityKey>>(
+    new Set()
+  );
 
   const showMessage = (type: "success" | "error", text: string) => {
     setMessage({ type, text });
     setTimeout(() => setMessage(null), 5000);
   };
 
-  // Fetch counts for backup stats
+  const toggleEntity = (key: BackupEntityKey) => {
+    setSelectedEntities(prev => {
+      const next = new Set(prev);
+      if (next.has(key)) {
+        next.delete(key);
+      } else {
+        next.add(key);
+      }
+      return next;
+    });
+  };
+
+  const selectAll = () => {
+    if (selectedEntities.size === BACKUP_ENTITIES.length) {
+      setSelectedEntities(new Set());
+    } else {
+      setSelectedEntities(new Set(BACKUP_ENTITIES.map(e => e.key)));
+    }
+  };
+
   const fetchStats = useCallback(async () => {
     try {
-      const [blogsRes, projectsRes, coursesRes, snippetsRes, msgsRes] = await Promise.allSettled([
+      const [blogsRes, projectsRes, coursesRes, snippetsRes, msgsRes, todosRes] = await Promise.allSettled([
         fetch("/api/blogs?limit=1"),
         fetch("/api/projects?limit=1"),
         fetch("/api/courses?limit=1"),
         fetch("/api/snippets?limit=1"),
         fetch("/api/messages?limit=1"),
+        fetch("/api/todos?limit=1"),
       ]);
 
       const getCount = async (res: PromiseSettledResult<Response>): Promise<number> => {
@@ -52,23 +93,29 @@ export function BackupManager() {
         } catch { return 0; }
       };
 
-      const [blogs, projects, courses, snippets, messages] = await Promise.all([
+      const [blogs, projects, courses, snippets, messages, todos] = await Promise.all([
         getCount(blogsRes), getCount(projectsRes), getCount(coursesRes),
-        getCount(snippetsRes), getCount(msgsRes),
+        getCount(snippetsRes), getCount(msgsRes), getCount(todosRes),
       ]);
 
-      setBackupStats({ blogs, projects, courses, snippets, messages });
+      setBackupStats({ blogs, projects, courses, snippets, messages, todos });
     } catch (err) {
       console.error("Failed to fetch stats:", err);
     }
   }, []);
 
-  useState(() => { fetchStats(); });
+  useEffect(() => { fetchStats(); }, [fetchStats]);
 
   const handleExport = async () => {
+    if (selectedEntities.size === 0) {
+      showMessage("error", "Select at least one entity to export.");
+      return;
+    }
+
     setLoading(true);
     try {
-      const res = await fetch("/api/backup/export");
+      const entities = Array.from(selectedEntities).join(",");
+      const res = await fetch(`/api/backup?entities=${encodeURIComponent(entities)}`);
       if (!res.ok) throw new Error("Export failed");
 
       const blob = await res.blob();
@@ -79,7 +126,7 @@ export function BackupManager() {
       a.download = `portfolio-backup-${now}.json`;
       a.click();
       URL.revokeObjectURL(url);
-      showMessage("success", "Backup exported successfully!");
+      showMessage("success", `Backup exported successfully! (${selectedEntities.size} entities)`);
     } catch (err) {
       showMessage("error", "Failed to export backup. Make sure the export API is available.");
     } finally {
@@ -94,7 +141,7 @@ export function BackupManager() {
       const formData = new FormData();
       formData.append("file", selectedFile);
 
-      const res = await fetch("/api/backup/restore", {
+      const res = await fetch("/api/backup", {
         method: "POST",
         body: formData,
       });
@@ -110,17 +157,19 @@ export function BackupManager() {
     }
   };
 
+  const allSelected = selectedEntities.size === BACKUP_ENTITIES.length;
+
   return (
     <div className="space-y-4">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
           <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Backup & Restore</h2>
-          <p className="text-sm text-gray-500 dark:text-gray-400">Export and import all portfolio data including snippets</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">Select what to include, then export or import</p>
         </div>
-        <Button onClick={handleExport} disabled={loading} className="w-full sm:w-auto">
+        <Button onClick={handleExport} disabled={loading || selectedEntities.size === 0} className="w-full sm:w-auto">
           {loading ? <Loader2 className="w-4 h-4 animate-spin mr-1.5" /> : <Download className="w-4 h-4 mr-1.5" />}
-          Export Backup
+          Export Backup ({selectedEntities.size} items)
         </Button>
       </div>
 
@@ -136,6 +185,56 @@ export function BackupManager() {
         </div>
       )}
 
+      {/* FIX: Select entities to backup */}
+      <div className="rounded-xl border border-gray-200 dark:border-gray-700 p-4 bg-white dark:bg-gray-900">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2">
+            <HardDrive className="w-4 h-4 text-gray-500" />
+            <h3 className="text-sm font-semibold text-gray-900 dark:text-white">Select Entities to Backup</h3>
+          </div>
+          <button
+            onClick={selectAll}
+            className="text-xs text-blue-600 dark:text-blue-400 hover:underline"
+          >
+            {allSelected ? "Deselect all" : "Select all"}
+          </button>
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
+          {BACKUP_ENTITIES.map((entity) => {
+            const isSelected = selectedEntities.has(entity.key);
+            const count = backupStats ? (backupStats[entity.key] ?? 0) : null;
+            return (
+              <button
+                key={entity.key}
+                onClick={() => toggleEntity(entity.key)}
+                className={`flex items-center gap-2.5 p-3 rounded-lg border-2 transition-all text-left ${
+                  isSelected
+                    ? "border-blue-500 bg-blue-50 dark:bg-blue-900/10"
+                    : "border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600"
+                }`}
+              >
+                <div className={`flex items-center justify-center w-5 h-5 rounded border-2 transition-colors shrink-0 ${
+                  isSelected
+                    ? "bg-blue-500 border-blue-500"
+                    : "border-gray-300 dark:border-gray-600"
+                }`}>
+                  {isSelected && <CheckCircle2 className="w-3.5 h-3.5 text-white" />}
+                </div>
+                <div className="min-w-0">
+                  <div className={`flex items-center gap-1.5 text-sm font-medium ${isSelected ? "text-blue-700 dark:text-blue-300" : "text-gray-700 dark:text-gray-300"}`}>
+                    <span className={isSelected ? "" : entity.color}>{entity.icon}</span>
+                    {entity.label}
+                  </div>
+                  {count !== null && (
+                    <div className="text-[10px] text-gray-400 mt-0.5">{count} items</div>
+                  )}
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
       {/* Content Stats */}
       {backupStats && (
         <div className="rounded-xl border border-gray-200 dark:border-gray-700 p-4 bg-white dark:bg-gray-900">
@@ -143,13 +242,14 @@ export function BackupManager() {
             <HardDrive className="w-4 h-4 text-gray-500" />
             <h3 className="text-sm font-semibold text-gray-900 dark:text-white">Content Summary</h3>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
             {[
-              { label: "Blogs", count: backupStats.blogs, icon: <FileText className="w-4 h-4" />, color: "text-blue-500" },
-              { label: "Projects", count: backupStats.projects, icon: <FolderKanban className="w-4 h-4" />, color: "text-purple-500" },
-              { label: "Courses", count: backupStats.courses, icon: <GraduationCap className="w-4 h-4" />, color: "text-green-500" },
-              { label: "Snippets", count: backupStats.snippets, icon: <Code2 className="w-4 h-4" />, color: "text-orange-500" },
-              { label: "Messages", count: backupStats.messages, icon: <Trash2 className="w-4 h-4" />, color: "text-pink-500" },
+              { label: "Blogs", count: backupStats.blogs || 0, icon: <FileText className="w-4 h-4" />, color: "text-blue-500" },
+              { label: "Projects", count: backupStats.projects || 0, icon: <FolderKanban className="w-4 h-4" />, color: "text-purple-500" },
+              { label: "Courses", count: backupStats.courses || 0, icon: <GraduationCap className="w-4 h-4" />, color: "text-green-500" },
+              { label: "Snippets", count: backupStats.snippets || 0, icon: <Code2 className="w-4 h-4" />, color: "text-orange-500" },
+              { label: "Messages", count: backupStats.messages || 0, icon: <Trash2 className="w-4 h-4" />, color: "text-pink-500" },
+              { label: "Todos", count: backupStats.todos || 0, icon: <CheckCircle2 className="w-4 h-4" />, color: "text-amber-500" },
             ].map((item) => (
               <div key={item.label} className="flex items-center gap-2.5 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
                 <div className={item.color}>{item.icon}</div>
@@ -218,7 +318,7 @@ export function BackupManager() {
             <h3 className="text-sm font-semibold text-gray-900 dark:text-white">What&apos;s included</h3>
           </div>
           <p className="text-xs text-gray-500 dark:text-gray-400">
-            Blogs, Projects, Courses, Code Snippets (with tabs, demos, tags), Messages, and all related metadata are included in the backup.
+            Select which entities to include: Blogs, Projects, Courses, Code Snippets, Messages, Todos, Profile, Comments, and Admin Users. Check/uncheck above.
           </p>
         </div>
       </div>

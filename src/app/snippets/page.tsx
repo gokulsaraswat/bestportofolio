@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "next-themes";
 import {
@@ -30,16 +30,14 @@ import dart from "react-syntax-highlighter/dist/esm/languages/hljs/dart";
 import scala from "react-syntax-highlighter/dist/esm/languages/hljs/scala";
 import r from "react-syntax-highlighter/dist/esm/languages/hljs/r";
 import lua from "react-syntax-highlighter/dist/esm/languages/hljs/lua";
-// import perl from "react-syntax-highlighter/dist/esm/languages/hljs/perl";
-// import dockerfile from "react-syntax-highlighter/dist/esm/languages/hljs/dockerfile";
-// import { oneDark, oneLight } from "react-syntax-highlighter/dist/esm/styles/hljs"
-// Use this if the hljs import fails
 import { oneDark, oneLight } from "react-syntax-highlighter/dist/esm/styles/prism";
 import {
   Search, Copy, Check, Share2, X, GitCompare, ExternalLink, Terminal, Play,
   Code2, GitBranch, FileText, Database, Server, Sparkles, Filter,
   ChevronDown, ArrowLeft, ArrowRight,
 } from "lucide-react";
+import { EmbedList } from "@/components/embed-renderer";
+import { Navbar, Footer } from "@/components/site/navbar";
 
 // Register languages
 SyntaxHighlighter.registerLanguage("javascript", js);
@@ -70,10 +68,7 @@ SyntaxHighlighter.registerLanguage("dart", dart);
 SyntaxHighlighter.registerLanguage("scala", scala);
 SyntaxHighlighter.registerLanguage("r", r);
 SyntaxHighlighter.registerLanguage("lua", lua);
-// SyntaxHighlighter.registerLanguage("perl", perl);
-// SyntaxHighlighter.registerLanguage("dockerfile", dockerfile);
-// SyntaxHighlighter.registerLanguage("graphql", graphql);
-import { EmbedList } from "@/components/embed-renderer"
+
 // ─── Types ───────────────────────────────────────────────────────
 interface SnippetTab {
   name: string;
@@ -105,7 +100,7 @@ interface CodeSnippet {
 // ─── Constants ───────────────────────────────────────────────────
 const SNIPPET_TYPES = ["code", "hld", "lld", "api-design", "db-design"];
 
-const TYPE_COLORS: Record<string, string> = { 
+const TYPE_COLORS: Record<string, string> = {
   code: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
   hld: "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400",
   lld: "bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400",
@@ -181,7 +176,7 @@ function getLangColor(lang: string): string {
 // ─── Component ───────────────────────────────────────────────────
 export default function SnippetsPage() {
   const { resolvedTheme } = useTheme();
-  const [snippets, setSnippets] = useState<CodeSnippet[]>([]);
+  const [snippets, setSnippets] = useState<any[]>([]);  
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [typeFilter, setTypeFilter] = useState("all");
@@ -197,35 +192,40 @@ export default function SnippetsPage() {
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const searchRef = useRef<HTMLInputElement>(null);
   const tagDropdownRef = useRef<HTMLDivElement>(null);
+  const detailRef = useRef<HTMLDivElement>(null);
 
-  // ─── Fetch ────────────────────────────────────────────────
-  const fetchSnippets = useCallback(async () => {
-    try {
-      setLoading(true);
-      const params = new URLSearchParams({ published: "true", limit: "200" });
-      const res = await fetch(`/api/snippets?${params}`);
-      if (!res.ok) throw new Error();
-      const data = await res.json();
-      const list = Array.isArray(data) ? data : data.snippets || [];
-      setSnippets(list);
+  // ─── Fetch ────────────────────────────────────────
+  useEffect(() => {
+    let cancelled = false;
+    void (async () => {
+      try {
+        setLoading(true);
+        const params = new URLSearchParams({ published: "true", limit: "200" });
+        const res = await fetch(`/api/snippets?${params}`);
+        if (!res.ok) throw new Error();
+        const data = await res.json();
+        const list = Array.isArray(data) ? data : data.snippets || [];
+        if (cancelled) return;
+        setSnippets(list);
 
-      // Extract all unique tags
-      const tagSet = new Set<string>();
-      list.forEach((s: CodeSnippet) =>
-        s.tags.split(",").forEach((t) => {
-          const trimmed = t.trim().toLowerCase();
-          if (trimmed) tagSet.add(trimmed);
-        })
-      );
-      setAllTags([...tagSet].sort());
-    } catch {
-      console.error("Failed to fetch snippets");
-    } finally {
-      setLoading(false);
-    }
+        const tagSet = new Set<string>();
+        list.forEach((s: CodeSnippet) =>
+          s.tags.split(",").forEach((t) => {
+            const trimmed = t.trim().toLowerCase();
+            if (trimmed) tagSet.add(trimmed);
+          })
+        );
+        setAllTags([...tagSet].sort());
+      } catch {
+        console.error("Failed to fetch snippets");
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
   }, []);
-
-  useEffect(() => { fetchSnippets(); }, [fetchSnippets]);
 
   // Close tag dropdown on outside click
   useEffect(() => {
@@ -238,7 +238,7 @@ export default function SnippetsPage() {
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-   // ─── Filtered list ──────────────────────────────────────
+  // ─── Filtered list ──────────────────────────────────────
   const filtered = (snippets || []).filter((s) => {
     if (typeFilter !== "all" && s.type !== typeFilter) return false;
     if (tagFilters.length > 0) {
@@ -258,7 +258,13 @@ export default function SnippetsPage() {
     return true;
   });
 
-  
+  // ─── Scroll to detail on open ─────────────────────────
+  useEffect(() => {
+    if (detailId && detailRef.current) {
+      detailRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [detailId]);
+
   // ─── Keyboard navigation (j/k/Enter//) ──────────────────
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -297,7 +303,6 @@ export default function SnippetsPage() {
     return () => window.removeEventListener("keydown", handler);
   }, [focusedIdx, filtered?.length, detailId, compareIds]);
 
-
   // Scroll focused card into view
   useEffect(() => {
     if (focusedIdx >= 0 && cardRefs.current[focusedIdx]) {
@@ -305,7 +310,6 @@ export default function SnippetsPage() {
     }
   }, [focusedIdx]);
 
- 
   // ─── Actions ─────────────────────────────────────────────
   const toggleCompare = (id: string) => {
     setCompareIds((prev) => {
@@ -360,13 +364,18 @@ export default function SnippetsPage() {
 
   // ─── Render ───────────────────────────────────────────────
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-950">
-      <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 lg:px-8">
+    <div className="flex flex-col min-h-screen bg-white dark:bg-gray-950 relative">
+      <Navbar />
+      
+      {/* FIXED LAYOUT BREAKING: 
+        Added `pt-24` (or similar depending on navbar height) to the main element so it avoids overlapping under the fixed navbar.
+      */}
+      <main className="flex-1 w-full mx-auto max-w-6xl px-4 pt-24 pb-8 sm:px-6 lg:px-8"> 
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
           <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Code Snippets</h1>
           <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-            Code, HLD, LLD, API designs & more. Press <kbd className="px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 text-xs font-mono">/</kbd> to search, <kbd className="px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 text-xs font-mono">j</kbd>/<kbd className="px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 text-xs font-mono">k</kbd> to navigate, <kbd className="px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 text-xs font-mono">Enter</kbd> to open.
+            Code, HLD, LLD, API designs &amp; more. Press <kbd className="px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 text-xs font-mono">/</kbd> to search, <kbd className="px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 text-xs font-mono">j</kbd>/<kbd className="px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 text-xs font-mono">k</kbd> to navigate, <kbd className="px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 text-xs font-mono">Enter</kbd> to open.
           </p>
         </motion.div>
 
@@ -534,7 +543,7 @@ export default function SnippetsPage() {
 
         {/* ─── Snippet Cards Grid ─────────────────────────── */}
         {!loading && filtered.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3">
             {filtered.map((s, idx) => {
               const isCompared = compareIds.has(s.id);
               const isFocused = focusedIdx === idx;
@@ -586,8 +595,7 @@ export default function SnippetsPage() {
                   {s.description && (
                     <p className="text-xs text-gray-500 dark:text-gray-400 line-clamp-2 mb-2">{s.description}</p>
                   )}
-                  {s.embeds && <EmbedList urls={s.embeds} />}
-                    
+
                   {/* Tags */}
                   {s.tags && (
                     <div className="flex flex-wrap gap-1 mb-2">
@@ -666,19 +674,20 @@ export default function SnippetsPage() {
         </AnimatePresence>
 
         {/* ═══════════════════════════════════════════════════════
-            DETAIL VIEW (inline, not fullscreen overlay)
+            FIXED DETAIL VIEW (MODAL)
             ═══════════════════════════════════════════════════════ */}
         <AnimatePresence>
           {detailSnippet && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              className="mt-6"
-            >
-              <div className="w-full bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 overflow-hidden">
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-gray-900/50 backdrop-blur-sm">
+              <motion.div
+                ref={detailRef}
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                className="w-full max-w-5xl max-h-[90vh] flex flex-col bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-2xl overflow-hidden relative"
+              >
                 {/* Header */}
-                <div className="sticky top-0 z-10 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 px-4 sm:px-6 py-4">
+                <div className="border-b border-gray-200 dark:border-gray-800 px-4 sm:px-6 py-4 shrink-0 bg-white dark:bg-gray-900">
                   <button
                     onClick={() => { setDetailId(null); setDetailTab(0); }}
                     className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 mb-2 transition-colors"
@@ -773,8 +782,8 @@ export default function SnippetsPage() {
                   })()}
                 </div>
 
-                {/* Body */}
-                <div className="p-4 sm:p-6">
+                {/* Body — wider for big screens */}
+                <div className="p-4 sm:p-6 overflow-y-auto flex-1">
                   {(() => {
                     let parsedTabs: SnippetTab[] = [];
                     try { parsedTabs = JSON.parse(detailSnippet.tabs || "[]"); } catch { parsedTabs = []; }
@@ -819,7 +828,7 @@ export default function SnippetsPage() {
                       );
                     }
 
-                    // Code tab
+                    // Code tab — wider on big screens
                     return (
                       <div className="rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700">
                         <div className="flex items-center justify-between px-4 py-2 bg-gray-50 dark:bg-gray-800/50 border-b border-gray-200 dark:border-gray-700">
@@ -834,7 +843,8 @@ export default function SnippetsPage() {
                             </button>
                           </div>
                         </div>
-                        <div className="overflow-auto max-h-[600px]">
+                        {/* Full-width code block */}
+                        <div className="overflow-auto max-h-[60vh]">
                           <SyntaxHighlighter
                             language={getHljsLang(activeTab.language)}
                             style={resolvedTheme === "dark" ? oneDark : oneLight}
@@ -861,11 +871,18 @@ export default function SnippetsPage() {
                     </div>
                   )}
 
+                  {/* Embeds */}
+                  {detailSnippet.embeds && (
+                    <div className="mt-4">
+                      <EmbedList urls={detailSnippet.embeds} />
+                    </div>
+                  )}
+
                   {/* Similar Snippets */}
                   {similarSnippets.length > 0 && (
                     <div className="mt-6">
                       <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Similar Snippets</h3>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
                         {similarSnippets.map((s) => (
                           <button
                             key={s.id}
@@ -885,19 +902,21 @@ export default function SnippetsPage() {
                     </div>
                   )}
                 </div>
-              </div>
-            </motion.div>
+              </motion.div>
+            </div>
           )}
         </AnimatePresence>
 
         {/* Keyboard hint */}
-        <div className="fixed bottom-4 right-4 hidden lg:flex items-center gap-3 px-3 py-1.5 rounded-full bg-white/80 dark:bg-gray-900/80 backdrop-blur border border-gray-200 dark:border-gray-800 text-[10px] text-gray-400">
+        <div className="fixed bottom-4 right-4 hidden lg:flex items-center gap-3 px-3 py-1.5 rounded-full bg-white/80 dark:bg-gray-900/80 backdrop-blur border border-gray-200 dark:border-gray-800 text-[10px] text-gray-400 z-40">
           <span><kbd className="px-1 py-0.5 rounded bg-gray-100 dark:bg-gray-800 font-mono">/</kbd> search</span>
           <span><kbd className="px-1 py-0.5 rounded bg-gray-100 dark:bg-gray-800 font-mono">j</kbd><kbd className="px-1 py-0.5 rounded bg-gray-100 dark:bg-gray-800 font-mono">k</kbd> nav</span>
           <span><kbd className="px-1 py-0.5 rounded bg-gray-100 dark:bg-gray-800 font-mono">Enter</kbd> open</span>
           <span><kbd className="px-1 py-0.5 rounded bg-gray-100 dark:bg-gray-800 font-mono">Esc</kbd> close</span>
         </div>
-      </div>
+      </main>
+
+      <Footer />
     </div>
   );
 }
