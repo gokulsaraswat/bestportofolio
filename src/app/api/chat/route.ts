@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server'
-import { GoogleGenerativeAI } from '@google/generative-ai'
+import { GoogleGenAI } from '@google/genai'
 
 /**
  * ============================================================================
@@ -145,22 +145,26 @@ export async function POST(request: NextRequest) {
     // Initialize Gemini
     //---------------------------------------------------
 
-    const genAI = new GoogleGenerativeAI(geminiKey)
-
+    const ai = new GoogleGenAI({
+      apiKey: geminiKey,
+    })
     //---------------------------------------------------
     // Embedding Generation
     //---------------------------------------------------
 
     console.log('[EMBEDDING] Creating embedding...')
 
-    const embeddingModel = genAI.getGenerativeModel({
-      model: 'text-embedding-004',
+    const embeddingResponse = await ai.models.embedContent({
+      model: "gemini-embedding-001",
+      contents: userMessage,
+      config: {
+        outputDimensionality: 768,
+      },
     })
+    
+    const queryEmbedding = embeddingResponse.embeddings?.[0]?.values
 
-    const embeddingResponse =
-      await embeddingModel.embedContent(userMessage)
-
-    if (!embeddingResponse.embedding?.values) {
+    if (!queryEmbedding) {
       console.error('[EMBEDDING] Failed')
 
       return new Response(
@@ -174,15 +178,6 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const queryEmbedding =
-      embeddingResponse.embedding.values
-
-    console.log(
-      '[EMBEDDING] Success',
-      queryEmbedding.length,
-      'dimensions'
-    )
-
     //---------------------------------------------------
     // Query Supabase Vector Search
     //---------------------------------------------------
@@ -195,10 +190,12 @@ export async function POST(request: NextRequest) {
       controller.abort()
     }, 15000)
 
-    const rpcResponse = await fetch(
-      `${supabaseUrl}/rest/v1/rpc/match_documents`,
-      {
-        method: 'POST',
+    let rpcResponse: Response
+    try {
+      rpcResponse = await fetch(
+        `${supabaseUrl}/rest/v1/rpc/match_documents`,
+        {
+          method: 'POST',
 
         signal: controller.signal,
 
@@ -210,13 +207,17 @@ export async function POST(request: NextRequest) {
 
         body: JSON.stringify({
           query_embedding: queryEmbedding,
-          match_threshold: 0.70,
+          match_threshold: 0.20,
           match_count: 5,
+          filter_type: null,
         }),
       }
-    )
+      )
+    } finally {
+        clearTimeout(timeout)
+      } 
 
-    clearTimeout(timeout)
+    
 
         //---------------------------------------------------
     // Handle Supabase Response
@@ -224,13 +225,15 @@ export async function POST(request: NextRequest) {
 
     let context = ''
 
-    if (!rpcResponse.ok) {
-      const errorText = await rpcResponse.text()
+    const responseText = await rpcResponse.text()
 
-      console.error('[SUPABASE] RPC Error')
-      console.error(errorText)
+    if (!rpcResponse.ok) {
+      console.error("[SUPABASE] RPC Error")
+      console.error(responseText)
     } else {
-      const docs = await rpcResponse.json()
+      const docs = JSON.parse(responseText)
+
+      console.log("docs:", docs)
 
       console.log(
         `[SUPABASE] Retrieved ${docs.length} matching documents`
@@ -241,7 +244,7 @@ export async function POST(request: NextRequest) {
           (doc: any) =>
             `[${doc.source_title || doc.type}]\n${doc.content}`
         )
-        .join('\n\n')
+        .join("\n\n")
     }
 
     //---------------------------------------------------
@@ -297,15 +300,20 @@ Use bullet points where appropriate.
     //---------------------------------------------------
 
     console.log('[GEMINI] Starting generation...')
+    console.log("===== FINAL PROMPT =====")
+    console.log(finalPrompt.slice(0, 1500))
+    console.log("========================")
 
-    const chatModel = genAI.getGenerativeModel({
-      model: 'gemini-1.5-flash',
-    })
+    
 
     let result
 
+
     try {
-      result = await chatModel.generateContentStream(finalPrompt)
+      result = await ai.models.generateContentStream({
+        model: 'gemini-2.5-flash',
+        contents: finalPrompt,
+      })
     } catch (err) {
       console.error('[GEMINI] Generation Error')
       console.error(err)
@@ -330,8 +338,8 @@ Use bullet points where appropriate.
     const stream = new ReadableStream({
       async start(controller) {
         try {
-          for await (const chunk of result.stream) {
-            const text = chunk.text()
+          for await (const chunk of result) {
+            const text = chunk.text
 
             if (text) {
               controller.enqueue(encoder.encode(text))

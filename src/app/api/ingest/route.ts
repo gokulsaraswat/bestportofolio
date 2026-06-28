@@ -1,4 +1,4 @@
-import { GoogleGenerativeAI } from '@google/generative-ai'
+import { GoogleGenAI } from '@google/genai'
 import { NextRequest, NextResponse } from 'next/server'
 
 // POST /api/ingest — Ingest a text chunk into Supabase
@@ -14,15 +14,40 @@ export async function POST(request: NextRequest) {
     const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY
     const geminiKey = process.env.GEMINI_API_KEY
 
+   
     if (!supabaseUrl || !supabaseKey || !geminiKey) {
       return NextResponse.json({ error: 'RAG not configured. Set SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, and GEMINI_API_KEY in .env.local' }, { status: 503 })
     }
 
     // 1. Generate embedding using Google Generative AI SDK
-    const genAI = new GoogleGenerativeAI(geminiKey)
-    const model = genAI.getGenerativeModel({ model: "text-embedding-004" })
-    const result = await model.embedContent(text)
-    const embedding = result.embedding.values // This returns the 768-dim array
+    const ai = new GoogleGenAI({
+      apiKey: geminiKey,
+    })
+
+    const result = await ai.models.embedContent({
+      model: 'gemini-embedding-001', // Change to Gemini Embedding 2 later when supported
+      contents: text,
+      config: {
+      outputDimensionality: 768,
+      },
+    })
+
+    const embedding = result.embeddings?.[0]?.values
+    console.log("Embedding dimension:", embedding?.length)
+
+    if (!embedding) {
+      return NextResponse.json(
+        { error: 'Failed to generate embedding' },
+        { status: 500 }
+      )
+    }
+
+    console.log({
+      isArray: Array.isArray(embedding),
+      length: embedding?.length,
+      first: embedding?.[0],
+    });
+
 
     // 2. Insert into Supabase
     const insertRes = await fetch(`${supabaseUrl}/rest/v1/documents`, {
@@ -42,12 +67,17 @@ export async function POST(request: NextRequest) {
         embedding,
       }),
     })
+if (!insertRes.ok) {
+    const errorText = await insertRes.text();
 
-    if (!insertRes.ok) {
-      const err = await insertRes.json().catch(() => ({}))
-      console.error('Supabase insert error:', err)
-      return NextResponse.json({ error: 'Failed to store document', details: err }, { status: 500 })
-    }
+    console.error("[SUPABASE] Insert Error");
+    console.error(errorText);
+
+    return NextResponse.json(
+      { error: errorText },
+      { status: 500 }
+    );
+  }
 
     const data = await insertRes.json()
     return NextResponse.json({ success: true, id: data[0]?.id }, { status: 201 })
