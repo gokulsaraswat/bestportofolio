@@ -7,6 +7,7 @@ import { ChatBotWrapper } from "@/components/site/chat-bot-wrapper";
 import { MusicPlayer } from "@/components/site/music-player";
 import { GlobalKeyboardShortcuts } from "@/components/global-keyboard-shortcuts";
 import { SettingsAwareCursor } from "@/components/settings-aware-cursor"
+import { KeyboardShortcutsOverlay } from "@/components/site/keyboard-shortcuts-overlay";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
@@ -64,7 +65,8 @@ export default function RootLayout({
               {children}
               <ChatBotWrapper />
               <Toaster />
-              <MusicPlayer /> 
+              <KeyboardShortcutsOverlay />
+              <MusicPlayer />  
         </ThemeProvider>
              <SettingsAwareCursor />
       </body>

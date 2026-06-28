@@ -41,6 +41,7 @@ export async function PUT(
     if (body.tags !== undefined) data.tags = body.tags
     if (body.content !== undefined) data.content = body.content
     if (body.tabs !== undefined) data.tabs = body.tabs
+    if (body.category !== undefined) data.category = body.category
     if (body.comment !== undefined) data.comment = body.comment
     if (body.demoType !== undefined) data.demoType = body.demoType
     if (body.demoUrl !== undefined) data.demoUrl = body.demoUrl

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useParams } from 'next/navigation'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
@@ -14,6 +14,11 @@ import { CommentSection } from '@/components/site/comment-section'
 import { useToast } from '@/hooks/use-toast'
 import { format } from 'date-fns'
 import { EmbedList } from "@/components/embed-renderer"
+import { ReadingProgress } from '@/components/site/reading-progress'
+import { TableOfContents } from '@/components/site/table-of-contents'
+import { ShareButtons } from '@/components/site/share-buttons'
+import { RelatedContent } from '@/components/site/related-content'
+
 
 const typeIcons: Record<string, React.ElementType> = {
   youtube: Play, spotify: Music, tweet: MessageCircle, article: FileText,
@@ -29,6 +34,7 @@ export default function BlogDetailPage() {
   const { toast } = useToast()
   const [blog, setBlog] = useState<Blog | null>(null)
   const [loading, setLoading] = useState(true)
+  const contentRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     fetch(`/api/blogs?published=true`)
@@ -78,9 +84,12 @@ export default function BlogDetailPage() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <ReadingProgress />
       <Navbar />
       <main className="flex-1 py-20 px-4">
+        <div className="mx-auto max-w-5xl lg:grid lg:grid-cols-[1fr_200px] lg:gap-8">
         <motion.article
+          ref={contentRef}
           className="mx-auto max-w-3xl"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -222,18 +231,26 @@ export default function BlogDetailPage() {
                     {/* Embeds */}
           {blog.embeds && <EmbedList urls={blog.embeds} />}
           
+          {/* Related Content */}
+          <RelatedContent
+            entityType="blog"
+            currentSlug={blog.slug}
+            currentTags={blog.tags ? blog.tags.split(',').filter(Boolean).map(t => t.trim()) : []}
+          />
+
           {/* Share */}
           <div className="mt-8 flex items-center justify-between border-t pt-6">
             <Button variant="ghost" size="sm" asChild>
               <Link href="/blog" className="gap-1.5"><ArrowLeft className="h-4 w-4" />All Posts</Link>
             </Button>
-            <Button variant="outline" size="sm" onClick={handleShare} className="gap-1.5">
-              <Share2 className="h-4 w-4" />Share
-            </Button>
+            <ShareButtons />
           </div>
+
           {/* Comments */}
           <CommentSection entityType="blog" entityId={blog.slug} />
         </motion.article>
+        <TableOfContents containerRef={contentRef} />
+        </div>
       </main>
       <Footer />
     </div>

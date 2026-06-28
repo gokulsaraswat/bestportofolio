@@ -1,12 +1,14 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import { useTheme } from 'next-themes'
 import { Menu, Sun, Moon, Github, Linkedin, Twitter, Mail } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet'
 import { GlobalSearch } from '@/components/site/global-search'
+import { NotificationBell } from '@/components/site/notification-bell'
+import { useMounted } from '@/hooks/use-mounted'
 export { Footer } from '@/components/site/footer'
 
 const navLinks = [
@@ -23,9 +25,7 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const { theme, setTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => { setMounted(true) }, [])
+  const mounted = useMounted()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10)
@@ -54,8 +54,9 @@ export function Navbar() {
 
         <div className="flex items-center gap-2">
           <GlobalSearch />
+          <NotificationBell />
           {mounted && (
-            <Button variant="ghost" size="icon" className="h-9 w-9" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
+            <Button variant="ghost" size="icon" className="h-9 w-9" data-theme-toggle onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
               {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             </Button>
           )}

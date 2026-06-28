@@ -4,16 +4,16 @@ import { useState, useEffect, useRef } from 'react'
 import { Volume2, VolumeX, Music } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { motion } from 'framer-motion'
+import { useMounted } from '@/hooks/use-mounted'
 
 export function MusicPlayer() {
   const [muted, setMuted] = useState(false)
   const [hasInteracted, setHasInteracted] = useState(false)
   const [musicUrl, setMusicUrl] = useState<string | null>(null)
-  const [mounted, setMounted] = useState(false)
+  const mounted = useMounted()
   const audioRef = useRef<HTMLAudioElement | null>(null)
 
   useEffect(() => {
-    setMounted(true)
     fetch('/api/profile')
       .then(res => res.ok ? res.json() : null)
       .then(data => {

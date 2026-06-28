@@ -10,8 +10,18 @@ export async function GET(request: NextRequest) {
     const type = searchParams.get('type')
     const language = searchParams.get('language')
     const tag = searchParams.get('tag')
+    const category = searchParams.get('category')
     const search = searchParams.get('search')
     const limit = searchParams.get('limit')
+
+    // Auto-publish scheduled snippets whose time has come
+    await db.codeSnippet.updateMany({
+      where: {
+        published: false,
+        scheduledAt: { lte: new Date() },
+      },
+      data: { published: true },
+    })
 
     const where: Record<string, unknown> = {}
 
@@ -27,12 +37,16 @@ export async function GET(request: NextRequest) {
     if (tag) {
       where.tags = { contains: tag }
     }
+    if (category) {
+      where.category = category
+    }
     if (search) {
       where.OR = [
         { title: { contains: search } },
         { description: { contains: search } },
         { tags: { contains: search } },
         { content: { contains: search } },
+        { category: { contains: search } },
       ]
     }
 
@@ -67,6 +81,7 @@ export async function POST(request: NextRequest) {
         type: body.type ?? 'code',
         language: body.language ?? '',
         tags: body.tags ?? '',
+        category: body.category ?? '',
         content: body.content ?? '',
         tabs: body.tabs ?? '[]',
         comment: body.comment ?? '',
@@ -74,6 +89,7 @@ export async function POST(request: NextRequest) {
         demoUrl: body.demoUrl ?? '',
         demoOutput: body.demoOutput ?? '',
         published: body.published ?? false,
+        scheduledAt: body.scheduledAt ? new Date(body.scheduledAt) : null,
         includeInRag: body.includeInRag ?? false,
       },
     })

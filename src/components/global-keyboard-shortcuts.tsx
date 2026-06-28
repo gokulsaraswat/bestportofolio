@@ -2,6 +2,7 @@
 
 import { useKeyboardShortcuts, useShortcutToast, ShortcutToast } from "@/hooks/use-keyboard-shortcuts";
 import { useEffect, useCallback, useRef, useState } from "react";
+import { useMounted } from "@/hooks/use-mounted";
 
 /**
  * GlobalKeyboardShortcuts - wraps the app to provide:
@@ -87,8 +88,7 @@ export function GlobalKeyboardShortcuts({ children }: { children: React.ReactNod
     onEscape: handleEscape,
   });
 
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => { setMounted(true); }, []);
+  const mounted = useMounted();
 
   return (
     <>

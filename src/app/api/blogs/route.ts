@@ -8,6 +8,18 @@ export async function GET(request: NextRequest) {
     const published = searchParams.get('published')
     const type = searchParams.get('type')
     const search = searchParams.get('search')
+    const category = searchParams.get('category')
+    const tag = searchParams.get('tag')
+
+// Auto-publish scheduled posts whose time has come
+
+    await db.blogPost.updateMany({
+      where: {
+        published: false,
+        scheduledAt: { lte: new Date() },
+      },
+      data: { published: true },
+    })
 
     const where: Record<string, unknown> = {}
 
@@ -19,10 +31,20 @@ export async function GET(request: NextRequest) {
       where.type = type
     }
 
+    if (category) {
+      where.category = category
+    }
+
+    if (tag) {
+      where.tags = { contains: tag }
+    }
+
     if (search) {
       where.OR = [
         { title: { contains: search } },
         { excerpt: { contains: search } },
+        { tags: { contains: search } },
+        { category: { contains: search } },
       ]
     }
 
@@ -62,11 +84,13 @@ export async function POST(request: NextRequest) {
         content: body.content ?? '',
         coverImage: body.coverImage ?? '',
         tags: body.tags ?? '',
+        category: body.category ?? '',
         type: body.type ?? 'article',
         embedUrl: body.embedUrl ?? '',
         writtenBy: body.writtenBy ?? '',
         acceptedBy: body.acceptedBy ?? '',
         published: body.published ?? false,
+        scheduledAt: body.scheduledAt ? new Date(body.scheduledAt) : null,
       },
     })
 

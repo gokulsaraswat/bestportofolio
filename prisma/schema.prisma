@@ -13,11 +13,11 @@ model AdminUser {
   username    String   @unique
   password    String
   role        String   @default("admin")
-  permissions String  @default("")
   totpSecret  String   @default("")
   totpEnabled Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  permissions String   @default("")
 }
 
 model Profile {
@@ -50,28 +50,28 @@ model Profile {
   chatBotEnabled       Boolean  @default(false)
   createdAt            DateTime @default(now())
   updatedAt            DateTime @updatedAt
-  siteSettings         String  @default("{}")
+  siteSettings         String   @default("{}")
 }
 
 model BlogPost {
-  id              String   @id @default(cuid())
+  id              String    @id @default(cuid())
   title           String
-  slug            String   @unique
-  excerpt         String   @default("")
-  content         String   @default("")
+  slug            String    @unique
+  excerpt         String    @default("")
+  content         String    @default("")
+  coverImage      String    @default("")
+  tags            String    @default("")
+  type            String    @default("article")
+  embedUrl        String    @default("")
+  behindTheScenes String    @default("")
+  published       Boolean   @default(false)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  embeds          String    @default("")
+  acceptedBy      String?   @default("")
+  writtenBy       String?   @default("")
   category        String    @default("")
-  coverImage      String   @default("")
-  tags            String   @default("")
-  type            String   @default("article")
-  embedUrl        String   @default("")
-  behindTheScenes String   @default("")
-  published       Boolean  @default(false)
   scheduledAt     DateTime?
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  embeds          String   @default("")
-  acceptedBy      String?  @default("")
-  writtenBy       String?  @default("")
 }
 
 model Project {
@@ -192,24 +192,26 @@ model Comment {
 }
 
 model CodeSnippet {
-  id           String   @id @default(cuid())
+  id           String    @id @default(cuid())
   title        String
-  slug         String   @unique
-  description  String   @default("")
-  type         String   @default("code")
-  language     String   @default("")
-  tags         String   @default("")
-  content      String   @default("")
-  tabs         String   @default("[]")
-  comment      String   @default("")
-  demoType     String   @default("")
-  demoUrl      String   @default("")
-  demoOutput   String   @default("")
-  published    Boolean  @default(false)
-  includeInRag Boolean  @default(false)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  embeds       String   @default("")
+  slug         String    @unique
+  description  String    @default("")
+  type         String    @default("code")
+  language     String    @default("")
+  tags         String    @default("")
+  content      String    @default("")
+  tabs         String    @default("[]")
+  comment      String    @default("")
+  demoType     String    @default("")
+  demoUrl      String    @default("")
+  demoOutput   String    @default("")
+  published    Boolean   @default(false)
+  includeInRag Boolean   @default(false)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  embeds       String    @default("")
+  scheduledAt  DateTime?
+  category     String    @default("")
 }
 
 model OperationLog {

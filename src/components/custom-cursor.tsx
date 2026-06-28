@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useCallback } from "react";
+import { useMounted } from "@/hooks/use-mounted";
 
 // ─── Magnetic Cursor with Dot + Delayed Circle ────────────────
 // Inner dot: 6px, follows mouse directly
@@ -46,11 +47,11 @@ export function CustomCursor() {
     circleSize: DEFAULT_CIRCLE_SIZE,
     isHidden: true,
   });
+  
   const rafRef = useRef<number>(0);
-  const [mounted, setMounted] = useState(false);
+  const mounted = useMounted();
 
   useEffect(() => {
-    setMounted(true);
 
     // Don't show custom cursor on touch devices
     if (typeof window !== "undefined" && "ontouchstart" in window) return;

@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback , useMemo} from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  Plus, Edit3, Trash2, Search, Eye, X, Save, ChevronUp, ChevronDown,
-  Code2, FileText, Database, GitBranch, Server, Sparkles, GripVertical,
-  Copy, Check, ExternalLink, Image, Link2, Terminal, Play,
-} from "lucide-react";
+  import {
+    Plus, Edit3, Trash2, Search, Eye, X, Save, ChevronUp, ChevronDown,
+    Code2, FileText, Database, GitBranch, Server, Sparkles, GripVertical,
+    Copy, Check, ExternalLink, Image, Link2, Terminal, Play, CheckSquare,
+    Clock,
+  } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -21,6 +22,10 @@ import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
   AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { Checkbox } from "@/components/ui/checkbox";
+import { useToast } from "@/hooks/use-toast";
+
+
 
 // ─── Types ───────────────────────────────────────────────────────
 interface SnippetTab {
@@ -43,6 +48,8 @@ interface CodeSnippet {
   demoType: string;
   demoUrl: string;
   demoOutput: string;
+  category: string;
+  scheduledAt: string;
   published: boolean;
   includeInRag: boolean;
   createdAt: string;
@@ -67,6 +74,12 @@ const DEMO_TYPES = [
 const PRESET_TYPES = [
   "code", "hld", "lld", "api-design", "db-design",
 ];
+
+// ─── Constants ───────────────────────────────────────────── for Category suggestions and language colors
+const CATEGORY_SUGGESTIONS = [
+  "Algorithm", "Data Structure", "Backend", "Frontend", "DevOps", "Database", "API", "Utility",
+];
+
 
 const LANG_COLORS: Record<string, string> = {
   javascript: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400",
@@ -128,8 +141,29 @@ function slugify(text: string): string {
     .replace(/(^-|-$)/g, "");
 }
 
+
+function toDatetimeLocal(iso: string): string {
+  if (!iso) return "";
+  const d = new Date(iso);
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+
+function formatScheduledDate(iso: string): string {
+  if (!iso) return "";
+  return new Date(iso).toLocaleString(undefined, {
+    month: "short", day: "numeric", hour: "2-digit", minute: "2-digit",
+  });
+}
+
+
+
+
 // ─── Component ───────────────────────────────────────────────────
 export function SnippetManager() {
+  const { toast } = useToast();
+
+
   const [snippets, setSnippets] = useState<CodeSnippet[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -142,12 +176,19 @@ export function SnippetManager() {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  
+  // Bulk selection
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [bulkLoading, setBulkLoading] = useState(false);
+  const [bulkDeleteOpen, setBulkDeleteOpen] = useState(false);
+
 
   // Form state
   const emptyForm = {
     title: "", slug: "", description: "", type: "code", language: "",
     tags: "", content: "", comment: "", demoType: "", demoUrl: "", demoOutput: "",
-    published: false, includeInRag: false,embeds: ''
+    published: false, includeInRag: false, embeds: "", category: "", scheduledAt: "",
+
   };
   const [form, setForm] = useState(emptyForm);
   const [tabs, setTabs] = useState<SnippetTab[]>([]);
@@ -202,7 +243,9 @@ useEffect(() => {
       type: s.type, language: s.language, tags: s.tags, content: s.content,
       comment: s.comment, demoType: s.demoType, demoUrl: s.demoUrl,
       demoOutput: s.demoOutput, published: s.published, includeInRag: s.includeInRag,
-      embeds: s.embeds || '', // <-- ADD THIS LINE
+      embeds: s.embeds || "", category: s.category || "",
+      scheduledAt: toDatetimeLocal(s.scheduledAt),
+
     });
     try { setTabs(JSON.parse(s.tabs || "[]")); } catch { setTabs([]); }
     setSelectedId(s.id);
@@ -223,7 +266,8 @@ useEffect(() => {
     if (!form.title.trim()) return;
     setSaving(true);
     try {
-      const body = { ...form, tabs: JSON.stringify(tabs) };
+      const scheduledAt = form.scheduledAt ? new Date(form.scheduledAt).toISOString() : "";
+      const body = { ...form, tabs: JSON.stringify(tabs), scheduledAt };
       const url = selectedId ? `/api/snippets/${selectedId}` : "/api/snippets";
       const method = selectedId ? "PUT" : "POST";
       const res = await fetch(url, {
@@ -233,7 +277,14 @@ useEffect(() => {
       });
       if (!res.ok) throw new Error("Save failed");
       setEditOpen(false);
-      fetchSnippets();
+      // Changed fetchSnippets to fetch the updated list of snippets after save
+      void (async () => {
+        const res = await fetch("/api/snippets?limit=200")
+        if (res.ok) {
+          const data = await res.json()
+          setSnippets(Array.isArray(data) ? data : data.snippets || [])
+        }
+      })()
     } catch (err) {
       console.error(err);
     } finally {
@@ -246,11 +297,180 @@ useEffect(() => {
     try {
       await fetch(`/api/snippets/${selectedId}`, { method: "DELETE" });
       setDeleteOpen(false);
-      fetchSnippets();
+      // Changed fetchSnippets to fetch the updated list of snippets after save
+      void (async () => {
+        const res = await fetch("/api/snippets?limit=200")
+        if (res.ok) {
+          const data = await res.json()
+          setSnippets(Array.isArray(data) ? data : data.snippets || [])
+        }
+      })()
+
     } catch (err) {
       console.error(err);
     }
   };
+
+   // ─── Filter & Sort ───────────────────────────────────────
+  const filtered = useMemo(() => {
+    return snippets
+      .filter((s) => {
+        if (typeFilter !== "all" && s.type !== typeFilter) return false;
+
+        if (search) {
+          const q = search.toLowerCase();
+          return (
+            s.title.toLowerCase().includes(q) ||
+            s.tags.toLowerCase().includes(q) ||
+            s.language.toLowerCase().includes(q) ||
+            s.description.toLowerCase().includes(q)
+          );
+        }
+
+        return true;
+      })
+      .sort((a, b) => {
+        const dir = sortDir === "asc" ? 1 : -1;
+
+        if (sortField === "title") {
+          return dir * a.title.localeCompare(b.title);
+        }
+
+        return (
+          dir *
+          (new Date(a[sortField]).getTime() -
+            new Date(b[sortField]).getTime())
+        );
+      });
+  }, [snippets, search, typeFilter, sortField, sortDir]);
+
+    
+  // ─── Bulk selection helpers ───────────────────────────────
+  const toggleSelect = (id: string) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
+
+  const toggleSelectAll = () => {
+    setSelectedIds((prev) => {
+      if (prev.size === filtered.length) return new Set();
+      return new Set(filtered.map((s) => s.id));
+    });
+  };
+
+  const deselectAll = () => setSelectedIds(new Set());
+
+  const isAllSelected = filtered.length > 0 && selectedIds.size === filtered.length;
+  const isIndeterminate = selectedIds.size > 0 && selectedIds.size < filtered.length;
+
+  // ─── Refresh helper ───────────────────────────────────────
+  const refreshSnippets = async () => {
+    try {
+      const res = await fetch("/api/snippets?limit=200");
+      if (res.ok) {
+        const data = await res.json();
+        setSnippets(Array.isArray(data) ? data : data.snippets || []);
+      }
+    } catch {
+      toast({ title: "Failed to refresh snippets", variant: "destructive" });
+    }
+  };
+
+  // ─── Bulk actions ─────────────────────────────────────────
+  const bulkPublish = async () => {
+    if (selectedIds.size === 0) return;
+    setBulkLoading(true);
+    let success = 0;
+    let failed = 0;
+    const ids = [...selectedIds];
+    await Promise.allSettled(
+      ids.map(async (id) => {
+        try {
+          const res = await fetch(`/api/snippets/${id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ published: true }),
+          });
+          if (res.ok) success++;
+          else failed++;
+        } catch {
+          failed++;
+        }
+      })
+    );
+    setBulkLoading(false);
+    setSelectedIds(new Set());
+    toast({
+      title: "Bulk Publish Complete",
+      description: `${success} published, ${failed} failed.`,
+      variant: failed > 0 ? "destructive" : "default",
+    });
+    void refreshSnippets();
+  };
+
+  const bulkUnpublish = async () => {
+    if (selectedIds.size === 0) return;
+    setBulkLoading(true);
+    let success = 0;
+    let failed = 0;
+    const ids = [...selectedIds];
+    await Promise.allSettled(
+      ids.map(async (id) => {
+        try {
+          const res = await fetch(`/api/snippets/${id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ published: false }),
+          });
+          if (res.ok) success++;
+          else failed++;
+        } catch {
+          failed++;
+        }
+      })
+    );
+    setBulkLoading(false);
+    setSelectedIds(new Set());
+    toast({
+      title: "Bulk Unpublish Complete",
+      description: `${success} unpublished, ${failed} failed.`,
+      variant: failed > 0 ? "destructive" : "default",
+    });
+    void refreshSnippets();
+  };
+
+  const bulkDelete = async () => {
+    if (selectedIds.size === 0) return;
+    setBulkLoading(true);
+    let success = 0;
+    let failed = 0;
+    const ids = [...selectedIds];
+    await Promise.allSettled(
+      ids.map(async (id) => {
+        try {
+          const res = await fetch(`/api/snippets/${id}`, { method: "DELETE" });
+          if (res.ok) success++;
+          else failed++;
+        } catch {
+          failed++;
+        }
+      })
+    );
+    setBulkLoading(false);
+    setBulkDeleteOpen(false);
+    setSelectedIds(new Set());
+    toast({
+      title: "Bulk Delete Complete",
+      description: `${success} deleted, ${failed} failed.`,
+      variant: failed > 0 ? "destructive" : "default",
+    });
+    void refreshSnippets();
+  };
+
 
   // ─── Tab management ──────────────────────────────────────
   const addTab = () => setTabs([...tabs, { name: "", language: "JavaScript", content: "" }]);
@@ -261,24 +481,7 @@ useEffect(() => {
     setTabs(next);
   };
 
-  // ─── Filter & Sort ───────────────────────────────────────
-  const filtered = snippets
-    .filter((s) => {
-      if (typeFilter !== "all" && s.type !== typeFilter) return false;
-      if (search) {
-        const q = search.toLowerCase();
-        return s.title.toLowerCase().includes(q) || s.tags.toLowerCase().includes(q) ||
-          s.language.toLowerCase().includes(q) || s.description.toLowerCase().includes(q);
-      }
-      return true;
-    })
-    .sort((a, b) => {
-      const dir = sortDir === "asc" ? 1 : -1;
-      if (sortField === "title") return dir * a.title.localeCompare(b.title);
-      const dateA = new Date(a[sortField]).getTime();
-      const dateB = new Date(b[sortField]).getTime();
-      return dir * (dateA - dateB);
-    });
+  
 
   const uniqueTypes = [...new Set(snippets.map((s) => s.type))].sort();
   const previewSnippet = snippets.find((s) => s.id === selectedId);
@@ -356,6 +559,10 @@ useEffect(() => {
                   <td className="px-4 py-3">
                     <div className="font-medium text-gray-900 dark:text-white truncate max-w-[200px]">{s.title}</div>
                     <div className="text-xs text-gray-500 dark:text-gray-400 truncate max-w-[200px]">{s.description || s.slug}</div>
+                    {s.category && (
+                      <Badge variant="outline" className="text-[10px] mt-1">{s.category}</Badge>
+                    )}
+
                   </td>
                   <td className="px-3 py-3">
                     <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium ${getTypeColor(s.type)}`}>
@@ -383,9 +590,17 @@ useEffect(() => {
                     {lineCount(s.content)}
                   </td>
                   <td className="px-3 py-3">
-                    <Badge variant={s.published ? "default" : "secondary"} className="text-[10px]">
-                      {s.published ? "Published" : "Draft"}
-                    </Badge>
+                    {/*  Changed the status display to include scheduled date if available                  */}
+                    <div className="flex flex-col gap-1">
+                      <Badge variant={s.published ? "default" : "secondary"} className="text-[10px] w-fit">
+                        {s.published ? "Published" : "Draft"}
+                      </Badge>
+                      {s.scheduledAt && (
+                        <span className="flex items-center gap-1 text-[10px] text-gray-400">
+                          <Clock className="w-3 h-3" /> {formatScheduledDate(s.scheduledAt)}
+                        </span>
+                      )}
+                    </div>
                   </td>
                   <td className="px-4 py-3">
                     <div className="flex items-center justify-end gap-1">
@@ -438,13 +653,26 @@ useEffect(() => {
               )}
               <span className="text-xs text-gray-400">{lineCount(s.content)} lines</span>
             </div>
-            {s.tags && (
+            {(s.tags || s.category) && (
               <div className="flex flex-wrap gap-1">
-                {s.tags.split(",").filter(Boolean).slice(0, 3).map((t) => (
+                {/* Display category and tags as badges */}
+                {s.category && (
+                  <Badge variant="outline" className="text-[10px] px-1.5 py-0">{s.category}</Badge>
+                )}
+                {s.tags && s.tags.split(",").filter(Boolean).slice(0, 3).map((t) => (
+
                   <Badge key={t} variant="secondary" className="text-[10px] px-1.5 py-0">{t.trim()}</Badge>
                 ))}
               </div>
             )}
+
+            {/* Added */}
+            {s.scheduledAt && (
+              <div className="flex items-center gap-1 text-[11px] text-gray-400">
+                <Clock className="w-3 h-3" /> {formatScheduledDate(s.scheduledAt)}
+              </div>
+            )}
+
             <div className="flex items-center justify-end gap-1 pt-1">
               <Button variant="ghost" size="sm" className="h-7 text-xs" onClick={() => openPreview(s)}>
                 <Eye className="w-3 h-3 mr-1" /> Preview
@@ -539,6 +767,26 @@ useEffect(() => {
               <Label htmlFor="tags">Tags (comma separated)</Label>
               <Input id="tags" value={form.tags} onChange={(e) => setForm({ ...form, tags: e.target.value })} placeholder="react, hooks, custom-hook" className="mt-1" />
             </div>
+            
+            {/* Category */}
+            <div>
+              <Label htmlFor="category">Category</Label>
+              <Input id="category" value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} placeholder="e.g. Algorithm" className="mt-1" />
+              <div className="flex flex-wrap gap-1.5 mt-1.5">
+                {CATEGORY_SUGGESTIONS.map((cat) => (
+                  <button
+                    key={cat}
+                    type="button"
+                    onClick={() => setForm({ ...form, category: cat })}
+                    className="px-2 py-0.5 rounded-full text-[11px] font-medium border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+
 
             {/* Description */}
             <div className="sm:col-span-2">
@@ -658,6 +906,14 @@ useEffect(() => {
                   onCheckedChange={(v) => setForm({ ...form, published: v })}
                 />
                 <Label htmlFor="published" className="cursor-pointer">Published</Label>
+
+                {form.scheduledAt && !form.published && (
+                  <Badge className="bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 hover:bg-amber-100 dark:hover:bg-amber-900/30 text-[10px]">Scheduled</Badge>
+                )}
+                {form.scheduledAt && form.published && (
+                  <Badge className="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 hover:bg-green-100 dark:hover:bg-green-900/30 text-[10px]">Published</Badge>
+                )}
+
               </div>
               <div className="flex items-center gap-3">
                 <Switch
@@ -668,6 +924,25 @@ useEffect(() => {
                 <Label htmlFor="rag" className="cursor-pointer">Include in RAG</Label>
               </div>
             </div>
+
+            
+            {/* Schedule Publishing */}
+            <div className="sm:col-span-2">
+              <Label htmlFor="scheduledAt">Schedule Publishing</Label>
+              <Input
+                id="scheduledAt"
+                type="datetime-local"
+                value={form.scheduledAt}
+                onChange={(e) => setForm({ ...form, scheduledAt: e.target.value })}
+                className="mt-1"
+              />
+              {form.scheduledAt && (
+                <p className="text-[11px] text-gray-400 mt-1">
+                  Will auto-publish at {formatScheduledDate(form.scheduledAt)}
+                </p>
+              )}
+            </div>
+
           </div>
 
           <DialogFooter className="mt-4">

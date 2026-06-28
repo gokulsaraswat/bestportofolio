@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useParams } from 'next/navigation'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
@@ -19,7 +19,11 @@ import { Navbar, Footer } from '@/components/site/navbar'
 import { format } from 'date-fns'
 import { EmbedList } from "@/components/embed-renderer"
 import { ContributorsDisplay } from "@/components/contributors-input"
-
+import { ReadingProgress } from '@/components/site/reading-progress'
+import { TableOfContents } from '@/components/site/table-of-contents'
+import { ShareButtons } from '@/components/site/share-buttons'
+import { RelatedContent } from '@/components/site/related-content'
+import { ImageGallery } from '@/components/site/image-lightbox'
 
 interface Project {
   id: string; title: string; slug: string; description: string
@@ -97,6 +101,7 @@ export default function ProjectDetailPage() {
   const [project, setProject] = useState<Project | null>(null)
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState('overview')
+  const contentRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     fetch(`/api/projects`)
@@ -138,7 +143,8 @@ export default function ProjectDetailPage() {
 
   const stack: string[] = project.stack ? JSON.parse(project.stack) : []
   const screenshots: string[] = project.screenshots ? JSON.parse(project.screenshots) : []
-
+  const allImages = [project.banner, ...screenshots].filter(Boolean) as string[]
+  
   const tabs = [
     { id: 'overview', label: 'Overview' },
     { id: 'technical', label: 'Technical Deep-Dive' },
@@ -151,9 +157,12 @@ export default function ProjectDetailPage() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <ReadingProgress />
       <Navbar />
       <main className="flex-1 py-20 px-4">
+        <div className="mx-auto max-w-6xl lg:grid lg:grid-cols-[1fr_200px] lg:gap-8">
         <motion.div
+          ref={contentRef}
           className="mx-auto max-w-4xl"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -190,20 +199,9 @@ export default function ProjectDetailPage() {
           </motion.div>
 
           {/* Banner / Screenshots */}
-          {(project.banner || screenshots.length > 0) && (
+          {allImages.length > 0 && (
             <motion.div initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.15 }} className="mb-8">
-              <div className="grid gap-3 sm:grid-cols-2">
-                {project.banner && (
-                  <div className="aspect-video rounded-xl overflow-hidden bg-muted sm:col-span-2">
-                    <img src={project.banner} alt={project.title} className="h-full w-full object-cover" />
-                  </div>
-                )}
-                {screenshots.map((s, i) => (
-                  <div key={i} className="aspect-video rounded-xl overflow-hidden bg-muted">
-                    <img src={s} alt={`${project.title} screenshot ${i + 1}`} className="h-full w-full object-cover" loading="lazy" />
-                  </div>
-                ))}
-              </div>
+              <ImageGallery images={allImages} alt={project.title} />
             </motion.div>
           )}
 
@@ -333,9 +331,24 @@ export default function ProjectDetailPage() {
               </motion.div>
             )}
           </div>
+          {/* Related Content */}
+          
+          <RelatedContent
+            entityType="project"
+            currentSlug={project.slug}
+            currentTags={stack}
+          />
+
+          {/* Share */}
+          <div className="mt-8 flex items-center justify-end border-t pt-6">
+            <ShareButtons />
+          </div>
+
           {/* Comments */}
           <CommentSection entityType="project" entityId={project.slug} />
         </motion.div>
+        <TableOfContents containerRef={contentRef} />
+        </div>
       </main>
       <Footer />
     </div>

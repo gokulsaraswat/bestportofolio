@@ -84,6 +84,7 @@ interface CodeSnippet {
   type: string;
   language: string;
   tags: string;
+  category: string;
   content: string;
   tabs: string;
   comment: string;
@@ -176,11 +177,13 @@ function getLangColor(lang: string): string {
 // ─── Component ───────────────────────────────────────────────────
 export default function SnippetsPage() {
   const { resolvedTheme } = useTheme();
-  const [snippets, setSnippets] = useState<any[]>([]);  
+  const [snippets, setSnippets] = useState<CodeSnippet[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [typeFilter, setTypeFilter] = useState("all");
+  const [categoryFilter, setCategoryFilter] = useState("");
   const [tagFilters, setTagFilters] = useState<string[]>([]);
+  const [allCategories, setAllCategories] = useState<string[]>([]);
   const [compareIds, setCompareIds] = useState<Set<string>>(new Set());
   const [detailId, setDetailId] = useState<string | null>(null);
   const [detailTab, setDetailTab] = useState(0);
@@ -241,6 +244,7 @@ export default function SnippetsPage() {
   // ─── Filtered list ──────────────────────────────────────
   const filtered = (snippets || []).filter((s) => {
     if (typeFilter !== "all" && s.type !== typeFilter) return false;
+    if (categoryFilter && (s.category || "").trim() !== categoryFilter) return false;
     if (tagFilters.length > 0) {
       const snippetTags = s.tags.split(",").map((t) => t.trim().toLowerCase());
       if (!tagFilters.every((tf) => snippetTags.includes(tf))) return false;
@@ -405,6 +409,28 @@ export default function SnippetsPage() {
             </button>
           ))}
         </div>
+        
+        
+        {/* Category Filter */}
+        {allCategories.length > 0 && (
+          <div className="flex items-center gap-2 mb-4 overflow-x-auto pb-2 scrollbar-hide">
+            {allCategories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setCategoryFilter((prev) => (prev === cat ? "" : cat))}
+                className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium border transition-colors ${
+                  categoryFilter === cat
+                    ? "border-gray-900 dark:border-white bg-gray-900/10 dark:bg-white/10 text-gray-900 dark:text-white ring-1 ring-gray-900/20 dark:ring-white/20"
+                    : "border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800"
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        )}
+
+
 
         {/* Search + Tag Filters */}
         <div className="flex flex-col sm:flex-row gap-2 mb-4">
@@ -535,14 +561,14 @@ export default function SnippetsPage() {
           <div className="text-center py-20 text-gray-400">
             <Search className="w-12 h-12 mx-auto mb-3 opacity-30" />
             <p className="text-lg font-medium">No results match your filters</p>
-            <button onClick={() => { setSearch(""); setTypeFilter("all"); setTagFilters([]); }} className="text-sm text-blue-600 dark:text-blue-400 hover:underline mt-1">
+            <button onClick={() => { setSearch(""); setTypeFilter("all");  setCategoryFilter(""); setTagFilters([]); }} className="text-sm text-blue-600 dark:text-blue-400 hover:underline mt-1">
               Clear all filters
             </button>
           </div>
         )}
 
         {/* ─── Snippet Cards Grid ─────────────────────────── */}
-        {!loading && filtered.length > 0 && (
+        {!loading && filtered.length > 0 && !detailId && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3">
             {filtered.map((s, idx) => {
               const isCompared = compareIds.has(s.id);
