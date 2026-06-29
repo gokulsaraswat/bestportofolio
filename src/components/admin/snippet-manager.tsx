@@ -217,8 +217,9 @@ useEffect(() => {
       try {
         setLoading(true)
         const res = await fetch("/api/snippets?limit=200")
-        if (!cancelled && res.ok) {
-          const data = await res.json()
+        if (!res.ok) throw new Error("Failed")
+        const data = await res.json()
+        if (!cancelled) {
           setSnippets(Array.isArray(data) ? data : data.snippets || [])
         }
       } catch {

@@ -49,7 +49,9 @@ export function SiteLoader({ isLoading }: { isLoading: boolean }) {
   useEffect(() => {
     if (!SHOW_LOADER) return
     if (isLoading) {
-      setShow(true)
+      // Use transition to avoid direct setState in effect body
+      const id = requestAnimationFrame(() => setShow(true))
+      return () => cancelAnimationFrame(id)
     } else {
       const t = setTimeout(() => setShow(false), 300)
       return () => clearTimeout(t)

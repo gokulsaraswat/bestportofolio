@@ -1,13 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 
+if (!process.env.USERNAME || !process.env.PASSWORD) {
+  throw new Error('USERNAME or PASSWORD environment variables are not set')
+}
+
 export async function POST(request: NextRequest) {
   try {
     // Ensure at least one admin user exists
     const adminCount = await db.adminUser.count()
     if (adminCount === 0) {
       await db.adminUser.create({
-        data: { username: 'admin', password: 'admin123', totpSecret: '', totpEnabled: false },
+        data: { username: process.env.USERNAME!, password: process.env.PASSWORD!, totpSecret: '', totpEnabled: false },
       })
     }
 

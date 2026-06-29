@@ -4,7 +4,7 @@ import { db } from '@/lib/db'
 export async function GET() {
   try {
     const users = await db.adminUser.findMany({
-      select: { id: true, username: true, role: true, totpEnabled: true, createdAt: true, updatedAt: true },
+      select: { id: true, username: true, role: true, permissions: true, totpEnabled: true, createdAt: true, updatedAt: true },
       orderBy: { createdAt: 'desc' },
     })
     return NextResponse.json(users)
@@ -29,11 +29,53 @@ export async function POST(request: NextRequest) {
         username: body.username,
         password: body.password,
         role: body.role || 'viewer',
+        permissions: body.permissions ? JSON.stringify(body.permissions) : '{}',
       },
     })
-    return NextResponse.json({ id: user.id, username: user.username, role: user.role }, { status: 201 })
+    return NextResponse.json({ id: user.id, username: user.username, role: user.role, permissions: user.permissions }, { status: 201 })
   } catch (error) {
     console.error('Create user error:', error)
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+  }
+}
+
+export async function PUT(request: NextRequest) {
+  try {
+    const body = await request.json()
+
+    if (!body.id) {
+      return NextResponse.json({ error: 'User ID is required' }, { status: 400 })
+    }
+
+    const existing = await db.adminUser.findUnique({ where: { id: body.id } })
+    if (!existing) {
+      return NextResponse.json({ error: 'User not found' }, { status: 404 })
+    }
+
+    // Build update data
+    const updateData: Record<string, unknown> = {}
+
+    if (body.role !== undefined) {
+      updateData.role = body.role
+    }
+
+    if (body.permissions !== undefined) {
+      updateData.permissions = JSON.stringify(body.permissions)
+    }
+
+    if (body.password !== undefined && body.password.trim()) {
+      updateData.password = body.password
+    }
+
+    const user = await db.adminUser.update({
+      where: { id: body.id },
+      data: updateData,
+      select: { id: true, username: true, role: true, permissions: true, totpEnabled: true, createdAt: true, updatedAt: true },
+    })
+
+    return NextResponse.json(user)
+  } catch (error) {
+    console.error('Update user error:', error)
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }

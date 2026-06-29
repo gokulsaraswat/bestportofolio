@@ -90,7 +90,7 @@ export default function BlogDetailPage() {
         <div className="mx-auto max-w-5xl lg:grid lg:grid-cols-[1fr_200px] lg:gap-8">
         <motion.article
           ref={contentRef}
-          className="mx-auto max-w-3xl"
+          className="max-w-3xl mx-auto lg:max-w-none"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}

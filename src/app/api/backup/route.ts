@@ -1,21 +1,47 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    const [profile, blogs, projects, courses, messages, todos] = await Promise.all([
-      db.profile.findFirst(),
-      db.blogPost.findMany({ orderBy: { createdAt: 'desc' } }),
-      db.project.findMany({ orderBy: { createdAt: 'desc' } }),
-      db.course.findMany({ orderBy: { createdAt: 'desc' }, include: { chapters: { orderBy: { order: 'asc' } } } }),
-      db.contactMessage.findMany({ orderBy: { createdAt: 'desc' } }),
-      db.todo.findMany({ orderBy: { createdAt: 'desc' } }),
-    ])
+    // FIX: Support entity filtering via query param
+    const { searchParams } = new URL(request.url)
+    const entitiesParam = searchParams.get('entities')
+    const entities = entitiesParam ? entitiesParam.split(',').map(e => e.trim()) : null
+
+    // If no entities specified, export all
+    const includeBlogs = !entities || entities.includes('blogs')
+    const includeProjects = !entities || entities.includes('projects')
+    const includeCourses = !entities || entities.includes('courses')
+    const includeSnippets = !entities || entities.includes('snippets')
+    const includeMessages = !entities || entities.includes('messages')
+    const includeTodos = !entities || entities.includes('todos')
+    const includeProfile = !entities || entities.includes('profile')
+    const includeComments = !entities || entities.includes('comments')
+    const includeUsers = !entities || entities.includes('users')
+
+    const queries: Promise<[string, unknown]>[] = []
+    if (includeProfile) queries.push(db.profile.findFirst().then(p => ['profile', p]))
+    if (includeBlogs) queries.push(db.blogPost.findMany({ orderBy: { createdAt: 'desc' } }).then(p => ['blogs', p]))
+    if (includeProjects) queries.push(db.project.findMany({ orderBy: { createdAt: 'desc' } }).then(p => ['projects', p]))
+    if (includeCourses) queries.push(db.course.findMany({ orderBy: { createdAt: 'desc' }, include: { chapters: { orderBy: { order: 'asc' } } } }).then(p => ['courses', p]))
+    if (includeSnippets) queries.push(db.codeSnippet.findMany({ orderBy: { createdAt: 'desc' } }).then(p => ['snippets', p]))
+    if (includeMessages) queries.push(db.contactMessage.findMany({ orderBy: { createdAt: 'desc' } }).then(p => ['messages', p]))
+    if (includeTodos) queries.push(db.todo.findMany({ orderBy: { createdAt: 'desc' } }).then(p => ['todos', p]))
+    if (includeComments) queries.push(db.comment.findMany({ orderBy: { createdAt: 'desc' } }).then(p => ['comments', p]))
+    if (includeUsers) queries.push(db.adminUser.findMany({ orderBy: { createdAt: 'desc' }, select: { id: true, username: true, role: true, permissions: true, totpEnabled: true } }).then(p => ['users', p]))
+
+    const results = await Promise.all(queries)
+
+    const data: Record<string, unknown > = {}
+    for (const [key, value] of results ) {
+      data[key as string] = value
+    }
 
     const backup = {
       exportedAt: new Date().toISOString(),
-      version: 1,
-      data: { profile, blogs, projects, courses, messages, todos },
+      version: 2,
+      entities: entities || ['all'],
+      data,
     }
 
     return new NextResponse(JSON.stringify(backup, null, 2), {
@@ -30,24 +56,42 @@ export async function GET() {
   }
 }
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
-    const body = await request.json()
+    // Support both JSON body and FormData
+    let body: { data?: Record<string, unknown> }
+
+    const contentType = request.headers.get('content-type') || ''
+
+    if (contentType.includes('multipart/form-data')) {
+      const formData = await request.formData()
+      const file = formData.get('file') as File | null
+      if (!file) {
+        return NextResponse.json({ error: 'No file provided' }, { status: 400 })
+      }
+      const text = await file.text()
+      body = JSON.parse(text)
+    } else {
+      body = await request.json()
+    }
+
     const { data } = body
 
     if (!data) {
       return NextResponse.json({ error: 'Invalid backup format: missing data' }, { status: 400 })
     }
 
-    let restored = { profile: 0, blogs: 0, projects: 0, courses: 0, messages: 0, todos: 0 }
+    let restored: Record<string, number> = {}
 
     // Restore profile
     if (data.profile) {
       const existing = await db.profile.findFirst()
       if (existing) {
-        await db.profile.update({ where: { id: existing.id }, data: data.profile })
+        const { id, createdAt, updatedAt, ...rest } = data.profile as Record<string, unknown>
+        await db.profile.update({ where: { id: existing.id }, data: rest })
       } else {
-        await db.profile.create({ data: { ...data.profile, id: undefined } })
+        const { id, ...rest } = data.profile as Record<string, unknown>
+        await db.profile.create({ data: rest as any })
       }
       restored.profile = 1
     }
@@ -87,7 +131,6 @@ export async function POST(request: Request) {
 
         if (existingCourse) {
           await db.course.update({ where: { slug: course.slug }, data: courseRest })
-          // Delete old chapters and re-create
           await db.courseChapter.deleteMany({ where: { courseId: existingCourse.id } })
           resolvedCourseId = existingCourse.id
         } else {
@@ -98,12 +141,24 @@ export async function POST(request: Request) {
         if (Array.isArray(chapters) && resolvedCourseId) {
           for (const chapter of chapters) {
             const { id: cid, createdAt: cca, updatedAt: cua, parentId: cp, ...chRest } = chapter
-            // Remap parentId if needed
-            await db.courseChapter.create({ data: { ...chRest, courseId: resolvedCourseId } })
+            await db.courseChapter.create({ data: { ...chRest, courseId: resolvedCourseId } as any })
           }
         }
       }
       restored.courses = data.courses.length
+    }
+
+    // Restore snippets (v2 format)
+    if (Array.isArray(data.snippets)) {
+      for (const snippet of data.snippets) {
+        const { id, createdAt, updatedAt, ...rest } = snippet
+        await db.codeSnippet.upsert({
+          where: { slug: snippet.slug },
+          create: rest,
+          update: rest,
+        })
+      }
+      restored.snippets = data.snippets.length
     }
 
     // Restore todos
@@ -115,12 +170,22 @@ export async function POST(request: Request) {
       restored.todos = data.todos.length
     }
 
+    // Restore comments (v2 format)
+    if (Array.isArray(data.comments)) {
+      for (const comment of data.comments) {
+        const { id, createdAt, updatedAt, ...rest } = comment
+        await db.comment.create({ data: rest })
+      }
+      restored.comments = data.comments.length
+    }
+
     // Messages are read-only (don't restore contact messages from backup)
 
+    const parts = Object.entries(restored).filter(([, v]) => v > 0).map(([k, v]) => `${v} ${k}`).join(', ')
     return NextResponse.json({
       success: true,
       restored,
-      message: `Restored: ${restored.blogs} blogs, ${restored.projects} projects, ${restored.courses} courses, ${restored.todos} todos`,
+      message: `Restored: ${parts || 'nothing'}`,
     })
   } catch (error) {
     console.error('Restore failed:', error)

@@ -53,3 +53,40 @@ export async function PUT(request: NextRequest) {
     )
   }
 }
+
+// FIX: Add DELETE handler for messages
+export async function DELETE(request: NextRequest) {
+  try {
+    const body = await request.json()
+
+    if (!body.id) {
+      return NextResponse.json(
+        { error: 'Message ID is required' },
+        { status: 400 }
+      )
+    }
+
+    const existing = await db.contactMessage.findUnique({
+      where: { id: body.id },
+    })
+
+    if (!existing) {
+      return NextResponse.json(
+        { error: 'Message not found' },
+        { status: 404 }
+      )
+    }
+
+    await db.contactMessage.delete({
+      where: { id: body.id },
+    })
+
+    return NextResponse.json({ success: true })
+  } catch (error) {
+    console.error('Delete message error:', error)
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    )
+  }
+}

@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState, useMemo } from 'react'
-import { Mail, MailOpen, MailCheck, Circle } from 'lucide-react'
+import { Mail, MailOpen, MailCheck, Circle, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
@@ -52,24 +52,27 @@ export function MessageManager() {
   const [selectedMessage, setSelectedMessage] = useState<Message | null>(null)
   const [sortBy, setSortBy] = useState('date:desc')
 
-
-useEffect(() => {
-  let cancelled = false
-  void (async () => {
-    try {
-      const res = await fetch('/api/messages')
-      if (!cancelled && res.ok) {
-        const data = await res.json()
-        setMessages(data)
+  useEffect(() => {
+    let cancelled = false
+    void (async () => {
+      try {
+        const res = await fetch('/api/messages')
+        if (!cancelled && res.ok) {
+          const data = await res.json()
+          setMessages(data)
+        }
+      } catch {
+        if (!cancelled) {
+          toast({ title: 'Failed to fetch messages', variant: 'destructive' })
+        }
+      } finally {
+        if (!cancelled) setLoading(false)
       }
-    } catch {
-      if (!cancelled) toast({ title: 'Failed to fetch messages', variant: 'destructive' })
-    } finally {
-      if (!cancelled) setLoading(false)
+    })()
+    return () => {
+      cancelled = true
     }
-  })()
-  return () => { cancelled = true }
-}, [toast])
+  }, [toast])
 
   const sortedMessages = useMemo(() => {
     const [field, dir] = sortBy.split(':')
@@ -109,6 +112,56 @@ useEffect(() => {
       }
     } catch {
       toast({ title: 'Failed to mark as read', variant: 'destructive' })
+    }
+  }
+
+  // FIX: Add delete message function
+  const deleteMessage = async (message: Message) => {
+    if (!confirm(`Delete message from "${message.name}"?`)) return
+
+    try {
+      const res = await fetch('/api/messages', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: message.id }),
+      })
+
+      if (res.ok) {
+        setMessages((prev) => prev.filter((m) => m.id !== message.id))
+        if (selectedMessage?.id === message.id) {
+          setSelectedMessage(null)
+        }
+        toast({ title: 'Message deleted', description: `Message from ${message.name} has been deleted.` })
+      } else {
+        const data = await res.json().catch(() => ({ error: 'Failed to delete' }))
+        throw new Error(data.error || 'Failed to delete message')
+      }
+    } catch (err) {
+      toast({ title: 'Error', description: err instanceof Error ? err.message : 'Failed to delete message', variant: 'destructive' })
+    }
+  }
+
+  // FIX: Add bulk delete function
+  const deleteSelected = async (ids: string[]) => {
+    if (ids.length === 0) return
+    if (!confirm(`Delete ${ids.length} message${ids.length > 1 ? 's' : ''}?`)) return
+
+    try {
+      const results = await Promise.allSettled(
+        ids.map(id =>
+          fetch('/api/messages', {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id }),
+          })
+        )
+      )
+
+      const deletedCount = results.filter(r => r.status === 'fulfilled' && r.value.ok).length
+      setMessages((prev) => prev.filter((m) => !ids.includes(m.id)))
+      toast({ title: `${deletedCount} message${deletedCount > 1 ? 's' : ''} deleted` })
+    } catch {
+      toast({ title: 'Error', description: 'Failed to delete some messages', variant: 'destructive' })
     }
   }
 
@@ -167,7 +220,7 @@ useEffect(() => {
                     <TableHead className="hidden sm:table-cell w-[30%]">Subject</TableHead>
                     <TableHead className="hidden md:table-cell w-[35%]">Preview</TableHead>
                     <TableHead className="hidden lg:table-cell">Date</TableHead>
-                    <TableHead className="text-right">Action</TableHead>
+                    <TableHead className="text-right">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -213,17 +266,32 @@ useEffect(() => {
                         {format(new Date(msg.createdAt), 'MMM d, yyyy h:mm a')}
                       </TableCell>
                       <TableCell className="text-right">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="h-7 text-xs"
-                          onClick={(e) => {
-                            e.stopPropagation()
-                            markAsRead(msg)
-                          }}
-                        >
-                          {msg.read ? 'View' : 'Read'}
-                        </Button>
+                        <div className="flex items-center justify-end gap-1">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="h-7 text-xs"
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              markAsRead(msg)
+                            }}
+                          >
+                            {msg.read ? 'View' : 'Read'}
+                          </Button>
+                          {/* FIX: Delete button next to View */}
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-7 w-7 text-muted-foreground hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/10"
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              deleteMessage(msg)
+                            }}
+                            title="Delete message"
+                          >
+                            <Trash2 className="h-3.5 w-3.5" />
+                          </Button>
+                        </div>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -268,20 +336,37 @@ useEffect(() => {
           )}
 
           <div className="flex items-center justify-between">
-            {selectedMessage?.read ? (
-              <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                <MailCheck className="h-3.5 w-3.5" />
-                Read
-              </div>
-            ) : (
-              <div className="flex items-center gap-1.5 text-xs text-primary">
-                <Circle className="h-2 w-2 fill-primary text-primary" />
-                Unread
-              </div>
-            )}
-            <Button variant="outline" size="sm" onClick={() => setSelectedMessage(null)}>
-              Close
-            </Button>
+            <div className="flex items-center gap-2">
+              {selectedMessage?.read ? (
+                <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                  <MailCheck className="h-3.5 w-3.5" />
+                  Read
+                </div>
+              ) : (
+                <div className="flex items-center gap-1.5 text-xs text-primary">
+                  <Circle className="h-2 w-2 fill-primary text-primary" />
+                  Unread
+                </div>
+              )}
+            </div>
+            <div className="flex items-center gap-2">
+              {/* FIX: Delete button in detail dialog */}
+              {selectedMessage && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/10 border-red-200 dark:border-red-800/30"
+                  onClick={() => {
+                    deleteMessage(selectedMessage)
+                  }}
+                >
+                  <Trash2 className="h-3.5 w-3.5 mr-1" /> Delete
+                </Button>
+              )}
+              <Button variant="outline" size="sm" onClick={() => setSelectedMessage(null)}>
+                Close
+              </Button>
+            </div>
           </div>
         </DialogContent>
       </Dialog>

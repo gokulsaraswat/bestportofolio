@@ -163,7 +163,7 @@ export default function ProjectDetailPage() {
         <div className="mx-auto max-w-6xl lg:grid lg:grid-cols-[1fr_200px] lg:gap-8">
         <motion.div
           ref={contentRef}
-          className="mx-auto max-w-4xl"
+          className="max-w-4xl mx-auto lg:max-w-none"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
