@@ -30,9 +30,9 @@
     "semantic_hash": ""
   },
   "next.config.ts": {
-    "mtime": 1793458910.8020182,
-    "seen": 1793458981.793946,
-    "ast_hash": "86603303493e30d2c3f8ef87062bca04",
+    "mtime": 1793463243.5057404,
+    "seen": 1793463342.378365,
+    "ast_hash": "bb503d643f2dab6ae529c340231251fb",
     "semantic_hash": ""
   },
   "package.json": {
@@ -120,9 +120,9 @@
     "semantic_hash": ""
   },
   "src/app/api/admin-users/route.ts": {
-    "mtime": 1793115024.4747574,
-    "seen": 1793115632.996327,
-    "ast_hash": "1a91836f9c12488fe8c3ea237c6c4ae0",
+    "mtime": 1793464075.4448223,
+    "seen": 1793464159.288636,
+    "ast_hash": "1bbceaacc612098e02d8d20e5ba4363e",
     "semantic_hash": ""
   },
   "src/app/api/auth/password/route.ts": {
@@ -138,9 +138,9 @@
     "semantic_hash": ""
   },
   "src/app/api/backup/route.ts": {
-    "mtime": 1793115024.4763882,
-    "seen": 1793115632.996329,
-    "ast_hash": "b6fa24add751d0bcf4eaf3e82c65fd16",
+    "mtime": 1793463954.2062788,
+    "seen": 1793464054.0037482,
+    "ast_hash": "9c910cf7c4982c087787d4376c76fe96",
     "semantic_hash": ""
   },
   "src/app/api/blog-ideas/[id]/route.ts": {
@@ -222,9 +222,9 @@
     "semantic_hash": ""
   },
   "src/app/api/ingest/route.ts": {
-    "mtime": 1793115024.4908273,
-    "seen": 1793115632.996337,
-    "ast_hash": "2f28891eee1ab86df7ca748c51ad6bee",
+    "mtime": 1793463954.2078288,
+    "seen": 1793464054.00376,
+    "ast_hash": "e4ff4cd2b6f4c65acf0a0066ecc7a741",
     "semantic_hash": ""
   },
   "src/app/api/messages/[id]/route.ts": {
@@ -240,15 +240,15 @@
     "semantic_hash": ""
   },
   "src/app/api/operation-logs/route.ts": {
-    "mtime": 1793115024.4926834,
-    "seen": 1793115632.9963388,
-    "ast_hash": "605bcbbfbc66c9fad77c0b4e92fc5ca6",
+    "mtime": 1793463954.209297,
+    "seen": 1793464054.003762,
+    "ast_hash": "9d966b2363976a68feb7c0882b7e76f0",
     "semantic_hash": ""
   },
   "src/app/api/profile/route.ts": {
-    "mtime": 1793115024.493217,
-    "seen": 1793115632.99634,
-    "ast_hash": "517dccbd3787d581b63a8cc905dff7f9",
+    "mtime": 1793463954.216069,
+    "seen": 1793464054.003763,
+    "ast_hash": "75fa1993c435b2d961e6499d5efb98ad",
     "semantic_hash": ""
   },
   "src/app/api/projects/[id]/route.ts": {
@@ -264,9 +264,9 @@
     "semantic_hash": ""
   },
   "src/app/api/settings/route.ts": {
-    "mtime": 1793115024.4960794,
-    "seen": 1793115632.9963431,
-    "ast_hash": "83a0342fd71bde7fb9d4926c0bac7370",
+    "mtime": 1793463954.2106097,
+    "seen": 1793464054.003765,
+    "ast_hash": "f19d64833476107218695639d6bcf6a9",
     "semantic_hash": ""
   },
   "src/app/api/snippets/[id]/route.ts": {
@@ -1134,9 +1134,9 @@
     "semantic_hash": ""
   },
   "src/lib/require-admin.ts": {
-    "mtime": 1793115024.5843322,
-    "seen": 1793115632.9964318,
-    "ast_hash": "afc268f6af0e37f121a5e0bc168b5267",
+    "mtime": 1793463955.02842,
+    "seen": 1793464054.003885,
+    "ast_hash": "5cf509478e2ce35cdb879315eab0b23f",
     "semantic_hash": ""
   },
   "src/lib/session.ts": {
@@ -1194,9 +1194,9 @@
     "semantic_hash": ""
   },
   ".project-architecture.md": {
-    "mtime": 1793461500.0990913,
-    "seen": 1793461503.3023272,
-    "ast_hash": "b0319c492058be8473163e9bd45c3a7d",
+    "mtime": 1793464156.641419,
+    "seen": 1793464159.288779,
+    "ast_hash": "fa502a7d9a09f9abafb7fde208511df6",
     "semantic_hash": ""
   },
   ".prompts.md": {
@@ -1224,9 +1224,9 @@
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1793461400.6166637,
-    "seen": 1793461503.302332,
-    "ast_hash": "fcadaddc4ceb6d2f85c64c4afb773d97",
+    "mtime": 1793463244.3474157,
+    "seen": 1793463342.378527,
+    "ast_hash": "f0e36f73477b3959b76e674a83dfc415",
     "semantic_hash": ""
   },
   "SECURITY.md": {
@@ -1284,9 +1284,9 @@
     "semantic_hash": ""
   },
   ".claude-session.json": {
-    "mtime": 1793461480.7159233,
-    "seen": 1793461503.302156,
-    "ast_hash": "f81ea2c0f9267825039f58e3f369fb1f",
+    "mtime": 1793464144.5816174,
+    "seen": 1793464159.288608,
+    "ast_hash": "84c2089900be0a0ba04ce6ee2c68f4cc",
     "semantic_hash": ""
   },
   "COLLABORATORS.md": {
@@ -1296,9 +1296,9 @@
     "semantic_hash": ""
   },
   "WORKLOG.md": {
-    "mtime": 1793461480.7231536,
-    "seen": 1793461503.3023329,
-    "ast_hash": "0c2df628b1ee9c85275257fc6c8920ae",
+    "mtime": 1793464144.9215872,
+    "seen": 1793464159.288786,
+    "ast_hash": "08beaa7fc428ee5a88ad6b988d284cf4",
     "semantic_hash": ""
   },
   "docs/KICKOFF-PROMPT.md": {

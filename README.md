@@ -5,6 +5,8 @@ A production-grade, full-stack portfolio website built with **Next.js 16**, **Re
 > **Setup:** copy `.env.example` to `.env` and fill it in, then create your admin
 > account with `npm run admin:create <username>`. See [Getting started](#getting-started).
 
+> **Project status and next steps:** [WORKLOG.md](WORKLOG.md) (start at "Next chat: start here"), step list in `.claude-session.json`, agent kickoff in [docs/KICKOFF-PROMPT.md](docs/KICKOFF-PROMPT.md). Live: https://bestportofolio.vercel.app
+
 ---
 
 ## Features

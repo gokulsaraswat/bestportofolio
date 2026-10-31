@@ -21,11 +21,14 @@
     "active_component": ""
   },
   "sprint": {
-    "goal": "Stack checks, seeded fake project/blog/course, build proof (no auth/admin/DATABASE_URL/Supabase changes)",
+    "goal": "Done: stack checks, sample seed + live page check, build proof, shared footer. Next: security sec-5/6, repo kit, audit, upgrade report",
     "bugs": [
+      "URGENT owner: rotate OLD Supabase DB password (exposed via /api/test before sec-1); update Vercel + local .env",
       "seed.ts (root): stale, plaintext admin/admin123 + real personal data; replaced by scripts/seed.mjs; delete pending owner OK",
-      "GET /api/blogs?slug=<draft> and ?published=false return unpublished drafts publicly; GET also runs an updateMany (scheduled publish) - report only, admin/API scope",
-      "Perf (report only): public pages fetch /api/* client-side (lists fill after 3-10s); /api/settings called twice per page; /api/auth and /api/chat-status called for every visitor"
+      "GET /api/blogs runs scheduled auto-publish updateMany on every request (write in public GET)",
+      "Perf: public lists fill after 3-10s (client-side /api/*); /api/settings twice per page; /api/auth + /api/chat-status on every page",
+      "gokulsaraswat.com does not resolve but is the site URL in layout.tsx, sitemap.ts, lib/jsonld.ts",
+      "npm audit: 30 vulnerabilities (1 critical)"
     ],
     "done": [
       {
@@ -50,7 +53,7 @@
         "item": "Fix Dockerfile (npm ci, Node 24, standalone) + Caddyfile (self-host HTTPS proxy)",
         "effort": "S",
         "model": "",
-        "result": "done 2026-10-31; output standalone; standalone server smoke-tested (pages 200). Docker build NOT run (no Docker on Mac)"
+        "result": "done 2026-10-31; output standalone; standalone server smoke-tested (pages 200). Docker build NOT run (no Docker on Mac). Later (8a5d378): standalone only when NEXT_OUTPUT=standalone (Dockerfile sets it); it broke Vercel builds"
       },
       {
         "step": 4,
@@ -122,6 +125,55 @@
         "phase": "security",
         "item": "/api/contact length/format limits (copy comments route)",
         "effort": "S",
+        "model": ""
+      },
+      {
+        "step": 7,
+        "phase": "verify",
+        "item": "Verify sec-3/sec-4 live: create user in old admin; draft blog hidden publicly; admin still lists drafts",
+        "effort": "S",
+        "model": ""
+      },
+      {
+        "step": 8,
+        "phase": "repo-kit",
+        "item": "CI (npm ci+lint+typecheck+build, NODE_AUTH_TOKEN secret), PR template, docs/CONTRACTS.md, docs/ARCHITECTURE.md, LICENSE, GitHub settings",
+        "effort": "M",
+        "model": ""
+      },
+      {
+        "step": 9,
+        "phase": "stack",
+        "item": "npm audit: review 30 vulns, fix without major upgrades first",
+        "effort": "S",
+        "model": ""
+      },
+      {
+        "step": 10,
+        "phase": "stack",
+        "item": "Report only: is Prisma 7 / newer Next major worth it",
+        "effort": "S",
+        "model": ""
+      },
+      {
+        "step": 11,
+        "phase": "perf",
+        "item": "Cut duplicate /api/settings, /api/auth, /api/chat-status calls; faster list loading",
+        "effort": "M",
+        "model": ""
+      },
+      {
+        "step": 12,
+        "phase": "stack",
+        "item": "docker build proof on a machine with Docker (token as build secret)",
+        "effort": "S",
+        "model": ""
+      },
+      {
+        "step": 13,
+        "phase": "later",
+        "item": "@gokulsaraswat/mdx (when published); data migration to NEW Supabase; then remove admin + Prisma auth, Supabase Auth (Google)",
+        "effort": "L",
         "model": ""
       }
     ]

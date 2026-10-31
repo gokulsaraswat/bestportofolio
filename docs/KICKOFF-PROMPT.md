@@ -2,6 +2,7 @@
 
 Master copy: platform/docs/PROMPTS.md (github.com/gokulsaraswat/platform). If they differ, the master wins.
 Use: new chat with this repo as working directory. Paste SHARED BLOCK + REPO SECTION. Collaborators also paste the ADD-ON.
+Progress so far, local gotchas and the ordered next steps: WORKLOG.md ("Next chat: start here") + .claude-session.json `sprint.todo_next`.
 
 ## SHARED BLOCK
 ```text
