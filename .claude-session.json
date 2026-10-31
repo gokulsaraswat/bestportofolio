@@ -58,9 +58,52 @@
         "effort": "M",
         "model": "",
         "result": "done 2026-10-31; scripts/seed.mjs + npm run db:seed (-- --clean); old seed.ts kept pending owner OK to delete (removal blocked by permissions)"
+      },
+      {
+        "step": "sec-1",
+        "phase": "security",
+        "item": "CRITICAL: delete /api/test (returned DATABASE_URL publicly) + unused /api hello-world",
+        "effort": "S",
+        "model": "",
+        "result": "done 2026-10-31; lint+typecheck+build pass. Owner must rotate OLD Supabase DB password + update DATABASE_URL/DIRECT_URL (Vercel + local .env) and confirm /api/test 404 in prod"
       }
     ],
     "todo_next": [
+      {
+        "step": "sec-2",
+        "phase": "security",
+        "item": "Enforce role admin (requireRole) on admin-users, backup, settings/profile PUT, ingest, operation-logs",
+        "effort": "S",
+        "model": ""
+      },
+      {
+        "step": "sec-3",
+        "phase": "security",
+        "item": "admin-users POST/PUT: hashPassword + validatePasswordStrength; mustChangePassword true for new users",
+        "effort": "S",
+        "model": ""
+      },
+      {
+        "step": "sec-4",
+        "phase": "security",
+        "item": "Auth on GET messages/[id], todos/[id]/history, blog-ideas/[id]; drafts in blogs/snippets GET admin-only",
+        "effort": "M",
+        "model": ""
+      },
+      {
+        "step": "sec-5",
+        "phase": "security",
+        "item": "Whitelist PUT fields: blogs/[id], projects/[id], courses/[courseId], profile",
+        "effort": "S",
+        "model": ""
+      },
+      {
+        "step": "sec-6",
+        "phase": "security",
+        "item": "/api/contact length/format limits (copy comments route)",
+        "effort": "S",
+        "model": ""
+      },
       {
         "step": 5,
         "phase": "verify",

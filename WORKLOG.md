@@ -18,6 +18,7 @@ Master status of all repos: platform/docs/WORKLOG.md. Update this file after eve
 - Build no longer needs DB: `sitemap.ts` is `force-dynamic`. Node pinned to 24 (`.nvmrc`, `engines`).
 - Removed unused next-auth, z-ai-web-dev-sdk, next-intl, @wrksz/themes, bun-types.
 - Dockerfile rewritten (node:24-alpine, `npm ci`, `output: 'standalone'`, openssl for Prisma), `.dockerignore` added, Caddyfile = env-driven HTTPS proxy. Standalone server smoke test: all public pages 200, `/sitemap.xml` 500 without DB (expected). `docker build` NOT verified (no Docker locally).
+- SECURITY sec-1 (2026-10-31): deleted `src/app/api/test/route.ts` (publicly returned `DATABASE_URL`, live HTTP 200) and unused `src/app/api/route.ts`. Lint+typecheck+build pass. Owner action: rotate OLD Supabase DB password, update `DATABASE_URL`/`DIRECT_URL` in Vercel + local `.env`, redeploy, confirm `/api/test` 404. Next: sec-2..sec-6 (see `.claude-session.json`).
 - `scripts/seed.mjs` (`npm run db:seed`, `-- --clean`): `sample-blog` (draft), `sample-project`, `sample-course` + 2 chapters; no admin user, no profile. Root `seed.ts` still present (stale; delete pending OK).
 
 ## In progress / next
