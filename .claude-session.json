@@ -21,9 +21,9 @@
     "active_component": ""
   },
   "sprint": {
-    "goal": "Done: stack checks, sample seed + live page check, build proof, shared footer. Next: security sec-5/6, repo kit, audit, upgrade report",
+    "goal": "Done: stack checks, sample seed + live page check, build proof, shared footer, security sec-1..sec-6 (live af2fcaa). Next: owner verification of old admin, repo kit, audit, upgrade report",
     "bugs": [
-      "URGENT owner: rotate OLD Supabase DB password (exposed via /api/test before sec-1); update Vercel + local .env",
+      "URGENT owner: rotate OLD Supabase DB password (exposed via /api/test before sec-1; deferred by Gokul 2026-10-31); update Vercel + local .env; Vercel Firewall rule block-api-test (403) is a stopgap, route already removed",
       "seed.ts (root): stale, plaintext admin/admin123 + real personal data; replaced by scripts/seed.mjs; delete pending owner OK",
       "GET /api/blogs runs scheduled auto-publish updateMany on every request (write in public GET)",
       "Perf: public lists fill after 3-10s (client-side /api/*); /api/settings twice per page; /api/auth + /api/chat-status on every page",
@@ -132,7 +132,7 @@
       {
         "step": 7,
         "phase": "verify",
-        "item": "Verify sec-3/sec-4 live: create user in old admin; draft blog hidden publicly; admin still lists drafts",
+        "item": "Owner verifies sec-3..sec-6 in old admin: create user (weak password refused, must change at first login), drafts still listed in admin, save blog/project/course/profile, send contact message",
         "effort": "S",
         "model": ""
       },

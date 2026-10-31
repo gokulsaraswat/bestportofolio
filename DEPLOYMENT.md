@@ -147,7 +147,7 @@ The chatbot uses Supabase (pgvector) + OpenAI. Cost is typically **<$1/month**.
 npm i -g vercel
 vercel
 ```
-Set environment variables in Vercel Dashboard. For the SQLite database, use the backup/restore feature to export your local DB and import it in production.
+Vercel auto-deploys `main`. Set environment variables in Vercel Dashboard (see `.env.example`), including `NODE_AUTH_TOKEN` (GitHub token with `read:packages`, needed to install `@gokulsaraswat/ui`). Do not set `NEXT_OUTPUT=standalone` on Vercel: standalone output breaks Vercel's builder (it is for Docker only). Data lives in Supabase Postgres, so no database import is needed. Full steps: README "Option D: Vercel".
 
 ### Other Platforms
 ```bash

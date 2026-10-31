@@ -170,6 +170,21 @@ Users should always deploy the latest stable version to receive security patches
 
 ---
 
+## 🧾 Security log
+
+**2026-10-31** (findings from the admin repo's Phase 0 review, all fixed and deployed):
+
+| Severity | Issue | Fix |
+|---|---|---|
+| Critical | `GET /api/test` returned `DATABASE_URL` (DB password) publicly | Route deleted (`8d104aa`); Vercel Firewall rule denies `/api/test`. **DB password rotation still pending.** |
+| High | Roles never enforced; any signed-in user could manage users and backups | `requireRole('admin')` on users, backup, settings/profile PUT, ingest, logs (`485c935`) |
+| High | Admin-created passwords stored in plain text | Strength check + scrypt hash + `mustChangePassword` (`95f686d`) |
+| Medium | Private single-item reads and unpublished drafts readable without login | Session required; drafts admin-only (`172fe10`) |
+| Medium | Mass assignment on blog/project/course/profile PUT | Column whitelist `pickFields` (`08d06c0`) |
+| Low | Contact form without input limits | Length + email format limits (`af2fcaa`) |
+
+---
+
 ## 📜 License
 
 Submitting a vulnerability report does not grant permission to:

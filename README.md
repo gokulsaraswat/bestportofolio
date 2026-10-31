@@ -331,7 +331,21 @@ Key features:
   defence in depth, not the only gate — internal rewrites can bypass a proxy.
 - Endpoints serving private data (`/api/backup`, `/api/messages`,
   `/api/operation-logs`, `/api/todos`, `/api/blog-ideas`, `/api/admin-users`,
-  and comment moderation) require a session for reads as well as writes.
+  and comment moderation) require a session for reads as well as writes,
+  including single-item reads (`messages/[id]`, `todos/[id]/history`,
+  `blog-ideas/[id]`).
+- Roles: only `admin` may use `/api/admin-users`, `/api/backup`, `/api/ingest`,
+  `/api/operation-logs`, `PUT /api/settings` and `PUT /api/profile`
+  (`requireRole(request, 'admin')`). `editor`/`viewer` manage content only.
+- Drafts: without an admin session, blog and snippet GETs (list, `?slug=`,
+  `[id]`) return published items only, whatever the query asks for.
+- Updates are whitelisted: blog, project, course and profile PUTs keep only the
+  model's own columns (`src/lib/pick-fields.ts`), so `id`, timestamps and nested
+  relation writes are dropped.
+- Admin-created users and admin password resets are strength-checked, hashed,
+  and flagged `mustChangePassword`.
+- Contact form input is limited (name 80, email 160 + format, subject 200,
+  message 4000 characters).
 - Public reads never return commenter email addresses.
 - `GET /api/messages` is side-effect free; retention cleanup is opt-in via
   `?cleanup=true` and floors the window at 30 days.
@@ -355,6 +369,12 @@ Per-IP, per-endpoint: auth 10/15min, chat 20/10min, contact 5/hr, comments 10/hr
   enable RLS and add policies first.
 
 ### Still worth doing
+- Rotate the database password: it was publicly readable via a debug route
+  (`/api/test`, removed 2026-10-31). See SECURITY.md "Security log".
+- `GET /api/blogs` / `GET /api/snippets` still run the scheduled auto-publish
+  write on every request; move it to a cron or the admin.
+- `Project` and `Course` have no `published` flag, so they cannot be drafts.
+- `npm audit` reports 30 vulnerabilities (1 critical).
 - Add TOTP enforcement (the `totpSecret`/`totpEnabled` columns exist but no flow
   uses them yet)
 - Move rate-limit state to Redis if you run more than one instance; the current
