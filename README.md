@@ -167,7 +167,6 @@ Open [http://localhost:3000](http://localhost:3000), then sign in at `/admin`.
 ```bash
 npm run build
 npm run start
-npm add react-syntax-highlighter @types/react-syntax-highlighter
 ```
 
 This runs the optimized standalone build on port 3000.
@@ -176,17 +175,15 @@ This runs the optimized standalone build on port 3000.
 
 ```bash
 docker build -t portfolio .
-docker run -p 3000:3000 -v ./db:/app/db portfolio
+docker run -p 3000:3000 --env-file .env portfolio
 ```
 
 ### Option C: Caddy Reverse Proxy
 
-A `Caddyfile` is included. Use it with:
+A `Caddyfile` is included (HTTPS via Caddy, self-host only):
 
-```
-your-domain.com {
-    reverse_proxy localhost:3000
-}
+```bash
+DOMAIN=your-domain.com UPSTREAM=localhost:3000 caddy run
 ```
 
 ---
@@ -434,7 +431,7 @@ npm pack # to pack all in small files
 
 ```bash
 docker build -t portfolio .
-docker run -p 3000:3000 -v ./db:/app/db portfolio
+docker run -p 3000:3000 --env-file .env portfolio
 ```
 
 The Dockerfile uses multi-stage builds for a minimal final image.
@@ -504,7 +501,7 @@ PORT=4000 npm run dev
 | Seed fails with "unique constraint" | The seed uses `upsert`, so re-running is safe |
 | Images not loading | Place your images in `public/` folder. They're accessible at `/filename.ext` |
 | Build fails with type errors | Run `npx prisma generate` first, then `npm run build` |
-| Docker build fails | Ensure you have Docker 20+. If using Bun lockfile, the Dockerfile handles it via `bun install --frozen-lockfile` |
+| Docker build fails | Ensure you have Docker 20+. The Dockerfile uses `npm ci` with `package-lock.json` on Node 24 |
 
 ---
 

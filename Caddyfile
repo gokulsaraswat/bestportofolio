@@ -1,23 +1,6 @@
-:81 {
-	@transform_port_query {
-		query XTransformPort=*
-	}
-
-	handle @transform_port_query {
-		reverse_proxy localhost:{query.XTransformPort} {
-			header_up Host {host}
-			header_up X-Forwarded-For {remote_host}
-			header_up X-Forwarded-Proto {scheme}
-			header_up X-Real-IP {remote_host}
-		}
-	}
-
-	handle {
-		reverse_proxy localhost:3000 {
-			header_up Host {host}
-			header_up X-Forwarded-For {remote_host}
-			header_up X-Forwarded-Proto {scheme}
-			header_up X-Real-IP {remote_host}
-		}
-	}
+# Self-host only (production is Vercel). Caddy gets and renews the HTTPS certificate.
+# DOMAIN=gokulsaraswat.com UPSTREAM=localhost:3000 caddy run
+{$DOMAIN:localhost} {
+	encode zstd gzip
+	reverse_proxy {$UPSTREAM:localhost:3000}
 }

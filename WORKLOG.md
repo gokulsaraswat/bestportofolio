@@ -15,6 +15,9 @@ Master status of all repos: platform/docs/WORKLOG.md. Update this file after eve
 
 ## Done
 - Startup review; repo kit files `.claude-session.json`, kickoff docs committed.
+- Build no longer needs DB: `sitemap.ts` is `force-dynamic`. Node pinned to 24 (`.nvmrc`, `engines`).
+- Removed unused next-auth, z-ai-web-dev-sdk, next-intl, @wrksz/themes, bun-types.
+- Dockerfile rewritten (node:24-alpine, `npm ci`, `output: 'standalone'`, openssl for Prisma), `.dockerignore` added, Caddyfile = env-driven HTTPS proxy. Standalone server smoke test: all public pages 200, `/sitemap.xml` 500 without DB (expected). `docker build` NOT verified (no Docker locally).
 
 ## In progress / next
 - See `.claude-session.json` sprint.todo_next.

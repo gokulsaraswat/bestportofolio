@@ -4,7 +4,15 @@
   "sys": {
     "mode": "Personal Project",
     "scale": "Midscale (Next.js fullstack monolith)",
-    "stack": ["Next.js ^16", "React ^19", "TypeScript ^5", "Tailwind ^4", "Prisma ^6", "Supabase Postgres", "zod ^4"],
+    "stack": [
+      "Next.js ^16",
+      "React ^19",
+      "TypeScript ^5",
+      "Tailwind ^4",
+      "Prisma ^6",
+      "Supabase Postgres",
+      "zod ^4"
+    ],
     "architectural_pattern": "App Router; public pages fetch /api/* client-side; Prisma for data; custom admin auth (moving to admin repo)"
   },
   "ui_state": {
@@ -15,18 +23,49 @@
   "sprint": {
     "goal": "Stack checks, seeded fake project/blog/course, build proof (no auth/admin/DATABASE_URL/Supabase changes)",
     "bugs": [
-      "next build fails without DATABASE_URL: src/app/sitemap.ts queries DB at build time",
-      "Dockerfile: needs bun.lock (repo uses package-lock.json), copies missing /app/db, expects .next/standalone but output is not set",
-      "Caddyfile is a z.ai sandbox proxy (XTransformPort), not a self-host config",
       "seed.ts: plaintext admin password vs scrypt schema; real personal data; no runner"
     ],
-    "done": [],
+    "done": [
+      {
+        "step": 1,
+        "phase": "stack",
+        "item": "Fix sitemap build without DB + pin Node 24 (.nvmrc, engines)",
+        "effort": "S",
+        "model": "",
+        "result": "done 2026-10-31; lint+typecheck+build pass"
+      },
+      {
+        "step": 2,
+        "phase": "stack",
+        "item": "Remove unused next-auth, z-ai-web-dev-sdk, next-intl, @wrksz/themes, bun-types",
+        "effort": "S",
+        "model": "",
+        "result": "done 2026-10-31; lint+typecheck+build pass"
+      },
+      {
+        "step": 3,
+        "phase": "stack",
+        "item": "Fix Dockerfile (npm ci, Node 24, standalone) + Caddyfile (self-host HTTPS proxy)",
+        "effort": "S",
+        "model": "",
+        "result": "done 2026-10-31; output standalone; standalone server smoke-tested (pages 200). Docker build NOT run (no Docker on Mac)"
+      }
+    ],
     "todo_next": [
-      { "step": 1, "phase": "stack", "item": "Fix sitemap build without DB + pin Node 24 (.nvmrc, engines)", "effort": "S", "model": "" },
-      { "step": 2, "phase": "stack", "item": "Remove unused next-auth, z-ai-web-dev-sdk, next-intl, @wrksz/themes, bun-types", "effort": "S", "model": "" },
-      { "step": 3, "phase": "stack", "item": "Fix Dockerfile (npm ci, Node 24, standalone) + Caddyfile (self-host HTTPS proxy)", "effort": "S", "model": "" },
-      { "step": 4, "phase": "seed", "item": "Rewrite seed.ts: sample- project/course + hidden draft blog, no admin, no real data; add cleanup script", "effort": "M", "model": "" },
-      { "step": 5, "phase": "verify", "item": "Seed old Supabase DB, check every public page, then run cleanup", "effort": "M", "model": "" }
+      {
+        "step": 4,
+        "phase": "seed",
+        "item": "Rewrite seed.ts: sample- project/course + hidden draft blog, no admin, no real data; add cleanup script",
+        "effort": "M",
+        "model": ""
+      },
+      {
+        "step": 5,
+        "phase": "verify",
+        "item": "Seed old Supabase DB, check every public page, then run cleanup",
+        "effort": "M",
+        "model": ""
+      }
     ]
   },
   "context_window": {
