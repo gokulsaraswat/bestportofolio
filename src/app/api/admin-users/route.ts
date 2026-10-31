@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
-import { requireRole } from '@/lib/require-admin'
+import { getAdminSession, requireRole } from '@/lib/require-admin'
+import { hashPassword, validatePasswordStrength } from '@/lib/password'
 
 export async function GET(request: NextRequest) {
   // Enumerating admin usernames is reconnaissance for a brute-force attempt.
@@ -25,9 +26,11 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json()
-    if (!body.username || !body.password) {
+    if (!body.username || typeof body.password !== 'string' || !body.password) {
       return NextResponse.json({ error: 'Username and password required' }, { status: 400 })
     }
+    const weak = validatePasswordStrength(body.password)
+    if (weak) return NextResponse.json({ error: weak }, { status: 400 })
     const existing = await db.adminUser.findUnique({ where: { username: body.username } })
     if (existing) {
       return NextResponse.json({ error: 'Username already exists' }, { status: 409 })
@@ -35,7 +38,8 @@ export async function POST(request: NextRequest) {
     const user = await db.adminUser.create({
       data: {
         username: body.username,
-        password: body.password,
+        password: hashPassword(body.password),
+        mustChangePassword: true,
         role: body.role || 'viewer',
         permissions: body.permissions ? JSON.stringify(body.permissions) : '{}',
       },
@@ -74,8 +78,12 @@ export async function PUT(request: NextRequest) {
       updateData.permissions = JSON.stringify(body.permissions)
     }
 
-    if (body.password !== undefined && body.password.trim()) {
-      updateData.password = body.password
+    if (typeof body.password === 'string' && body.password.trim()) {
+      const weak = validatePasswordStrength(body.password)
+      if (weak) return NextResponse.json({ error: weak }, { status: 400 })
+      updateData.password = hashPassword(body.password)
+      const session = await getAdminSession(request)
+      if (session?.sub !== body.id) updateData.mustChangePassword = true
     }
 
     const user = await db.adminUser.update({

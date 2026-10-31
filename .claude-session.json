@@ -77,6 +77,14 @@
         "result": "done 2026-10-31; requireRole now also applies requireAdmin (mustChangePassword block). Lint+typecheck+build pass; next start: all 8 guarded handlers 401 unauthenticated, public GET /api/settings 200"
       },
       {
+        "step": "sec-3",
+        "phase": "security",
+        "item": "admin-users POST/PUT: hashPassword + validatePasswordStrength; mustChangePassword true for new users",
+        "effort": "S",
+        "model": "",
+        "result": "done 2026-10-31; POST and PUT validate + hash; mustChangePassword true on create and when an admin resets another user's password. Lint+typecheck+build pass. Not run end-to-end (VPN blocks DB locally; needs admin session): verify by creating a user in the old admin"
+      },
+      {
         "step": 5,
         "phase": "verify",
         "item": "Seed old Supabase DB, check every public page, then run cleanup",
@@ -94,13 +102,6 @@
       }
     ],
     "todo_next": [
-      {
-        "step": "sec-3",
-        "phase": "security",
-        "item": "admin-users POST/PUT: hashPassword + validatePasswordStrength; mustChangePassword true for new users",
-        "effort": "S",
-        "model": ""
-      },
       {
         "step": "sec-4",
         "phase": "security",
