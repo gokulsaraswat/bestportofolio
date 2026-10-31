@@ -66,7 +66,15 @@
         "item": "CRITICAL: delete /api/test (returned DATABASE_URL publicly) + unused /api hello-world",
         "effort": "S",
         "model": "",
-        "result": "done 2026-10-31; lint+typecheck+build pass. Owner must rotate OLD Supabase DB password + update DATABASE_URL/DIRECT_URL (Vercel + local .env) and confirm /api/test 404 in prod"
+        "result": "done 2026-10-31; live since b049a62 (Vercel firewall rule also denies /api/test -> 403). Owner still to rotate OLD Supabase DB password + update DATABASE_URL/DIRECT_URL (Vercel + local .env)"
+      },
+      {
+        "step": "sec-2",
+        "phase": "security",
+        "item": "Enforce role admin (requireRole) on admin-users, backup, settings/profile PUT, ingest, operation-logs",
+        "effort": "S",
+        "model": "",
+        "result": "done 2026-10-31; requireRole now also applies requireAdmin (mustChangePassword block). Lint+typecheck+build pass; next start: all 8 guarded handlers 401 unauthenticated, public GET /api/settings 200"
       },
       {
         "step": 5,
@@ -86,13 +94,6 @@
       }
     ],
     "todo_next": [
-      {
-        "step": "sec-2",
-        "phase": "security",
-        "item": "Enforce role admin (requireRole) on admin-users, backup, settings/profile PUT, ingest, operation-logs",
-        "effort": "S",
-        "model": ""
-      },
       {
         "step": "sec-3",
         "phase": "security",

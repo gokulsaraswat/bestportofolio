@@ -42,11 +42,10 @@ export async function requireAdmin(request: NextRequest): Promise<NextResponse |
 
 /** Same as requireAdmin, but also requires the "admin" role (not "editor"). */
 export async function requireRole(request: NextRequest, role: string): Promise<NextResponse | null> {
+  const denied = await requireAdmin(request)
+  if (denied) return denied
   const session = await getAdminSession(request)
-  if (!session) {
-    return NextResponse.json({ error: 'Unauthorized. Admin sign-in required.' }, { status: 401 })
-  }
-  if (session.role !== role) {
+  if (session?.role !== role) {
     return NextResponse.json({ error: `Forbidden. Requires ${role} role.` }, { status: 403 })
   }
   return null

@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
-import { requireAdmin } from '@/lib/require-admin'
+import { requireRole } from '@/lib/require-admin'
 
 export async function GET(request: NextRequest) {
   // Operation logs record admin activity and failed-login usernames.
-  const denied = await requireAdmin(request)
+  const denied = await requireRole(request, 'admin')
   if (denied) return denied
 
   try {

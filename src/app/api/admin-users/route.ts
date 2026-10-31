@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
-import { requireAdmin } from '@/lib/require-admin'
+import { requireRole } from '@/lib/require-admin'
 
 export async function GET(request: NextRequest) {
   // Enumerating admin usernames is reconnaissance for a brute-force attempt.
-  const denied = await requireAdmin(request)
+  const denied = await requireRole(request, 'admin')
   if (denied) return denied
 
   try {
@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const denied = await requireAdmin(request)
+  const denied = await requireRole(request, 'admin')
   if (denied) return denied
 
   try {
@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest) {
-  const denied = await requireAdmin(request)
+  const denied = await requireRole(request, 'admin')
   if (denied) return denied
 
   try {
@@ -92,7 +92,7 @@ export async function PUT(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
-  const denied = await requireAdmin(request)
+  const denied = await requireRole(request, 'admin')
   if (denied) return denied
 
   try {
