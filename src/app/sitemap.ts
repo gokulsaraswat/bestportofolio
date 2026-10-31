@@ -3,6 +3,8 @@ import type { MetadataRoute } from 'next'
 
 const BASE_URL = 'https://gokulsaraswat.com'
 
+export const dynamic = 'force-dynamic'
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [blogs, projects, courses, snippets] = await Promise.all([
     db.blogPost.findMany({ where: { published: true }, select: { slug: true, updatedAt: true } }),
