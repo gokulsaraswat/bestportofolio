@@ -96,6 +96,14 @@
         "result": "done 2026-10-31; requireAdmin on GET messages/[id], todos/[id]/history, blog-ideas/[id]; blogs+snippets list/slug/[id] GET return only published items unless admin session. Local: 3 guarded GETs 401; DB paths not runnable locally (VPN) - verify live"
       },
       {
+        "step": "sec-5",
+        "phase": "security",
+        "item": "Whitelist PUT fields: blogs/[id], projects/[id], courses/[courseId], profile",
+        "effort": "S",
+        "model": "",
+        "result": "done 2026-10-31; src/lib/pick-fields.ts keeps Prisma scalar columns minus id/createdAt/updatedAt; applied to blogs/[id], projects/[id], courses/[courseId] PUT and profile PUT (create+update). Node check: chapters/id/unknown keys dropped. Lint+typecheck+build pass"
+      },
+      {
         "step": 5,
         "phase": "verify",
         "item": "Seed old Supabase DB, check every public page, then run cleanup",
@@ -113,13 +121,6 @@
       }
     ],
     "todo_next": [
-      {
-        "step": "sec-5",
-        "phase": "security",
-        "item": "Whitelist PUT fields: blogs/[id], projects/[id], courses/[courseId], profile",
-        "effort": "S",
-        "model": ""
-      },
       {
         "step": "sec-6",
         "phase": "security",

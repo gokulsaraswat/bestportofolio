@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
+import { pickFields } from '@/lib/pick-fields'
+import { Prisma } from '@prisma/client'
 import { requireRole } from '@/lib/require-admin'
 
 export async function GET() {
@@ -28,18 +30,18 @@ export async function PUT(request: NextRequest) {
   if (denied) return denied
 
   try {
-    const body = await request.json()
+    const data = pickFields(await request.json(), Prisma.ProfileScalarFieldEnum)
 
     const existing = await db.profile.findFirst()
 
     if (!existing) {
-      const profile = await db.profile.create({ data: body })
+      const profile = await db.profile.create({ data })
       return NextResponse.json(profile, { status: 201 })
     }
 
     const profile = await db.profile.update({
       where: { id: existing.id },
-      data: body,
+      data,
     })
 
     return NextResponse.json(profile)

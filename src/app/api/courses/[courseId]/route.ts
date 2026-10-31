@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
+import { pickFields } from '@/lib/pick-fields'
+import { Prisma } from '@prisma/client'
 import { generateSlug } from '@/lib/slug'
 import { requireAdmin } from '@/lib/require-admin'
 
@@ -54,7 +56,7 @@ export async function PUT(
       )
     }
 
-    const data: Record<string, unknown> = { ...body }
+    const data = pickFields(body, Prisma.CourseScalarFieldEnum)
 
     if (body.title && body.title !== existing.title && !body.slug) {
       data.slug = generateSlug(body.title)
