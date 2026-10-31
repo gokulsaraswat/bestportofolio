@@ -4,7 +4,7 @@ Master status of all repos: platform/docs/WORKLOG.md (planning chat syncs it fro
 
 ## Next chat: start here
 1. Paste SHARED BLOCK + REPO SECTION from `docs/KICKOFF-PROMPT.md`, then read this file and `.claude-session.json`.
-2. Pick up `.claude-session.json` → `sprint.todo_next` in order (sec-5 first). Ask Gokul before each step.
+2. Pick up `.claude-session.json` → `sprint.todo_next` in order (see list). Ask Gokul before each step.
 3. Local gotchas on Gokul's Mac (read before running anything):
    - GlobalProtect VPN blocks Postgres (5432/6543): `npm run db:check` / `db:seed` fail locally. Use the Supabase SQL editor (old project) or another network. Pages that need data can be checked on the live site.
    - Installing needs `NODE_AUTH_TOKEN` (GitHub token, `read:packages`) for `@gokulsaraswat/ui`: `export NODE_AUTH_TOKEN=$(gh auth token)` then `npm ci`.
@@ -41,6 +41,8 @@ Master status of all repos: platform/docs/WORKLOG.md (planning chat syncs it fro
 - `485c935` SECURITY sec-2: `requireRole(request, 'admin')` (also blocks `mustChangePassword`) on admin-users, backup, settings PUT, profile PUT, ingest, operation-logs. Unauthenticated: 401 on all 8; public `GET /api/settings` 200.
 - `95f686d` SECURITY sec-3: admin-users POST/PUT validate + hash passwords; `mustChangePassword: true` on create and admin reset. Not run end-to-end.
 - `172fe10` SECURITY sec-4: `requireAdmin` on GET `messages/[id]`, `todos/[id]/history`, `blog-ideas/[id]`; blogs/snippets GET return only published items without an admin session (fixes public draft exposure).
+- `08d06c0` SECURITY sec-5: `src/lib/pick-fields.ts` (`pickFields(body, Prisma.<Model>ScalarFieldEnum)`, drops id/createdAt/updatedAt + non-columns) on PUT `blogs/[id]`, `projects/[id]`, `courses/[courseId]` (blocks nested `chapters` writes) and `profile` create/update. Value types still checked by Prisma.
+- SECURITY sec-6: `/api/contact` trims and limits name 80, email 160 (format checked), subject 200, message 4000; 400 with a clear message. Contact page now shows the server's error text. Valid submit not run locally (VPN blocks DB).
 
 ## Open items (need Gokul)
 - [ ] URGENT: rotate the OLD Supabase DB password (it was publicly exposed via `/api/test`), update `DATABASE_URL`/`DIRECT_URL` in Vercel + local `.env`, redeploy.
@@ -51,14 +53,12 @@ Master status of all repos: platform/docs/WORKLOG.md (planning chat syncs it fro
 - [ ] Vercel plan terms: Hobby is non-commercial (relevant later for client apps).
 
 ## Todo next (agent, ask Gokul before each)
-1. sec-5: whitelist PUT fields on `blogs/[id]`, `projects/[id]`, `courses/[courseId]`, `profile` (security chat).
-2. sec-6: `/api/contact` length/format limits (copy comments route) (security chat).
-3. Verify sec-3/sec-4 live (create a user in the old admin; draft blog not visible publicly; admin UI still lists drafts).
-4. Repo kit (platform/docs/REPO-KIT.md): `.github/workflows/ci.yml` (npm ci + lint + typecheck + build, `NODE_AUTH_TOKEN` secret), PR template, `docs/CONTRACTS.md`, `docs/ARCHITECTURE.md`, `LICENSE`, GitHub description/topics/branch protection. CI would have caught the Vercel standalone break.
-5. `npm audit`: review the 30 vulnerabilities; fix without major upgrades first.
-6. Kickoff stack item 4: report whether Prisma 7 / a newer Next major is worth it (report only, no upgrade without OK).
-7. Perf: lists fill after 3-10 s (client-side `/api/*` fetches); `/api/settings` fetched twice per page; `/api/auth` + `/api/chat-status` on every public page.
-8. `docker build` proof on a machine with Docker: `NODE_AUTH_TOKEN=... docker build --secret id=NODE_AUTH_TOKEN,env=NODE_AUTH_TOKEN -t portfolio .`
+1. Verify sec-3..sec-6 with the old admin (Gokul): create a user (weak password refused, new user must change password), drafts still listed in admin, edit + save a blog/project/course/profile, send a contact message.
+2. Repo kit (platform/docs/REPO-KIT.md): `.github/workflows/ci.yml` (npm ci + lint + typecheck + build, `NODE_AUTH_TOKEN` secret), PR template, `docs/CONTRACTS.md`, `docs/ARCHITECTURE.md`, `LICENSE`, GitHub description/topics/branch protection. CI would have caught the Vercel standalone break.
+3. `npm audit`: review the 30 vulnerabilities; fix without major upgrades first.
+4. Kickoff stack item 4: report whether Prisma 7 / a newer Next major is worth it (report only, no upgrade without OK).
+5. Perf: lists fill after 3-10 s (client-side `/api/*` fetches); `/api/settings` fetched twice per page; `/api/auth` + `/api/chat-status` on every public page.
+6. `docker build` proof on a machine with Docker: `NODE_AUTH_TOKEN=... docker build --secret id=NODE_AUTH_TOKEN,env=NODE_AUTH_TOKEN -t portfolio .`
 
 ## Later (from kickoff, in order)
 - Switch MDX/markdown rendering to `@gokulsaraswat/mdx` registry (waits for platform to publish it).

@@ -104,6 +104,14 @@
         "result": "done 2026-10-31; src/lib/pick-fields.ts keeps Prisma scalar columns minus id/createdAt/updatedAt; applied to blogs/[id], projects/[id], courses/[courseId] PUT and profile PUT (create+update). Node check: chapters/id/unknown keys dropped. Lint+typecheck+build pass"
       },
       {
+        "step": "sec-6",
+        "phase": "security",
+        "item": "/api/contact length/format limits (copy comments route)",
+        "effort": "S",
+        "model": "",
+        "result": "done 2026-10-31; trim + limits name 80/email 160 (+format)/subject 200/message 4000 -> 400 with message; contact page shows server error. Local: 4 invalid cases 400; valid submit needs DB (VPN) - verify live"
+      },
+      {
         "step": 5,
         "phase": "verify",
         "item": "Seed old Supabase DB, check every public page, then run cleanup",
@@ -121,13 +129,6 @@
       }
     ],
     "todo_next": [
-      {
-        "step": "sec-6",
-        "phase": "security",
-        "item": "/api/contact length/format limits (copy comments route)",
-        "effort": "S",
-        "model": ""
-      },
       {
         "step": 7,
         "phase": "verify",

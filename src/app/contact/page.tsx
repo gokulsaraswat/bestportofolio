@@ -24,11 +24,11 @@ export default function ContactPage() {
     setSending(true)
     try {
       const res = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) })
-      if (!res.ok) throw new Error()
+      if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error)
       toast({ title: 'Message sent!', description: 'Thank you for reaching out. I\'ll get back to you soon.' })
       setForm({ name: '', email: '', subject: '', message: '' })
-    } catch {
-      toast({ title: 'Failed to send', description: 'Please try again later.', variant: 'destructive' })
+    } catch (err) {
+      toast({ title: 'Failed to send', description: (err instanceof Error && err.message) || 'Please try again later.', variant: 'destructive' })
     } finally {
       setSending(false)
     }
