@@ -50,7 +50,7 @@ A production-grade, full-stack portfolio website built with **Next.js 16**, **Re
 
 | Layer | Technology |
 |-------|-----------|
-| Framework | Next.js 16 (App Router, Standalone output) |
+| Framework | Next.js 16 (App Router; standalone output for Docker only) |
 | UI | React 19, TypeScript, Tailwind CSS 4 |
 | Components | shadcn/ui (New York style), Lucide Icons |
 | Animations | Framer Motion |
@@ -365,7 +365,7 @@ Per-IP, per-endpoint: auth 10/15min, chat 20/10min, contact 5/hr, comments 10/hr
 | Command | What It Does |
 |---------|-------------|
 | `npm run dev` | Start dev server on port 3000 (hot reload) |
-| `npm run build` | Production build (standalone output in `.next/standalone/`) |
+| `npm run build` | Production build (`NEXT_OUTPUT=standalone` for `.next/standalone/`, used by Docker) |
 | `npm run start` | Run production build on port 3000 |
 | `npm run lint` | ESLint check |
 | `npx prisma generate` | Regenerate Prisma client types |

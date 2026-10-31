@@ -1,63 +1,63 @@
 # Graph Report - bestportofolio  (2026-10-31)
 
 ## Corpus Check
-- 217 files · ~127,332 words
+- 218 files · ~127,424 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 10 file(s) not represented in the graph (top: (none) 6, .example 1, .toml 1)
 
 ## Summary
-- 1420 nodes · 3274 edges · 87 communities (74 shown, 13 thin omitted)
-- Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 11 edges (avg confidence: 0.92)
+- 1432 nodes · 3294 edges · 91 communities (77 shown, 14 thin omitted)
+- Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 12 edges (avg confidence: 0.92)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `2b1187cc`
+- Built from commit: `f9758224`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
 - dependencies
-- blog/[slug]/page.tsx
+- related-content.tsx
 - admin-dashboard.tsx
 - rag-ingest.mjs
 - app/layout.tsx
-- dialog.tsx
 - cn
-- todo-manager.tsx
+- sidebar.tsx
+- project-manager.tsx
 - package.json
 - dropdown-menu.tsx
 - embed-renderer.tsx
 - app/page.tsx
-- lucide-react
+- react
 - auth/route.ts
-- project-manager.tsx
 - blog-ideas-manager.tsx
+- course-manager.tsx
 - next
 - use-toast.ts
-- comment-manager.tsx
-- react
+- rag-settings.tsx
+- cards.tsx
 - utils.ts
 - generateSlug
 - logOperation
-- course-manager.tsx
+- admin-layout.tsx
 - table-of-contents.tsx
 - compilerOptions
 - db.ts
 - requireAdmin
 - components.json
 - context-menu.tsx
-- pagination.tsx
-- projects/[slug]/page.tsx
-- admin-layout.tsx
+- snippets/page.tsx
+- blog/[slug]/page.tsx
+- chat-widget.tsx
 - WORKLOG
 - scripts
-- tabs.tsx
+- projects/[slug]/page.tsx
 - Gokul Saraswat — Portfolio Website
 - toggle-group.tsx
 - carousel.tsx
-- about/page.tsx
+- navbar.tsx
 - snippet-manager.tsx
-- profile-settings.tsx
+- form.tsx
 - require-admin.ts
 - avatar.tsx
 - devDependencies
@@ -66,12 +66,12 @@
 - 🤖 System Architecture & Co-Worker Protocol
 - Prompt Playbook — CLAUDE.md Workflow
 - blog-manager.tsx
-- breadcrumb.tsx
+- [legal]/page.tsx
 - eslint.config.mjs
 - REPO SECTIONS
 - Getting started
 - menubar.tsx
-- resizable.tsx
+- input.tsx
 - Codebase Blueprint & Structural Graph
 - WORKLOG: bestportofolio
 - collapsible.tsx
@@ -79,7 +79,8 @@
 - Repo Kit (every repo must have these)
 - sync-architecture.sh
 - next-env.d.ts
-- next-themes
+- profile-settings.tsx
+- sonner.tsx
 - tailwind.config.ts
 - COLLABORATORS.md
 - PLANNING-CHAT-PROMPT.md
@@ -90,25 +91,28 @@
 - update-v3.sh
 - AGENTS.md
 - postcss.config.mjs
+- input-otp.tsx
 - DIAGRAM_TYPE_OPTIONS
 - Production Deployment
-- Database Schema
+- operation-logs-viewer.tsx
 - Production Deployment
 - Features
 - RAG Chatbot Setup (Optional)
 - engines
 - Security Policy
 - @prisma/client
+- settings/route.ts
 - @google/genai
 - seed.mjs
 - 📢 Reporting a Vulnerability
+- blogs/route.ts
 
 ## God Nodes (most connected - your core abstractions)
 1. `cn()` - 236 edges
 2. `react` - 111 edges
 3. `lucide-react` - 73 edges
 4. `requireAdmin()` - 68 edges
-5. `next` - 64 edges
+5. `next` - 65 edges
 6. `Button()` - 44 edges
 7. `logOperation()` - 43 edges
 8. `framer-motion` - 42 edges
@@ -116,29 +120,29 @@
 10. `db` - 33 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `Findings: bestportofolio (read-only, 2026-10-31)` --references--> `requireAdmin()`  [INFERRED]
-  docs/master/WORKLOG.md → src/lib/require-admin.ts
 - `Authorisation` --references--> `requireAdmin()`  [INFERRED]
   README.md → src/lib/require-admin.ts
+- `Done` --references--> `Footer()`  [INFERRED]
+  WORKLOG.md → src/components/site/footer.tsx
+- `Findings: bestportofolio (read-only, 2026-10-31)` --references--> `requireAdmin()`  [INFERRED]
+  docs/master/WORKLOG.md → src/lib/require-admin.ts
 - `Database Schema` --references--> `OperationLog`  [INFERRED]
   README.md → src/components/admin/operation-logs-viewer.tsx
 - `Database Schema` --references--> `Todo`  [INFERRED]
   README.md → src/components/admin/todo-manager.tsx
-- `Database Schema` --references--> `ContactMessage`  [INFERRED]
-  README.md → src/components/site/notification-bell.tsx
 
 ## Import Cycles
 - None detected.
 
-## Communities (87 total, 13 thin omitted)
+## Communities (91 total, 14 thin omitted)
 
 ### Community 0 - "dependencies"
 Cohesion: 0.03
-Nodes (69): dependencies, class-variance-authority, clsx, cmdk, date-fns, @dnd-kit/core, @dnd-kit/sortable, @dnd-kit/utilities (+61 more)
+Nodes (70): dependencies, class-variance-authority, clsx, cmdk, date-fns, @dnd-kit/core, @dnd-kit/sortable, @dnd-kit/utilities (+62 more)
 
-### Community 1 - "blog/[slug]/page.tsx"
-Cohesion: 0.12
-Nodes (16): Blog, BlogDetailPage(), parseResourceLinks(), ResourceLink, typeIcons, ReadingProgress(), formatDate(), getRelevanceScore() (+8 more)
+### Community 1 - "related-content.tsx"
+Cohesion: 0.39
+Nodes (7): formatDate(), getRelevanceScore(), gradients, parseTags(), RelatedContent(), RelatedContentProps, RelatedItem
 
 ### Community 2 - "admin-dashboard.tsx"
 Cohesion: 0.06
@@ -149,52 +153,52 @@ Cohesion: 0.24
 Nodes (12): ai, chunk(), db, deleteSource(), embed(), ingest(), insertChunks(), main() (+4 more)
 
 ### Community 4 - "app/layout.tsx"
-Cohesion: 0.08
-Nodes (29): src_app_globals, geistMono, geistSans, metadata, RootLayout(), viewport, CursorState, CustomCursor() (+21 more)
+Cohesion: 0.06
+Nodes (33): src_app_globals, geistMono, geistSans, metadata, RootLayout(), viewport, CursorState, CustomCursor() (+25 more)
 
-### Community 5 - "dialog.tsx"
-Cohesion: 0.10
-Nodes (20): cmdk, GlobalSearch(), SearchResult, KeyboardShortcutsOverlay(), ShortcutItem, shortcuts, Command(), CommandDialog() (+12 more)
+### Community 5 - "cn"
+Cohesion: 0.07
+Nodes (39): cmdk, @radix-ui/react-slot, @radix-ui/react-tabs, AlertDialogOverlay(), BreadcrumbEllipsis(), BreadcrumbItem(), BreadcrumbLink(), BreadcrumbList() (+31 more)
 
-### Community 6 - "cn"
+### Community 6 - "sidebar.tsx"
+Cohesion: 0.06
+Nodes (38): @radix-ui/react-dialog, Separator(), Sheet(), SheetContent(), SheetDescription(), SheetFooter(), SheetHeader(), SheetOverlay() (+30 more)
+
+### Community 7 - "project-manager.tsx"
 Cohesion: 0.09
-Nodes (41): @radix-ui/react-dialog, Separator(), Sheet(), SheetContent(), SheetDescription(), SheetFooter(), SheetHeader(), SheetOverlay() (+33 more)
-
-### Community 7 - "todo-manager.tsx"
-Cohesion: 0.12
-Nodes (22): FilterValue, Message, messageSortOptions, completedSortOptions, emptyForm, entityTypeOptions, HistoryEntry, priorityConfig (+14 more)
+Nodes (35): date-fns, FilterValue, Message, messageSortOptions, actionColors, LogEntry, ArchitectureDiagram, ArchitectureDiagramType (+27 more)
 
 ### Community 8 - "package.json"
 Cohesion: 0.06
-Nodes (30): name, private, version, @dnd-kit/core, @dnd-kit/sortable, @dnd-kit/utilities, dotenv, eslint (+22 more)
+Nodes (34): name, private, version, @dnd-kit/core, @dnd-kit/sortable, @dnd-kit/utilities, dotenv, eslint (+26 more)
 
 ### Community 9 - "dropdown-menu.tsx"
 Cohesion: 0.12
 Nodes (14): @radix-ui/react-dropdown-menu, ExportData(), ExportDataProps, DropdownMenu(), DropdownMenuCheckboxItem(), DropdownMenuContent(), DropdownMenuItem(), DropdownMenuLabel() (+6 more)
 
 ### Community 10 - "embed-renderer.tsx"
-Cohesion: 0.08
-Nodes (24): react-syntax-highlighter, CodeSnippet, getHljsLang(), getLangColor(), getTypeColor(), getTypeIcon(), LANG_COLORS, langMap (+16 more)
+Cohesion: 0.15
+Nodes (10): ContentWithEmbeds(), EmbedInfo, EmbedRenderer(), extractEmbedsFromText(), parseCustomEmbed(), parseDataUrl(), parseEmbedUrl(), parseSpotify() (+2 more)
 
 ### Community 11 - "app/page.tsx"
-Cohesion: 0.09
-Nodes (23): Blog, Course, DEFAULT_TYPING_LINES, Home(), Project, AboutProfile, AboutSection(), fadeUp (+15 more)
+Cohesion: 0.11
+Nodes (19): Blog, Course, DEFAULT_TYPING_LINES, Home(), Project, AnimatedCounter(), HeroCarousel(), HeroCarouselProps (+11 more)
 
-### Community 12 - "lucide-react"
-Cohesion: 0.20
-Nodes (8): framer-motion, lucide-react, ImageGallery(), ImageGalleryProps, ImageLightbox(), ImageLightboxProps, MusicPlayer(), Button()
+### Community 12 - "react"
+Cohesion: 0.19
+Nodes (11): framer-motion, lucide-react, react, AboutProfile, AboutSection(), fadeUp, toParagraphs(), Button() (+3 more)
 
 ### Community 13 - "auth/route.ts"
-Cohesion: 0.15
-Nodes (26): POST(), DELETE(), GET(), POST(), hashPassword(), isHashed(), validatePasswordStrength(), verifyPassword() (+18 more)
+Cohesion: 0.14
+Nodes (27): POST(), DELETE(), GET(), POST(), hashPassword(), isHashed(), validatePasswordStrength(), verifyPassword() (+19 more)
 
-### Community 14 - "project-manager.tsx"
-Cohesion: 0.15
-Nodes (8): ArchitectureDiagram, ArchitectureDiagramType, Project, ProjectForm, SeoPreview(), SeoPreviewProps, truncate(), SortBar()
+### Community 14 - "blog-ideas-manager.tsx"
+Cohesion: 0.11
+Nodes (19): BlogIdea, BlogIdeaForm, emptyForm, IdeaPriority, IdeaStatus, PRIORITY_LABELS, PRIORITY_STYLES, STATUS_COLUMNS (+11 more)
 
-### Community 15 - "blog-ideas-manager.tsx"
-Cohesion: 0.09
-Nodes (26): @radix-ui/react-alert-dialog, react-day-picker, BACKUP_ENTITIES, BackupEntityKey, BackupManager(), BackupMeta, BlogIdea, BlogIdeaForm (+18 more)
+### Community 15 - "course-manager.tsx"
+Cohesion: 0.12
+Nodes (23): BACKUP_ENTITIES, BackupEntityKey, BackupMeta, Comment, ENTITY_LABEL, BlogListItem, Chapter, ChapterForm (+15 more)
 
 ### Community 16 - "next"
 Cohesion: 0.09
@@ -204,33 +208,33 @@ Nodes (8): nextConfig, next, metadata, metadata, metadata, metadata, metadata, m
 Cohesion: 0.11
 Nodes (24): @radix-ui/react-toast, Toast, ToastAction, ToastActionElement, ToastClose, ToastDescription, ToastProps, src_components_ui_toast_toastprovider (+16 more)
 
-### Community 18 - "comment-manager.tsx"
-Cohesion: 0.09
-Nodes (31): date-fns, ChangePasswordForm(), LoginForm(), Session, AdminLayout(), Comment, ENTITY_LABEL, IngestDoc (+23 more)
-
-### Community 19 - "react"
+### Community 18 - "rag-settings.tsx"
 Cohesion: 0.10
-Nodes (24): react, Blog, types, Course, metadata, Project, Blog, BlogCard() (+16 more)
+Nodes (25): ChangePasswordForm(), LoginForm(), Session, AdminLayout(), IngestDoc, ProfileData, RagSettings(), typeOptions (+17 more)
+
+### Community 19 - "cards.tsx"
+Cohesion: 0.14
+Nodes (13): Blog, types, Course, Project, Blog, BlogCard(), Course, CourseCard() (+5 more)
 
 ### Community 20 - "utils.ts"
-Cohesion: 0.07
-Nodes (17): clsx, input-otp, @radix-ui/react-accordion, @radix-ui/react-hover-card, @radix-ui/react-radio-group, @radix-ui/react-slider, tailwind-merge, AccordionContent() (+9 more)
+Cohesion: 0.08
+Nodes (16): clsx, @radix-ui/react-accordion, @radix-ui/react-hover-card, @radix-ui/react-radio-group, @radix-ui/react-slider, react-resizable-panels, tailwind-merge, AccordionContent() (+8 more)
 
 ### Community 21 - "generateSlug"
-Cohesion: 0.12
-Nodes (12): normalizeResourceLinks(), POST(), DELETE(), PUT(), POST(), DELETE(), PUT(), POST() (+4 more)
+Cohesion: 0.13
+Nodes (10): DELETE(), PUT(), POST(), DELETE(), PUT(), POST(), DELETE(), PUT() (+2 more)
 
 ### Community 22 - "logOperation"
-Cohesion: 0.12
-Nodes (25): DELETE(), GET(), PUT(), VALID_PRIORITIES, VALID_STATUSES, GET(), POST(), VALID_PRIORITIES (+17 more)
+Cohesion: 0.14
+Nodes (22): DELETE(), GET(), PUT(), VALID_PRIORITIES, VALID_STATUSES, GET(), POST(), VALID_PRIORITIES (+14 more)
 
-### Community 23 - "course-manager.tsx"
-Cohesion: 0.10
-Nodes (24): @radix-ui/react-select, BlogListItem, Chapter, ChapterForm, ContentMode, Course, CourseForm, courseSortOptions (+16 more)
+### Community 23 - "admin-layout.tsx"
+Cohesion: 0.11
+Nodes (19): ContactPage(), NavItem, navItems, pageTransition, pageVariants, rolePermissions, Section, BackupManager() (+11 more)
 
 ### Community 24 - "table-of-contents.tsx"
-Cohesion: 0.15
-Nodes (16): @radix-ui/react-scroll-area, vaul, ensureHeadingIds(), Heading, slugify(), Drawer(), DrawerClose(), DrawerContent() (+8 more)
+Cohesion: 0.14
+Nodes (17): @radix-ui/react-scroll-area, vaul, ensureHeadingIds(), Heading, slugify(), TableOfContents(), Drawer(), DrawerClose() (+9 more)
 
 ### Community 25 - "compilerOptions"
 Cohesion: 0.10
@@ -241,7 +245,7 @@ Cohesion: 0.14
 Nodes (5): GET(), PUT(), dynamic, db, globalForPrisma
 
 ### Community 27 - "requireAdmin"
-Cohesion: 0.14
+Cohesion: 0.15
 Nodes (17): DELETE(), GET(), POST(), PUT(), GET(), POST(), DELETE(), POST() (+9 more)
 
 ### Community 28 - "components.json"
@@ -252,17 +256,17 @@ Nodes (17): aliases, components, hooks, lib, ui, utils, iconLibrary, rsc (+9 mor
 Cohesion: 0.12
 Nodes (10): @radix-ui/react-context-menu, ContextMenuCheckboxItem(), ContextMenuContent(), ContextMenuItem(), ContextMenuLabel(), ContextMenuRadioItem(), ContextMenuSeparator(), ContextMenuShortcut() (+2 more)
 
-### Community 30 - "pagination.tsx"
-Cohesion: 0.22
-Nodes (7): Pagination(), PaginationContent(), PaginationEllipsis(), PaginationLink(), PaginationLinkProps, PaginationNext(), PaginationPrevious()
+### Community 30 - "snippets/page.tsx"
+Cohesion: 0.14
+Nodes (15): next-themes, react-syntax-highlighter, CodeSnippet, getHljsLang(), getLangColor(), getTypeColor(), getTypeIcon(), LANG_COLORS (+7 more)
 
-### Community 31 - "projects/[slug]/page.tsx"
-Cohesion: 0.07
-Nodes (26): react-markdown, Chapter, chapterTypeColors, chapterTypeLabels, Course, LinkedBlog, LinkedSnippet, ArchitectureDiagramsGallery() (+18 more)
+### Community 31 - "blog/[slug]/page.tsx"
+Cohesion: 0.09
+Nodes (18): react-markdown, Blog, BlogDetailPage(), parseResourceLinks(), ResourceLink, typeIcons, Chapter, chapterTypeColors (+10 more)
 
-### Community 32 - "admin-layout.tsx"
-Cohesion: 0.06
-Nodes (38): @radix-ui/react-tooltip, ContactPage(), NavItem, navItems, pageTransition, pageVariants, rolePermissions, Section (+30 more)
+### Community 32 - "chat-widget.tsx"
+Cohesion: 0.11
+Nodes (17): @radix-ui/react-tooltip, ChatBotWrapper(), ChatWidget(), getSpeechRecognitionCtor(), Message, SpeechRecognitionAlternative, SpeechRecognitionCtor, SpeechRecognitionErrorEvent (+9 more)
 
 ### Community 33 - "WORKLOG"
 Cohesion: 0.08
@@ -272,9 +276,9 @@ Nodes (25): Agreed order, Architecture (agreed 2026-10-31), Cleanup scan: `/clea
 Cohesion: 0.12
 Nodes (17): scripts, admin:create, admin:migrate-passwords, build, db:check, db:generate, db:migrate, db:push (+9 more)
 
-### Community 35 - "tabs.tsx"
-Cohesion: 0.33
-Nodes (5): @radix-ui/react-tabs, Tabs(), TabsContent(), TabsList(), TabsTrigger()
+### Community 35 - "projects/[slug]/page.tsx"
+Cohesion: 0.14
+Nodes (13): ArchitectureDiagramsGallery(), DIAGRAM_TYPE_META, DiagramEntry, DiagramType, isImageUrl(), isSvgUrl(), parseArchitectureDiagrams(), Project (+5 more)
 
 ### Community 36 - "Gokul Saraswat — Portfolio Website"
 Cohesion: 0.13
@@ -288,21 +292,21 @@ Nodes (12): class-variance-authority, @radix-ui/react-toggle, @radix-ui/react-to
 Cohesion: 0.17
 Nodes (14): embla-carousel-react, Carousel(), CarouselApi, CarouselContent(), CarouselContext, CarouselContextProps, CarouselItem(), CarouselNext() (+6 more)
 
-### Community 39 - "about/page.tsx"
-Cohesion: 0.29
-Nodes (5): achievements, certifications, fadeUp, item, stagger
+### Community 39 - "navbar.tsx"
+Cohesion: 0.10
+Nodes (18): @gokulsaraswat/ui, achievements, certifications, fadeUp, item, stagger, metadata, columns (+10 more)
 
 ### Community 40 - "snippet-manager.tsx"
-Cohesion: 0.14
-Nodes (17): @radix-ui/react-checkbox, CATEGORY_SUGGESTIONS, CodeSnippet, DEMO_TYPES, formatScheduledDate(), getTypeColor(), getTypeIcon(), LANG_COLORS (+9 more)
+Cohesion: 0.15
+Nodes (16): CATEGORY_SUGGESTIONS, CodeSnippet, DEMO_TYPES, formatScheduledDate(), getTypeColor(), getTypeIcon(), LANG_COLORS, LANGUAGES (+8 more)
 
-### Community 41 - "profile-settings.tsx"
-Cohesion: 0.12
-Nodes (19): @radix-ui/react-label, react-hook-form, DEFAULT_SETTINGS, ProfileSettings(), safeParseStringArray(), safeStringifyArray(), SiteSettings, TABS (+11 more)
+### Community 41 - "form.tsx"
+Cohesion: 0.19
+Nodes (12): @radix-ui/react-label, react-hook-form, FormControl(), FormDescription(), FormFieldContext, FormFieldContextValue, FormItem(), FormItemContext (+4 more)
 
 ### Community 42 - "require-admin.ts"
-Cohesion: 0.20
-Nodes (12): entityExists(), GET(), looksLikeSpam(), POST(), GET(), parseSiteSettings(), PROFILE_FIELD_MAP, PUT() (+4 more)
+Cohesion: 0.22
+Nodes (9): entityExists(), GET(), looksLikeSpam(), POST(), DELETE(), PATCH(), RouteParams, getAdminSession() (+1 more)
 
 ### Community 43 - "avatar.tsx"
 Cohesion: 0.40
@@ -332,9 +336,9 @@ Nodes (7): 1. Starting a New Folder / Project, 2. Starting with an Existing Proj
 Cohesion: 0.16
 Nodes (15): Blog, BlogForm, BlogManager(), blogSortOptions, CATEGORY_SUGGESTIONS, CustomEmbedDialog(), CustomEmbedDialogProps, emptyForm (+7 more)
 
-### Community 50 - "breadcrumb.tsx"
-Cohesion: 0.22
-Nodes (7): @radix-ui/react-slot, BreadcrumbEllipsis(), BreadcrumbItem(), BreadcrumbLink(), BreadcrumbList(), BreadcrumbPage(), BreadcrumbSeparator()
+### Community 50 - "[legal]/page.tsx"
+Cohesion: 0.24
+Nodes (8): dynamicParams, findPage(), generateMetadata(), OWN_PAGES, Props, SharedFooterPage(), sharedPages, src_components_site_navbar_footer
 
 ### Community 51 - "eslint.config.mjs"
 Cohesion: 0.29
@@ -352,9 +356,9 @@ Nodes (8): 1. Install, 2. Configure environment, 3. Set up the database, 4. Crea
 Cohesion: 0.11
 Nodes (12): @radix-ui/react-menubar, Menubar(), MenubarCheckboxItem(), MenubarContent(), MenubarItem(), MenubarLabel(), MenubarRadioItem(), MenubarSeparator() (+4 more)
 
-### Community 55 - "resizable.tsx"
-Cohesion: 0.40
-Nodes (3): react-resizable-panels, ResizableHandle(), ResizablePanelGroup()
+### Community 55 - "input.tsx"
+Cohesion: 0.24
+Nodes (7): Contributor, ContributorsDisplay(), ContributorsDisplayProps, ContributorsInput(), ContributorsInputProps, Input(), Switch()
 
 ### Community 56 - "Codebase Blueprint & Structural Graph"
 Cohesion: 0.40
@@ -380,6 +384,10 @@ Nodes (3): edge(), node(), sync-architecture.sh script
 Cohesion: 0.50
 Nodes (3): NOTE: This file should not be edited, ref_next_types_root_params_d_ts, ref_next_types_routes_d_ts
 
+### Community 63 - "profile-settings.tsx"
+Cohesion: 0.32
+Nodes (6): DEFAULT_SETTINGS, ProfileSettings(), safeParseStringArray(), safeStringifyArray(), SiteSettings, TABS
+
 ### Community 66 - "tailwind.config.ts"
 Cohesion: 0.50
 Nodes (3): tailwindcss, tailwindcss-animate, config
@@ -392,13 +400,17 @@ Nodes (7): Authentication, Authorisation, Database, Rate limiting, Security, Sti
 Cohesion: 0.33
 Nodes (6): Add Your Avatar, Add Your Resume PDF, Change Admin Credentials, Change Port, Change to Your Own Name/Info, Customization Guide
 
+### Community 76 - "input-otp.tsx"
+Cohesion: 0.33
+Nodes (4): input-otp, InputOTP(), InputOTPGroup(), InputOTPSlot()
+
 ### Community 78 - "Production Deployment"
 Cohesion: 0.40
 Nodes (5): Option A: Node.js (Simplest), Option B: Docker, Option C: Caddy (HTTPS + Auto-renew), Option D: Vercel, Production Deployment
 
-### Community 79 - "Database Schema"
-Cohesion: 0.50
-Nodes (4): Database Schema, OperationLog, Todo, ContactMessage
+### Community 79 - "operation-logs-viewer.tsx"
+Cohesion: 0.22
+Nodes (8): Database Schema, ACTION_COLORS, ACTION_ICONS, ENTITY_COLORS, OperationLog, OperationLogsViewer(), Todo, ContactMessage
 
 ### Community 80 - "Production Deployment"
 Cohesion: 0.50
@@ -420,6 +432,10 @@ Nodes (11): 📄 Disclosure Policy, 📜 License, ❌ Out of Scope, 🏆 Recogni
 Cohesion: 0.20
 Nodes (5): ref_crypto, @prisma/client, db, db, db
 
+### Community 86 - "settings/route.ts"
+Cohesion: 0.47
+Nodes (5): GET(), parseSiteSettings(), PROFILE_FIELD_MAP, PUT(), SITE_SETTINGS_KEYS
+
 ### Community 87 - "@google/genai"
 Cohesion: 0.25
 Nodes (4): @google/genai, ai, ai, docs
@@ -429,24 +445,24 @@ Cohesion: 0.67
 Nodes (3): Alternative, Preferred, 📢 Reporting a Vulnerability
 
 ## Knowledge Gaps
-- **515 isolated node(s):** `Current state`, `Decisions (Gokul, 2026-10-31)`, `Done`, `In progress / next`, `Blockers / requests to other repos` (+510 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 662 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **13 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **519 isolated node(s):** `1. High-Level Design (HLD) Topology`, `2. Current Target Directory Tree`, `3. Low-Level Design (LLD) & SOLID Class Schemas`, `Public Website`, `Admin Panel (`/admin`)` (+514 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 668 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **14 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `next` connect `next` to `blog/[slug]/page.tsx`, `admin-dashboard.tsx`, `app/layout.tsx`, `dialog.tsx`, `about/page.tsx`, `package.json`, `require-admin.ts`, `app/page.tsx`, `lucide-react`, `auth/route.ts`, `comment-manager.tsx`, `react`, `generateSlug`, `logOperation`, `@google/genai`, `db.ts`, `requireAdmin`, `projects/[slug]/page.tsx`?**
-  _High betweenness centrality (0.211) - this node is a cross-community bridge._
-- **Why does `react` connect `react` to `blog/[slug]/page.tsx`, `admin-dashboard.tsx`, `app/layout.tsx`, `dialog.tsx`, `cn`, `todo-manager.tsx`, `package.json`, `dropdown-menu.tsx`, `embed-renderer.tsx`, `app/page.tsx`, `lucide-react`, `project-manager.tsx`, `blog-ideas-manager.tsx`, `use-toast.ts`, `comment-manager.tsx`, `utils.ts`, `course-manager.tsx`, `table-of-contents.tsx`, `context-menu.tsx`, `pagination.tsx`, `projects/[slug]/page.tsx`, `admin-layout.tsx`, `WORKLOG`, `tabs.tsx`, `toggle-group.tsx`, `carousel.tsx`, `snippet-manager.tsx`, `profile-settings.tsx`, `avatar.tsx`, `navigation-menu.tsx`, `blog-manager.tsx`, `breadcrumb.tsx`, `menubar.tsx`, `resizable.tsx`, `loader.tsx`?**
-  _High betweenness centrality (0.185) - this node is a cross-community bridge._
-- **Why does `cn()` connect `cn` to `blog/[slug]/page.tsx`, `admin-dashboard.tsx`, `dialog.tsx`, `todo-manager.tsx`, `dropdown-menu.tsx`, `lucide-react`, `blog-ideas-manager.tsx`, `use-toast.ts`, `comment-manager.tsx`, `react`, `utils.ts`, `course-manager.tsx`, `table-of-contents.tsx`, `context-menu.tsx`, `pagination.tsx`, `admin-layout.tsx`, `WORKLOG`, `tabs.tsx`, `toggle-group.tsx`, `carousel.tsx`, `snippet-manager.tsx`, `profile-settings.tsx`, `avatar.tsx`, `navigation-menu.tsx`, `breadcrumb.tsx`, `menubar.tsx`, `resizable.tsx`?**
-  _High betweenness centrality (0.138) - this node is a cross-community bridge._
+- **Why does `next` connect `next` to `related-content.tsx`, `admin-dashboard.tsx`, `app/layout.tsx`, `package.json`, `app/page.tsx`, `react`, `auth/route.ts`, `rag-settings.tsx`, `cards.tsx`, `generateSlug`, `logOperation`, `db.ts`, `requireAdmin`, `blog/[slug]/page.tsx`, `projects/[slug]/page.tsx`, `navbar.tsx`, `require-admin.ts`, `[legal]/page.tsx`, `settings/route.ts`, `@google/genai`, `blogs/route.ts`?**
+  _High betweenness centrality (0.208) - this node is a cross-community bridge._
+- **Why does `react` connect `react` to `related-content.tsx`, `admin-dashboard.tsx`, `app/layout.tsx`, `cn`, `sidebar.tsx`, `project-manager.tsx`, `package.json`, `dropdown-menu.tsx`, `embed-renderer.tsx`, `app/page.tsx`, `blog-ideas-manager.tsx`, `course-manager.tsx`, `use-toast.ts`, `rag-settings.tsx`, `cards.tsx`, `utils.ts`, `admin-layout.tsx`, `table-of-contents.tsx`, `context-menu.tsx`, `snippets/page.tsx`, `blog/[slug]/page.tsx`, `chat-widget.tsx`, `WORKLOG`, `projects/[slug]/page.tsx`, `toggle-group.tsx`, `carousel.tsx`, `navbar.tsx`, `snippet-manager.tsx`, `form.tsx`, `avatar.tsx`, `navigation-menu.tsx`, `blog-manager.tsx`, `menubar.tsx`, `input.tsx`, `profile-settings.tsx`, `loader.tsx`, `input-otp.tsx`, `operation-logs-viewer.tsx`?**
+  _High betweenness centrality (0.172) - this node is a cross-community bridge._
+- **Why does `cn()` connect `cn` to `admin-dashboard.tsx`, `sidebar.tsx`, `project-manager.tsx`, `dropdown-menu.tsx`, `react`, `blog-ideas-manager.tsx`, `course-manager.tsx`, `use-toast.ts`, `rag-settings.tsx`, `utils.ts`, `table-of-contents.tsx`, `context-menu.tsx`, `chat-widget.tsx`, `WORKLOG`, `toggle-group.tsx`, `carousel.tsx`, `snippet-manager.tsx`, `form.tsx`, `avatar.tsx`, `navigation-menu.tsx`, `menubar.tsx`, `input.tsx`, `input-otp.tsx`?**
+  _High betweenness centrality (0.130) - this node is a cross-community bridge._
 - **Are the 2 inferred relationships involving `requireAdmin()` (e.g. with `Findings: bestportofolio (read-only, 2026-10-31)` and `Authorisation`) actually correct?**
   _`requireAdmin()` has 2 INFERRED edges - model-reasoned connections that need verification._
-- **What connects `Current state`, `Decisions (Gokul, 2026-10-31)`, `Done` to the rest of the system?**
-  _515 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **What connects `1. High-Level Design (HLD) Topology`, `2. Current Target Directory Tree`, `3. Low-Level Design (LLD) & SOLID Class Schemas` to the rest of the system?**
+  _519 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `dependencies` be split into smaller, more focused modules?**
-  _Cohesion score 0.028985507246376812 - nodes in this community are weakly interconnected._
-- **Should `blog/[slug]/page.tsx` be split into smaller, more focused modules?**
-  _Cohesion score 0.1225296442687747 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.02857142857142857 - nodes in this community are weakly interconnected._
+- **Should `admin-dashboard.tsx` be split into smaller, more focused modules?**
+  _Cohesion score 0.06207482993197279 - nodes in this community are weakly interconnected._
