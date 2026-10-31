@@ -24,7 +24,8 @@
     "goal": "Stack checks, seeded fake project/blog/course, build proof (no auth/admin/DATABASE_URL/Supabase changes)",
     "bugs": [
       "seed.ts (root): stale, plaintext admin/admin123 + real personal data; replaced by scripts/seed.mjs; delete pending owner OK",
-      "GET /api/blogs?slug=<draft> and ?published=false return unpublished drafts publicly; GET also runs an updateMany (scheduled publish) - report only, admin/API scope"
+      "GET /api/blogs?slug=<draft> and ?published=false return unpublished drafts publicly; GET also runs an updateMany (scheduled publish) - report only, admin/API scope",
+      "Perf (report only): public pages fetch /api/* client-side (lists fill after 3-10s); /api/settings called twice per page; /api/auth and /api/chat-status called for every visitor"
     ],
     "done": [
       {
@@ -66,6 +67,14 @@
         "effort": "S",
         "model": "",
         "result": "done 2026-10-31; lint+typecheck+build pass. Owner must rotate OLD Supabase DB password + update DATABASE_URL/DIRECT_URL (Vercel + local .env) and confirm /api/test 404 in prod"
+      },
+      {
+        "step": 5,
+        "phase": "verify",
+        "item": "Seed old Supabase DB, check every public page, then run cleanup",
+        "effort": "M",
+        "model": "",
+        "result": "done 2026-10-31; local DB access blocked by GlobalProtect VPN, so seeded/cleaned via Supabase SQL editor; all public pages verified on bestportofolio.vercel.app; sample rows removed and confirmed gone"
       }
     ],
     "todo_next": [
@@ -102,13 +111,6 @@
         "phase": "security",
         "item": "/api/contact length/format limits (copy comments route)",
         "effort": "S",
-        "model": ""
-      },
-      {
-        "step": 5,
-        "phase": "verify",
-        "item": "Seed old Supabase DB, check every public page, then run cleanup",
-        "effort": "M",
         "model": ""
       }
     ]
