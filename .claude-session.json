@@ -23,7 +23,8 @@
   "sprint": {
     "goal": "Stack checks, seeded fake project/blog/course, build proof (no auth/admin/DATABASE_URL/Supabase changes)",
     "bugs": [
-      "seed.ts: plaintext admin password vs scrypt schema; real personal data; no runner"
+      "seed.ts (root): stale, plaintext admin/admin123 + real personal data; replaced by scripts/seed.mjs; delete pending owner OK",
+      "GET /api/blogs?slug=<draft> and ?published=false return unpublished drafts publicly; GET also runs an updateMany (scheduled publish) - report only, admin/API scope"
     ],
     "done": [
       {
@@ -49,16 +50,17 @@
         "effort": "S",
         "model": "",
         "result": "done 2026-10-31; output standalone; standalone server smoke-tested (pages 200). Docker build NOT run (no Docker on Mac)"
-      }
-    ],
-    "todo_next": [
+      },
       {
         "step": 4,
         "phase": "seed",
         "item": "Rewrite seed.ts: sample- project/course + hidden draft blog, no admin, no real data; add cleanup script",
         "effort": "M",
-        "model": ""
-      },
+        "model": "",
+        "result": "done 2026-10-31; scripts/seed.mjs + npm run db:seed (-- --clean); old seed.ts kept pending owner OK to delete (removal blocked by permissions)"
+      }
+    ],
+    "todo_next": [
       {
         "step": 5,
         "phase": "verify",

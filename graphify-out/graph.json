@@ -13814,7 +13814,7 @@
       "node_kind": "heading",
       "norm_label": "admin panel features",
       "source_file": "README.md",
-      "source_location": "L284"
+      "source_location": "L281"
     },
     {
       "id": "readme_database_models",
@@ -13826,7 +13826,7 @@
       "node_kind": "heading",
       "norm_label": "database models",
       "source_file": "README.md",
-      "source_location": "L266"
+      "source_location": "L263"
     },
     {
       "id": "readme_environment_variables",
@@ -13838,7 +13838,7 @@
       "node_kind": "heading",
       "norm_label": "environment variables",
       "source_file": "README.md",
-      "source_location": "L513"
+      "source_location": "L510"
     },
     {
       "id": "readme_gokul_saraswat_portfolio",
@@ -13862,7 +13862,7 @@
       "node_kind": "heading",
       "norm_label": "license",
       "source_file": "README.md",
-      "source_location": "L538"
+      "source_location": "L535"
     },
     {
       "id": "readme_pre_flight_checks",
@@ -13874,7 +13874,7 @@
       "node_kind": "heading",
       "norm_label": "pre-flight checks",
       "source_file": "README.md",
-      "source_location": "L528"
+      "source_location": "L525"
     },
     {
       "id": "readme_project_structure",
@@ -13886,7 +13886,7 @@
       "node_kind": "heading",
       "norm_label": "project structure",
       "source_file": "README.md",
-      "source_location": "L194"
+      "source_location": "L191"
     },
     {
       "id": "readme_scripts",
@@ -13898,7 +13898,7 @@
       "node_kind": "heading",
       "norm_label": "scripts",
       "source_file": "README.md",
-      "source_location": "L365"
+      "source_location": "L362"
     },
     {
       "id": "readme_tech_stack",
@@ -13922,7 +13922,7 @@
       "node_kind": "heading",
       "norm_label": "troubleshooting",
       "source_file": "README.md",
-      "source_location": "L492"
+      "source_location": "L489"
     },
     {
       "id": "src_components_ui_navigation_menu",
@@ -14738,7 +14738,7 @@
       "node_kind": "heading",
       "norm_label": "blockers / requests to other repos",
       "source_file": "WORKLOG.md",
-      "source_location": "L23"
+      "source_location": "L26"
     },
     {
       "id": "worklog_current_state",
@@ -14786,7 +14786,7 @@
       "node_kind": "heading",
       "norm_label": "in progress / next",
       "source_file": "WORKLOG.md",
-      "source_location": "L19"
+      "source_location": "L22"
     },
     {
       "id": "worklog_reminders",
@@ -14798,7 +14798,7 @@
       "node_kind": "heading",
       "norm_label": "reminders",
       "source_file": "WORKLOG.md",
-      "source_location": "L26"
+      "source_location": "L29"
     },
     {
       "id": "worklog_worklog_bestportofolio",
@@ -15298,7 +15298,7 @@
       "node_kind": "heading",
       "norm_label": "authentication",
       "source_file": "README.md",
-      "source_location": "L317"
+      "source_location": "L314"
     },
     {
       "id": "readme_authorisation",
@@ -15310,7 +15310,7 @@
       "node_kind": "heading",
       "norm_label": "authorisation",
       "source_file": "README.md",
-      "source_location": "L329"
+      "source_location": "L326"
     },
     {
       "id": "readme_database",
@@ -15322,7 +15322,7 @@
       "node_kind": "heading",
       "norm_label": "database",
       "source_file": "README.md",
-      "source_location": "L349"
+      "source_location": "L346"
     },
     {
       "id": "readme_rate_limiting",
@@ -15334,7 +15334,7 @@
       "node_kind": "heading",
       "norm_label": "rate limiting",
       "source_file": "README.md",
-      "source_location": "L339"
+      "source_location": "L336"
     },
     {
       "id": "readme_security",
@@ -15346,7 +15346,7 @@
       "node_kind": "heading",
       "norm_label": "security",
       "source_file": "README.md",
-      "source_location": "L315"
+      "source_location": "L312"
     },
     {
       "id": "readme_still_worth_doing",
@@ -15358,7 +15358,7 @@
       "node_kind": "heading",
       "norm_label": "still worth doing",
       "source_file": "README.md",
-      "source_location": "L357"
+      "source_location": "L354"
     },
     {
       "id": "readme_transport_and_headers",
@@ -15370,7 +15370,7 @@
       "node_kind": "heading",
       "norm_label": "transport and headers",
       "source_file": "README.md",
-      "source_location": "L342"
+      "source_location": "L339"
     },
     {
       "id": "src_components_admin_message_manager",
@@ -15646,7 +15646,7 @@
       "node_kind": "heading",
       "norm_label": "add your avatar",
       "source_file": "README.md",
-      "source_location": "L472"
+      "source_location": "L469"
     },
     {
       "id": "readme_add_your_resume_pdf",
@@ -15658,7 +15658,7 @@
       "node_kind": "heading",
       "norm_label": "add your resume pdf",
       "source_file": "README.md",
-      "source_location": "L468"
+      "source_location": "L465"
     },
     {
       "id": "readme_change_admin_credentials",
@@ -15670,7 +15670,7 @@
       "node_kind": "heading",
       "norm_label": "change admin credentials",
       "source_file": "README.md",
-      "source_location": "L476"
+      "source_location": "L473"
     },
     {
       "id": "readme_change_port",
@@ -15682,7 +15682,7 @@
       "node_kind": "heading",
       "norm_label": "change port",
       "source_file": "README.md",
-      "source_location": "L482"
+      "source_location": "L479"
     },
     {
       "id": "readme_change_to_your_own_name_info",
@@ -15694,7 +15694,7 @@
       "node_kind": "heading",
       "norm_label": "change to your own name/info",
       "source_file": "README.md",
-      "source_location": "L463"
+      "source_location": "L460"
     },
     {
       "id": "readme_customization_guide",
@@ -15706,7 +15706,7 @@
       "node_kind": "heading",
       "norm_label": "customization guide",
       "source_file": "README.md",
-      "source_location": "L461"
+      "source_location": "L458"
     },
     {
       "id": "update_v3",
@@ -15842,10 +15842,10 @@
       "node_kind": "heading",
       "norm_label": "option a: node.js (simplest)",
       "source_file": "README.md",
-      "source_location": "L424"
+      "source_location": "L421"
     },
     {
-      "id": "readme_option_b_docker_433",
+      "id": "readme_option_b_docker_430",
       "label": "Option B: Docker",
       "_origin": "ast",
       "community": 78,
@@ -15854,7 +15854,7 @@
       "node_kind": "heading",
       "norm_label": "option b: docker",
       "source_file": "README.md",
-      "source_location": "L433"
+      "source_location": "L430"
     },
     {
       "id": "readme_option_c_caddy_https_auto_renew",
@@ -15866,7 +15866,7 @@
       "node_kind": "heading",
       "norm_label": "option c: caddy (https + auto-renew)",
       "source_file": "README.md",
-      "source_location": "L442"
+      "source_location": "L439"
     },
     {
       "id": "readme_option_d_vercel",
@@ -15878,10 +15878,10 @@
       "node_kind": "heading",
       "norm_label": "option d: vercel",
       "source_file": "README.md",
-      "source_location": "L450"
+      "source_location": "L447"
     },
     {
-      "id": "readme_production_deployment_422",
+      "id": "readme_production_deployment_419",
       "label": "Production Deployment",
       "_origin": "ast",
       "community": 78,
@@ -15890,7 +15890,7 @@
       "node_kind": "heading",
       "norm_label": "production deployment",
       "source_file": "README.md",
-      "source_location": "L422"
+      "source_location": "L419"
     },
     {
       "id": "readme_database_schema",
@@ -15902,7 +15902,7 @@
       "node_kind": "heading",
       "norm_label": "database schema",
       "source_file": "README.md",
-      "source_location": "L302"
+      "source_location": "L299"
     },
     {
       "id": "package",
@@ -16300,7 +16300,7 @@
       "node_kind": "heading",
       "norm_label": "option b: docker",
       "source_file": "README.md",
-      "source_location": "L175"
+      "source_location": "L174"
     },
     {
       "id": "readme_option_c_caddy_reverse_proxy",
@@ -16312,7 +16312,7 @@
       "node_kind": "heading",
       "norm_label": "option c: caddy reverse proxy",
       "source_file": "README.md",
-      "source_location": "L182"
+      "source_location": "L181"
     },
     {
       "id": "readme_production_deployment",
@@ -16372,7 +16372,7 @@
       "node_kind": "heading",
       "norm_label": "how it works",
       "source_file": "README.md",
-      "source_location": "L406"
+      "source_location": "L403"
     },
     {
       "id": "readme_rag_chatbot_setup_optional",
@@ -16384,7 +16384,7 @@
       "node_kind": "heading",
       "norm_label": "rag chatbot setup (optional)",
       "source_file": "README.md",
-      "source_location": "L387"
+      "source_location": "L384"
     },
     {
       "id": "readme_step_by_step",
@@ -16396,7 +16396,7 @@
       "node_kind": "heading",
       "norm_label": "step-by-step",
       "source_file": "README.md",
-      "source_location": "L392"
+      "source_location": "L389"
     },
     {
       "id": "package_engines",
@@ -44644,7 +44644,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L463",
+      "source_location": "L460",
       "weight": 1.0
     },
     {
@@ -44655,7 +44655,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L468",
+      "source_location": "L465",
       "weight": 1.0
     },
     {
@@ -44666,7 +44666,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L472",
+      "source_location": "L469",
       "weight": 1.0
     },
     {
@@ -44677,7 +44677,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L476",
+      "source_location": "L473",
       "weight": 1.0
     },
     {
@@ -44688,7 +44688,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L482",
+      "source_location": "L479",
       "weight": 1.0
     },
     {
@@ -44820,7 +44820,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L194",
+      "source_location": "L191",
       "weight": 1.0
     },
     {
@@ -44831,7 +44831,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L266",
+      "source_location": "L263",
       "weight": 1.0
     },
     {
@@ -44842,7 +44842,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L284",
+      "source_location": "L281",
       "weight": 1.0
     },
     {
@@ -44853,7 +44853,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L302",
+      "source_location": "L299",
       "weight": 1.0
     },
     {
@@ -44864,7 +44864,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L315",
+      "source_location": "L312",
       "weight": 1.0
     },
     {
@@ -44875,7 +44875,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L365",
+      "source_location": "L362",
       "weight": 1.0
     },
     {
@@ -44886,18 +44886,18 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L387",
+      "source_location": "L384",
       "weight": 1.0
     },
     {
       "source": "readme_gokul_saraswat_portfolio",
-      "target": "readme_production_deployment_422",
+      "target": "readme_production_deployment_419",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L422",
+      "source_location": "L419",
       "weight": 1.0
     },
     {
@@ -44908,7 +44908,18 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L461",
+      "source_location": "L458",
+      "weight": 1.0
+    },
+    {
+      "source": "readme_gokul_saraswat_portfolio",
+      "target": "readme_troubleshooting",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": "L489",
       "weight": 1.0
     },
     {
@@ -44924,24 +44935,13 @@
     },
     {
       "source": "readme_gokul_saraswat_portfolio",
-      "target": "readme_troubleshooting",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "README.md",
-      "source_location": "L492",
-      "weight": 1.0
-    },
-    {
-      "source": "readme_gokul_saraswat_portfolio",
       "target": "readme_environment_variables",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L513",
+      "source_location": "L510",
       "weight": 1.0
     },
     {
@@ -44952,7 +44952,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L528",
+      "source_location": "L525",
       "weight": 1.0
     },
     {
@@ -44963,7 +44963,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L538",
+      "source_location": "L535",
       "weight": 1.0
     },
     {
@@ -44996,7 +44996,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L175",
+      "source_location": "L174",
       "weight": 1.0
     },
     {
@@ -45007,51 +45007,51 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L182",
+      "source_location": "L181",
       "weight": 1.0
     },
     {
-      "source": "readme_production_deployment_422",
+      "source": "readme_production_deployment_419",
       "target": "readme_option_a_node_js_simplest",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L424",
+      "source_location": "L421",
       "weight": 1.0
     },
     {
-      "source": "readme_production_deployment_422",
-      "target": "readme_option_b_docker_433",
+      "source": "readme_production_deployment_419",
+      "target": "readme_option_b_docker_430",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L433",
+      "source_location": "L430",
       "weight": 1.0
     },
     {
-      "source": "readme_production_deployment_422",
+      "source": "readme_production_deployment_419",
       "target": "readme_option_c_caddy_https_auto_renew",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L442",
+      "source_location": "L439",
       "weight": 1.0
     },
     {
-      "source": "readme_production_deployment_422",
+      "source": "readme_production_deployment_419",
       "target": "readme_option_d_vercel",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L450",
+      "source_location": "L447",
       "weight": 1.0
     },
     {
@@ -45062,7 +45062,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L392",
+      "source_location": "L389",
       "weight": 1.0
     },
     {
@@ -45073,7 +45073,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L406",
+      "source_location": "L403",
       "weight": 1.0
     },
     {
@@ -45084,7 +45084,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L317",
+      "source_location": "L314",
       "weight": 1.0
     },
     {
@@ -45095,7 +45095,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L329",
+      "source_location": "L326",
       "weight": 1.0
     },
     {
@@ -45106,7 +45106,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L339",
+      "source_location": "L336",
       "weight": 1.0
     },
     {
@@ -45117,7 +45117,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L342",
+      "source_location": "L339",
       "weight": 1.0
     },
     {
@@ -45128,7 +45128,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L349",
+      "source_location": "L346",
       "weight": 1.0
     },
     {
@@ -45139,7 +45139,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "README.md",
-      "source_location": "L357",
+      "source_location": "L354",
       "weight": 1.0
     },
     {
@@ -54522,7 +54522,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "WORKLOG.md",
-      "source_location": "L19",
+      "source_location": "L22",
       "weight": 1.0
     },
     {
@@ -54533,7 +54533,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "WORKLOG.md",
-      "source_location": "L23",
+      "source_location": "L26",
       "weight": 1.0
     },
     {
@@ -54544,7 +54544,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "WORKLOG.md",
-      "source_location": "L26",
+      "source_location": "L29",
       "weight": 1.0
     },
     {
@@ -54713,7 +54713,7 @@
       "confidence_score": 0.95,
       "context": "ContactMessage",
       "source_file": "README.md",
-      "source_location": "L304",
+      "source_location": "L301",
       "weight": 1.0
     },
     {
@@ -54725,7 +54725,7 @@
       "confidence_score": 0.95,
       "context": "OperationLog",
       "source_file": "README.md",
-      "source_location": "L304",
+      "source_location": "L301",
       "weight": 1.0
     },
     {
@@ -54761,7 +54761,7 @@
       "confidence_score": 0.95,
       "context": "Todo",
       "source_file": "README.md",
-      "source_location": "L304",
+      "source_location": "L301",
       "weight": 1.0
     },
     {
@@ -54797,10 +54797,10 @@
       "confidence_score": 0.95,
       "context": "requireAdmin()",
       "source_file": "README.md",
-      "source_location": "L330",
+      "source_location": "L327",
       "weight": 1.0
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "b7d3783aef9e7c1eea0f3c4683ec7eca76b3fa11"
+  "built_at_commit": "57cae71d5d8b1343c4dcc885ec1282b4e10453f0"
 }

@@ -17,7 +17,8 @@
     "admin:migrate-passwords": "node --env-file=.env scripts/migrate-passwords.mjs",
     "rag:ingest": "node --env-file=.env scripts/rag-ingest.mjs",
     "rag:check": "node --env-file=.env scripts/rag-check.mjs",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "db:seed": "node --env-file=.env scripts/seed.mjs"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

@@ -1,9 +1,9 @@
 # Graph Report - bestportofolio  (2026-10-31)
 
 ## Corpus Check
-- 218 files · ~126,536 words
+- 218 files · ~126,587 words
 - Verdict: corpus is large enough that graph structure adds value.
-- Unclassified: 9 file(s) not represented in the graph (top: (none) 5, .example 1, .toml 1)
+- Unclassified: 10 file(s) not represented in the graph (top: (none) 6, .example 1, .toml 1)
 
 ## Summary
 - 1419 nodes · 3273 edges · 83 communities (72 shown, 11 thin omitted)
@@ -11,7 +11,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `b7d3783a`
+- Built from commit: `57cae71d`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -113,10 +113,10 @@
 10. `db` - 33 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `Findings: bestportofolio (read-only, 2026-10-31)` --references--> `requireAdmin()`  [INFERRED]
-  docs/master/WORKLOG.md → src/lib/require-admin.ts
 - `Authorisation` --references--> `requireAdmin()`  [INFERRED]
   README.md → src/lib/require-admin.ts
+- `Findings: bestportofolio (read-only, 2026-10-31)` --references--> `requireAdmin()`  [INFERRED]
+  docs/master/WORKLOG.md → src/lib/require-admin.ts
 - `Database Schema` --references--> `OperationLog`  [INFERRED]
   README.md → src/components/admin/operation-logs-viewer.tsx
 - `Database Schema` --references--> `Todo`  [INFERRED]
@@ -418,22 +418,22 @@ Cohesion: 0.67
 Nodes (3): How it works, RAG Chatbot Setup (Optional), Step-by-step
 
 ## Knowledge Gaps
-- **513 isolated node(s):** `name`, `version`, `private`, `dev`, `build` (+508 more)
+- **513 isolated node(s):** `Public Website`, `Admin Panel (`/admin`)`, `Tech Stack`, `Prerequisites`, `1. Install` (+508 more)
   These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 660 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
 - **11 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `next` connect `next` to `related-content.tsx`, `rag-ingest.mjs`, `app/layout.tsx`, `package.json`, `app/page.tsx`, `react`, `auth/route.ts`, `card.tsx`, `cards.tsx`, `generateSlug`, `logOperation`, `db.ts`, `requireAdmin`, `projects/[slug]/page.tsx`, `navbar.tsx`, `require-admin.ts`, `settings/route.ts`, `notification-bell.tsx`, `projects/[id]/route.ts`?**
-  _High betweenness centrality (0.203) - this node is a cross-community bridge._
 - **Why does `react` connect `react` to `related-content.tsx`, `admin-dashboard.tsx`, `app/layout.tsx`, `cn`, `sidebar.tsx`, `project-manager.tsx`, `package.json`, `course-manager.tsx`, `embed-renderer.tsx`, `app/page.tsx`, `input.tsx`, `blog-ideas-manager.tsx`, `use-toast.ts`, `card.tsx`, `cards.tsx`, `utils.ts`, `dropdown-menu.tsx`, `table-of-contents.tsx`, `context-menu.tsx`, `pagination.tsx`, `projects/[slug]/page.tsx`, `input-otp.tsx`, `WORKLOG`, `admin-layout.tsx`, `toggle-group.tsx`, `carousel.tsx`, `navbar.tsx`, `snippet-manager.tsx`, `form.tsx`, `navigation-menu.tsx`, `blog-manager.tsx`, `breadcrumb.tsx`, `notification-bell.tsx`, `resizable.tsx`, `accordion.tsx`?**
-  _High betweenness centrality (0.183) - this node is a cross-community bridge._
+  _High betweenness centrality (0.231) - this node is a cross-community bridge._
+- **Why does `next` connect `next` to `related-content.tsx`, `rag-ingest.mjs`, `app/layout.tsx`, `package.json`, `app/page.tsx`, `react`, `auth/route.ts`, `card.tsx`, `cards.tsx`, `generateSlug`, `logOperation`, `db.ts`, `requireAdmin`, `projects/[slug]/page.tsx`, `navbar.tsx`, `require-admin.ts`, `settings/route.ts`, `notification-bell.tsx`, `projects/[id]/route.ts`?**
+  _High betweenness centrality (0.154) - this node is a cross-community bridge._
 - **Why does `cn()` connect `cn` to `admin-dashboard.tsx`, `sidebar.tsx`, `project-manager.tsx`, `course-manager.tsx`, `react`, `input.tsx`, `blog-ideas-manager.tsx`, `use-toast.ts`, `card.tsx`, `utils.ts`, `dropdown-menu.tsx`, `table-of-contents.tsx`, `context-menu.tsx`, `pagination.tsx`, `projects/[slug]/page.tsx`, `input-otp.tsx`, `WORKLOG`, `admin-layout.tsx`, `toggle-group.tsx`, `carousel.tsx`, `snippet-manager.tsx`, `form.tsx`, `navigation-menu.tsx`, `breadcrumb.tsx`, `notification-bell.tsx`, `resizable.tsx`, `accordion.tsx`?**
-  _High betweenness centrality (0.149) - this node is a cross-community bridge._
+  _High betweenness centrality (0.134) - this node is a cross-community bridge._
 - **Are the 2 inferred relationships involving `requireAdmin()` (e.g. with `Findings: bestportofolio (read-only, 2026-10-31)` and `Authorisation`) actually correct?**
   _`requireAdmin()` has 2 INFERRED edges - model-reasoned connections that need verification._
-- **What connects `name`, `version`, `private` to the rest of the system?**
+- **What connects `Public Website`, `Admin Panel (`/admin`)`, `Tech Stack` to the rest of the system?**
   _513 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `dependencies` be split into smaller, more focused modules?**
   _Cohesion score 0.028985507246376812 - nodes in this community are weakly interconnected._

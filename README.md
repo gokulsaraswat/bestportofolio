@@ -114,7 +114,7 @@ npm run db:check      # verifies connectivity and prints row counts
 Optionally seed sample content:
 
 ```bash
-npx tsx seed.ts
+npm run db:seed            # remove again: npm run db:seed -- --clean
 ```
 
 ### 4. Create your admin account
@@ -370,7 +370,7 @@ Per-IP, per-endpoint: auth 10/15min, chat 20/10min, contact 5/hr, comments 10/hr
 | `npx prisma generate` | Regenerate Prisma client types |
 | `npx prisma db push` | Push schema changes to Supabase Postgres |
 | `npx prisma studio` | Open visual database browser |
-| `npx tsx seed.ts` | Seed/refresh sample data |
+| `npm run db:seed` | Seed `sample-` blog (draft), project, course; `-- --clean` removes them |
 | `npm run typecheck` | `tsc --noEmit` |
 | `npm run db:check` | Verify DB connectivity, print row counts |
 | `npm run admin:create <user>` | Create/reset an admin account |
@@ -460,7 +460,6 @@ vercel
 ### Change to Your Own Name/Info
 
 1. **Fastest:** Log into Admin > Settings and edit all profile fields (name, bio, skills, social links, certifications, typing animation lines, carousel images)
-2. **Code level:** Edit `seed.ts` and change the profile defaults, then re-run `npx tsx seed.ts`
 
 ### Add Your Resume PDF
 
