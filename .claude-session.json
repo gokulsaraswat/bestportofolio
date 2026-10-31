@@ -85,6 +85,14 @@
         "result": "done 2026-10-31; POST and PUT validate + hash; mustChangePassword true on create and when an admin resets another user's password. Lint+typecheck+build pass. Not run end-to-end (VPN blocks DB locally; needs admin session): verify by creating a user in the old admin"
       },
       {
+        "step": "sec-4",
+        "phase": "security",
+        "item": "Auth on GET messages/[id], todos/[id]/history, blog-ideas/[id]; drafts in blogs/snippets GET admin-only",
+        "effort": "M",
+        "model": "",
+        "result": "done 2026-10-31; requireAdmin on GET messages/[id], todos/[id]/history, blog-ideas/[id]; blogs+snippets list/slug/[id] GET return only published items unless admin session. Local: 3 guarded GETs 401; DB paths not runnable locally (VPN) - verify live"
+      },
+      {
         "step": 5,
         "phase": "verify",
         "item": "Seed old Supabase DB, check every public page, then run cleanup",
@@ -102,13 +110,6 @@
       }
     ],
     "todo_next": [
-      {
-        "step": "sec-4",
-        "phase": "security",
-        "item": "Auth on GET messages/[id], todos/[id]/history, blog-ideas/[id]; drafts in blogs/snippets GET admin-only",
-        "effort": "M",
-        "model": ""
-      },
       {
         "step": "sec-5",
         "phase": "security",

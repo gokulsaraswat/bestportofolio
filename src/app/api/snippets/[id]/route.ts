@@ -5,13 +5,13 @@ import { logOperation } from '@/lib/log-operation'
 import { requireAdmin } from '@/lib/require-admin'
 
 export async function GET(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { id } = await params
     const snippet = await db.codeSnippet.findUnique({ where: { id } })
-    if (!snippet) {
+    if (!snippet || (!snippet.published && await requireAdmin(request))) {
       return NextResponse.json({ error: 'Snippet not found' }, { status: 404 })
     }
     return NextResponse.json(snippet)

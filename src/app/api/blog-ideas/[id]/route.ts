@@ -7,9 +7,12 @@ const VALID_STATUSES = ['idea', 'drafting', 'review', 'published']
 const VALID_PRIORITIES = ['low', 'medium', 'high']
 
 export async function GET(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const denied = await requireAdmin(request)
+  if (denied) return denied
+
   try {
     const { id } = await params
     const idea = await db.blogIdea.findUnique({ where: { id } })

@@ -146,7 +146,10 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
  * GET /api/messages/[id]
  * Convenience single-message fetch.
  */
-export async function GET(_request: NextRequest, { params }: RouteParams) {
+export async function GET(request: NextRequest, { params }: RouteParams) {
+  const denied = await requireAdmin(request)
+  if (denied) return denied
+
   try {
     const { id } = await params
     const message = await db.contactMessage.findUnique({ where: { id } })

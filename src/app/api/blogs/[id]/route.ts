@@ -33,14 +33,14 @@ function normalizeResourceLinks(raw: unknown): string {
 }
 
 export async function GET(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { id } = await params
     const blog = await db.blogPost.findUnique({ where: { id } })
 
-    if (!blog) {
+    if (!blog || (!blog.published && await requireAdmin(request))) {
       return NextResponse.json(
         { error: 'Blog not found' },
         { status: 404 }

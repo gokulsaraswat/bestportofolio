@@ -25,10 +25,12 @@ export async function GET(request: NextRequest) {
       data: { published: true },
     })
 
+    const isAdmin = !(await requireAdmin(request))
+
     // Feature #17: single-snippet lookup by slug (used by course chapter linking)
     if (slug) {
       const snippet = await db.codeSnippet.findUnique({ where: { slug } })
-      if (!snippet) {
+      if (!snippet || (!snippet.published && !isAdmin)) {
         return NextResponse.json({ error: 'Snippet not found' }, { status: 404 })
       }
       return NextResponse.json(snippet)
@@ -36,7 +38,9 @@ export async function GET(request: NextRequest) {
 
     const where: Record<string, unknown> = {}
 
-    if (published !== null) {
+    if (!isAdmin) {
+      where.published = true
+    } else if (published !== null) {
       where.published = published === 'true'
     }
     if (type) {

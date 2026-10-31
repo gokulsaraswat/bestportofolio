@@ -52,10 +52,12 @@ export async function GET(request: NextRequest) {
       data: { published: true },
     })
 
+    const isAdmin = !(await requireAdmin(request))
+
     // Feature #17: single-blog lookup by slug (used by course chapter linking)
     if (slug) {
       const blog = await db.blogPost.findUnique({ where: { slug } })
-      if (!blog) {
+      if (!blog || (!blog.published && !isAdmin)) {
         return NextResponse.json({ error: 'Blog not found' }, { status: 404 })
       }
       return NextResponse.json(blog)
@@ -63,7 +65,9 @@ export async function GET(request: NextRequest) {
 
     const where: Record<string, unknown> = {}
 
-    if (published !== null) {
+    if (!isAdmin) {
+      where.published = true
+    } else if (published !== null) {
       where.published = published === 'true'
     }
 
