@@ -36,9 +36,9 @@
     "semantic_hash": ""
   },
   "package.json": {
-    "mtime": 1793115024.424165,
-    "seen": 1793115632.996317,
-    "ast_hash": "93bb1f1bd2f1e71f71b84b7084a41e6e",
+    "mtime": 1793458750.7518885,
+    "seen": 1793458796.296183,
+    "ast_hash": "93a1523ef05f623c0da597b8650ea320",
     "semantic_hash": ""
   },
   "postcss.config.mjs": {
@@ -408,9 +408,9 @@
     "semantic_hash": ""
   },
   "src/app/sitemap.ts": {
-    "mtime": 1793115024.520588,
-    "seen": 1793115632.996356,
-    "ast_hash": "a8f7e222e4052888dee404e2a19faa89",
+    "mtime": 1793458749.7825794,
+    "seen": 1793458796.296236,
+    "ast_hash": "59cc62472b9e1e0ec1d6b58992ac2b60",
     "semantic_hash": ""
   },
   "src/app/snippets/layout.tsx": {
@@ -1206,8 +1206,8 @@
     "semantic_hash": ""
   },
   ".project-architecture.md": {
-    "mtime": 1793458736.9633415,
-    "seen": 1793458743.008778,
+    "mtime": 1793458793.572884,
+    "seen": 1793458796.296393,
     "ast_hash": "ede3eaad16e542c319f012fa5550c0bf",
     "semantic_hash": ""
   },
