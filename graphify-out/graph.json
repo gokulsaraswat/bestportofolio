@@ -14476,7 +14476,7 @@
       "node_kind": "heading",
       "norm_label": "blockers / requests to other repos",
       "source_file": "WORKLOG.md",
-      "source_location": "L31"
+      "source_location": "L33"
     },
     {
       "id": "worklog_current_state",
@@ -14524,7 +14524,7 @@
       "node_kind": "heading",
       "norm_label": "in progress / next",
       "source_file": "WORKLOG.md",
-      "source_location": "L27"
+      "source_location": "L29"
     },
     {
       "id": "worklog_reminders",
@@ -14536,7 +14536,7 @@
       "node_kind": "heading",
       "norm_label": "reminders",
       "source_file": "WORKLOG.md",
-      "source_location": "L38"
+      "source_location": "L40"
     },
     {
       "id": "worklog_worklog_bestportofolio",
@@ -16705,6 +16705,18 @@
       "type": "external"
     },
     {
+      "id": "src_components_site_navbar_footer",
+      "label": "src_components_site_navbar_footer",
+      "_origin": "semantic",
+      "community": 50,
+      "community_name": "[legal]/page.tsx",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "src_components_site_navbar_footer",
+      "source_file": "",
+      "type": "external"
+    },
+    {
       "id": "ref_path",
       "label": "ref_path",
       "_origin": "semantic",
@@ -16761,17 +16773,6 @@
       "external": true,
       "file_type": "concept",
       "norm_label": "ref_crypto",
-      "source_file": "",
-      "type": "external"
-    },
-    {
-      "id": "src_components_site_navbar_footer",
-      "label": "src_components_site_navbar_footer",
-      "community": 50,
-      "community_name": "[legal]/page.tsx",
-      "external": true,
-      "file_type": "concept",
-      "norm_label": "src_components_site_navbar_footer",
       "source_file": "",
       "type": "external"
     }
@@ -54901,7 +54902,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "WORKLOG.md",
-      "source_location": "L27",
+      "source_location": "L29",
       "weight": 1.0
     },
     {
@@ -54912,7 +54913,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "WORKLOG.md",
-      "source_location": "L31",
+      "source_location": "L33",
       "weight": 1.0
     },
     {
@@ -54923,7 +54924,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "WORKLOG.md",
-      "source_location": "L38",
+      "source_location": "L40",
       "weight": 1.0
     },
     {
@@ -55193,5 +55194,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "f97582242f65256c33fb8c8688d7e0cdc781ce03"
+  "built_at_commit": "8a5d37824c1c38c6354009531b32e6a1a7fd0218"
 }

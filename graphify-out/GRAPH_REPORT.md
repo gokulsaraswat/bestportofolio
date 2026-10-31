@@ -1,7 +1,7 @@
 # Graph Report - bestportofolio  (2026-10-31)
 
 ## Corpus Check
-- 218 files · ~127,424 words
+- 218 files · ~127,458 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 10 file(s) not represented in the graph (top: (none) 6, .example 1, .toml 1)
 
@@ -11,7 +11,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `f9758224`
+- Built from commit: `8a5d3782`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -445,22 +445,22 @@ Cohesion: 0.67
 Nodes (3): Alternative, Preferred, 📢 Reporting a Vulnerability
 
 ## Knowledge Gaps
-- **519 isolated node(s):** `1. High-Level Design (HLD) Topology`, `2. Current Target Directory Tree`, `3. Low-Level Design (LLD) & SOLID Class Schemas`, `Public Website`, `Admin Panel (`/admin`)` (+514 more)
+- **519 isolated node(s):** `Public Website`, `Admin Panel (`/admin`)`, `Tech Stack`, `Prerequisites`, `1. Install` (+514 more)
   These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 668 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
 - **14 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `next` connect `next` to `related-content.tsx`, `admin-dashboard.tsx`, `app/layout.tsx`, `package.json`, `app/page.tsx`, `react`, `auth/route.ts`, `rag-settings.tsx`, `cards.tsx`, `generateSlug`, `logOperation`, `db.ts`, `requireAdmin`, `blog/[slug]/page.tsx`, `projects/[slug]/page.tsx`, `navbar.tsx`, `require-admin.ts`, `[legal]/page.tsx`, `settings/route.ts`, `@google/genai`, `blogs/route.ts`?**
-  _High betweenness centrality (0.208) - this node is a cross-community bridge._
 - **Why does `react` connect `react` to `related-content.tsx`, `admin-dashboard.tsx`, `app/layout.tsx`, `cn`, `sidebar.tsx`, `project-manager.tsx`, `package.json`, `dropdown-menu.tsx`, `embed-renderer.tsx`, `app/page.tsx`, `blog-ideas-manager.tsx`, `course-manager.tsx`, `use-toast.ts`, `rag-settings.tsx`, `cards.tsx`, `utils.ts`, `admin-layout.tsx`, `table-of-contents.tsx`, `context-menu.tsx`, `snippets/page.tsx`, `blog/[slug]/page.tsx`, `chat-widget.tsx`, `WORKLOG`, `projects/[slug]/page.tsx`, `toggle-group.tsx`, `carousel.tsx`, `navbar.tsx`, `snippet-manager.tsx`, `form.tsx`, `avatar.tsx`, `navigation-menu.tsx`, `blog-manager.tsx`, `menubar.tsx`, `input.tsx`, `profile-settings.tsx`, `loader.tsx`, `input-otp.tsx`, `operation-logs-viewer.tsx`?**
-  _High betweenness centrality (0.172) - this node is a cross-community bridge._
+  _High betweenness centrality (0.216) - this node is a cross-community bridge._
+- **Why does `next` connect `next` to `related-content.tsx`, `admin-dashboard.tsx`, `app/layout.tsx`, `package.json`, `app/page.tsx`, `react`, `auth/route.ts`, `rag-settings.tsx`, `cards.tsx`, `generateSlug`, `logOperation`, `db.ts`, `requireAdmin`, `blog/[slug]/page.tsx`, `projects/[slug]/page.tsx`, `navbar.tsx`, `require-admin.ts`, `[legal]/page.tsx`, `settings/route.ts`, `@google/genai`, `blogs/route.ts`?**
+  _High betweenness centrality (0.162) - this node is a cross-community bridge._
 - **Why does `cn()` connect `cn` to `admin-dashboard.tsx`, `sidebar.tsx`, `project-manager.tsx`, `dropdown-menu.tsx`, `react`, `blog-ideas-manager.tsx`, `course-manager.tsx`, `use-toast.ts`, `rag-settings.tsx`, `utils.ts`, `table-of-contents.tsx`, `context-menu.tsx`, `chat-widget.tsx`, `WORKLOG`, `toggle-group.tsx`, `carousel.tsx`, `snippet-manager.tsx`, `form.tsx`, `avatar.tsx`, `navigation-menu.tsx`, `menubar.tsx`, `input.tsx`, `input-otp.tsx`?**
-  _High betweenness centrality (0.130) - this node is a cross-community bridge._
+  _High betweenness centrality (0.136) - this node is a cross-community bridge._
 - **Are the 2 inferred relationships involving `requireAdmin()` (e.g. with `Findings: bestportofolio (read-only, 2026-10-31)` and `Authorisation`) actually correct?**
   _`requireAdmin()` has 2 INFERRED edges - model-reasoned connections that need verification._
-- **What connects `1. High-Level Design (HLD) Topology`, `2. Current Target Directory Tree`, `3. Low-Level Design (LLD) & SOLID Class Schemas` to the rest of the system?**
+- **What connects `Public Website`, `Admin Panel (`/admin`)`, `Tech Stack` to the rest of the system?**
   _519 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `dependencies` be split into smaller, more focused modules?**
   _Cohesion score 0.02857142857142857 - nodes in this community are weakly interconnected._

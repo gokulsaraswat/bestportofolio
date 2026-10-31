@@ -82,7 +82,7 @@
         "item": "Adopt @gokulsaraswat/ui 0.1.0 Footer + shared legal pages",
         "effort": "M",
         "model": "",
-        "result": "done 2026-10-31 (local commit; push waits for NODE_AUTH_TOKEN in Vercel). .npmrc, tokens.css+styles.css in layout, footer.tsx wraps shared Footer (Admin link + 'Built with' dropped), src/app/[legal] serves terms/cookies/data-deletion/accessibility/sitemap/faq via LegalPage placeholders (about/contact/privacy stay own pages). Dev check: all 9 footer routes 200, unknown path 404, mobile no overflow, light+dark colors OK. Lint+typecheck+build pass."
+        "result": "done 2026-10-31 (deployed via 8a5d378 after Vercel standalone fix; live: all 9 footer routes 200). .npmrc, tokens.css+styles.css in layout, footer.tsx wraps shared Footer (Admin link + 'Built with' dropped), src/app/[legal] serves terms/cookies/data-deletion/accessibility/sitemap/faq via LegalPage placeholders (about/contact/privacy stay own pages). Dev check: all 9 footer routes 200, unknown path 404, mobile no overflow, light+dark colors OK. Lint+typecheck+build pass."
       }
     ],
     "todo_next": [

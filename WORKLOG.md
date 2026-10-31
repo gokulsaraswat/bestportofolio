@@ -24,7 +24,7 @@ Master status of all repos: platform/docs/WORKLOG.md. Update this file after eve
 
 - Shared footer (2026-10-31): `@gokulsaraswat/ui` ^0.1.0 via `.npmrc` (`NODE_AUTH_TOKEN`). `footer.tsx` wraps shared `Footer`; `src/app/[legal]/page.tsx` serves terms, cookies, data-deletion, accessibility, sitemap, faq with shared `LegalPage` placeholders (real text pending Gokul's review); about/contact/privacy keep own pages. Dockerfile passes token as build secret. Needs `NODE_AUTH_TOKEN` in Vercel before deploy.
 
-- Vercel builds failed from 57cae71 to f975822 (`ENOENT .next/next-server.js.nft.json`): `output: 'standalone'` breaks Vercel's builder. Fix: standalone only when `NEXT_OUTPUT=standalone` (set in Dockerfile).
+- Vercel builds failed from 57cae71 to f975822 (`ENOENT .next/next-server.js.nft.json`): `output: 'standalone'` breaks Vercel's builder. Fix: standalone only when `NEXT_OUTPUT=standalone` (set in Dockerfile). Vercel green on 8a5d378; live footer pages all 200.
 
 ## In progress / next
 - See `.claude-session.json` sprint.todo_next.
