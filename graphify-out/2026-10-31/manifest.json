@@ -263,12 +263,6 @@
     "ast_hash": "07042532eeda9c8a6f09c0e14745ccc2",
     "semantic_hash": ""
   },
-  "src/app/api/route.ts": {
-    "mtime": 1793115024.4950087,
-    "seen": 1793115632.996342,
-    "ast_hash": "bea7bb6c5e8f4a6fad2e9ccc6324ae8a",
-    "semantic_hash": ""
-  },
   "src/app/api/settings/route.ts": {
     "mtime": 1793115024.4960794,
     "seen": 1793115632.9963431,
@@ -285,12 +279,6 @@
     "mtime": 1793115024.4977155,
     "seen": 1793115632.996344,
     "ast_hash": "57df5390ff102bf1d04a9264a62f6fc5",
-    "semantic_hash": ""
-  },
-  "src/app/api/test/route.ts": {
-    "mtime": 1793115024.4983125,
-    "seen": 1793115632.996344,
-    "ast_hash": "30bd66c58184519698e661140c0328e7",
     "semantic_hash": ""
   },
   "src/app/api/todos/[id]/history/route.ts": {
@@ -1206,8 +1194,8 @@
     "semantic_hash": ""
   },
   ".project-architecture.md": {
-    "mtime": 1793459073.0587146,
-    "seen": 1793459075.3436,
+    "mtime": 1793460654.0605092,
+    "seen": 1793460656.505183,
     "ast_hash": "ede3eaad16e542c319f012fa5550c0bf",
     "semantic_hash": ""
   },
@@ -1296,9 +1284,9 @@
     "semantic_hash": ""
   },
   ".claude-session.json": {
-    "mtime": 1793459061.3418603,
-    "seen": 1793459075.343412,
-    "ast_hash": "4ad4ec6cc2473513fda4fb8935ae113d",
+    "mtime": 1793460634.0432136,
+    "seen": 1793460656.5050082,
+    "ast_hash": "4c7ebed7ade76080b6dbc967a22fc083",
     "semantic_hash": ""
   },
   "COLLABORATORS.md": {
@@ -1308,9 +1296,9 @@
     "semantic_hash": ""
   },
   "WORKLOG.md": {
-    "mtime": 1793459061.3425076,
-    "seen": 1793459075.343606,
-    "ast_hash": "5dd4df41b3ab78720648c79098583177",
+    "mtime": 1793460634.390646,
+    "seen": 1793460656.5051892,
+    "ast_hash": "39b715a26c71ccc6958c3ea3d5e4b960",
     "semantic_hash": ""
   },
   "docs/KICKOFF-PROMPT.md": {

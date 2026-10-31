@@ -1,7 +1,7 @@
 # Graph Report - bestportofolio  (2026-10-31)
 
 ## Corpus Check
-- 217 files · ~127,146 words
+- 217 files · ~127,332 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 10 file(s) not represented in the graph (top: (none) 6, .example 1, .toml 1)
 
@@ -11,7 +11,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `8d104aa7`
+- Built from commit: `2b1187cc`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -437,11 +437,11 @@ Nodes (3): Alternative, Preferred, 📢 Reporting a Vulnerability
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `next` connect `next` to `blog/[slug]/page.tsx`, `admin-dashboard.tsx`, `app/layout.tsx`, `dialog.tsx`, `about/page.tsx`, `package.json`, `require-admin.ts`, `app/page.tsx`, `lucide-react`, `auth/route.ts`, `comment-manager.tsx`, `react`, `generateSlug`, `logOperation`, `@google/genai`, `db.ts`, `requireAdmin`, `projects/[slug]/page.tsx`?**
-  _High betweenness centrality (0.194) - this node is a cross-community bridge._
+  _High betweenness centrality (0.211) - this node is a cross-community bridge._
 - **Why does `react` connect `react` to `blog/[slug]/page.tsx`, `admin-dashboard.tsx`, `app/layout.tsx`, `dialog.tsx`, `cn`, `todo-manager.tsx`, `package.json`, `dropdown-menu.tsx`, `embed-renderer.tsx`, `app/page.tsx`, `lucide-react`, `project-manager.tsx`, `blog-ideas-manager.tsx`, `use-toast.ts`, `comment-manager.tsx`, `utils.ts`, `course-manager.tsx`, `table-of-contents.tsx`, `context-menu.tsx`, `pagination.tsx`, `projects/[slug]/page.tsx`, `admin-layout.tsx`, `WORKLOG`, `tabs.tsx`, `toggle-group.tsx`, `carousel.tsx`, `snippet-manager.tsx`, `profile-settings.tsx`, `avatar.tsx`, `navigation-menu.tsx`, `blog-manager.tsx`, `breadcrumb.tsx`, `menubar.tsx`, `resizable.tsx`, `loader.tsx`?**
-  _High betweenness centrality (0.186) - this node is a cross-community bridge._
+  _High betweenness centrality (0.185) - this node is a cross-community bridge._
 - **Why does `cn()` connect `cn` to `blog/[slug]/page.tsx`, `admin-dashboard.tsx`, `dialog.tsx`, `todo-manager.tsx`, `dropdown-menu.tsx`, `lucide-react`, `blog-ideas-manager.tsx`, `use-toast.ts`, `comment-manager.tsx`, `react`, `utils.ts`, `course-manager.tsx`, `table-of-contents.tsx`, `context-menu.tsx`, `pagination.tsx`, `admin-layout.tsx`, `WORKLOG`, `tabs.tsx`, `toggle-group.tsx`, `carousel.tsx`, `snippet-manager.tsx`, `profile-settings.tsx`, `avatar.tsx`, `navigation-menu.tsx`, `breadcrumb.tsx`, `menubar.tsx`, `resizable.tsx`?**
-  _High betweenness centrality (0.122) - this node is a cross-community bridge._
+  _High betweenness centrality (0.138) - this node is a cross-community bridge._
 - **Are the 2 inferred relationships involving `requireAdmin()` (e.g. with `Findings: bestportofolio (read-only, 2026-10-31)` and `Authorisation`) actually correct?**
   _`requireAdmin()` has 2 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `Current state`, `Decisions (Gokul, 2026-10-31)`, `Done` to the rest of the system?**

@@ -22,6 +22,8 @@ Master status of all repos: platform/docs/WORKLOG.md. Update this file after eve
 - `scripts/seed.mjs` (`npm run db:seed`, `-- --clean`): `sample-blog` (draft), `sample-project`, `sample-course` + 2 chapters; no admin user, no profile. Root `seed.ts` still present (stale; delete pending OK).
 - Page check 2026-10-31 on live `bestportofolio.vercel.app` (old Supabase DB): seeded sample rows via Supabase SQL editor (this Mac's GlobalProtect VPN blocks Postgres ports 5432/6543). All public pages render (`/`, about, projects + detail, blog + detail, courses + detail, snippets, contact, privacy, 404); draft blog hidden from list. Only console error: expected 404. Sample rows deleted and confirmed gone. `gokulsaraswat.com` does not resolve.
 
+- Shared footer (2026-10-31): `@gokulsaraswat/ui` ^0.1.0 via `.npmrc` (`NODE_AUTH_TOKEN`). `footer.tsx` wraps shared `Footer`; `src/app/[legal]/page.tsx` serves terms, cookies, data-deletion, accessibility, sitemap, faq with shared `LegalPage` placeholders (real text pending Gokul's review); about/contact/privacy keep own pages. Dockerfile passes token as build secret. Needs `NODE_AUTH_TOKEN` in Vercel before deploy.
+
 ## In progress / next
 - See `.claude-session.json` sprint.todo_next.
 - Later: repo kit (CI, CONTRACTS, ARCHITECTURE, LICENSE), @gokulsaraswat/ui footer, npm audit.

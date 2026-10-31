@@ -81,6 +81,7 @@ A production-grade, full-stack portfolio website built with **Next.js 16**, **Re
 ```bash
 git clone https://github.com/gokulsaraswat/bestportofolio.git
 cd bestportofolio
+export NODE_AUTH_TOKEN=$(gh auth token)   # GitHub token with read:packages, for @gokulsaraswat/*
 npm install
 ```
 
@@ -174,7 +175,7 @@ This runs the optimized standalone build on port 3000.
 ### Option B: Docker
 
 ```bash
-docker build -t portfolio .
+NODE_AUTH_TOKEN=<github-token-read:packages> docker build --secret id=NODE_AUTH_TOKEN,env=NODE_AUTH_TOKEN -t portfolio .
 docker run -p 3000:3000 --env-file .env portfolio
 ```
 
@@ -430,7 +431,7 @@ npm pack # to pack all in small files
 ### Option B: Docker
 
 ```bash
-docker build -t portfolio .
+NODE_AUTH_TOKEN=<github-token-read:packages> docker build --secret id=NODE_AUTH_TOKEN,env=NODE_AUTH_TOKEN -t portfolio .
 docker run -p 3000:3000 --env-file .env portfolio
 ```
 
@@ -451,7 +452,7 @@ npm i -g vercel
 vercel
 ```
 
-> For Vercel: set env vars in the dashboard. Data already lives in Supabase, so no database import is needed — but do set `AUTH_SECRET` and keep `SUPABASE_SERVICE_ROLE_KEY` server-side only.
+> For Vercel: set env vars in the dashboard, including `NODE_AUTH_TOKEN` (GitHub token with `read:packages`; needed to install the private `@gokulsaraswat/ui` package via `.npmrc`). Data already lives in Supabase, so no database import is needed — but do set `AUTH_SECRET` and keep `SUPABASE_SERVICE_ROLE_KEY` server-side only.
 
 ---
 
