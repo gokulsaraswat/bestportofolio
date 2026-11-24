@@ -1194,8 +1194,8 @@
     "semantic_hash": ""
   },
   ".project-architecture.md": {
-    "mtime": 1795524403.9028547,
-    "seen": 1795524406.1254,
+    "mtime": 1795525222.7035348,
+    "seen": 1795525224.301609,
     "ast_hash": "15b09bd4382b4762965fbbcd89a68fb9",
     "semantic_hash": ""
   },
@@ -1212,9 +1212,9 @@
     "semantic_hash": ""
   },
   "CLAUDE.md": {
-    "mtime": 1793116960.003197,
-    "seen": 1793116976.8612978,
-    "ast_hash": "8193b2c5ecb5f189d48627c69415e6d7",
+    "mtime": 1795525179.9755125,
+    "seen": 1795525224.301611,
+    "ast_hash": "fd1c4e6d6f4449af46cc2e3a8d175f28",
     "semantic_hash": ""
   },
   "DEPLOYMENT.md": {
@@ -1347,6 +1347,12 @@
     "mtime": 1793464602.023601,
     "seen": 1793464689.98095,
     "ast_hash": "0008350780e2d4573424407a608d1891",
+    "semantic_hash": ""
+  },
+  "docs/CONTEXT.md": {
+    "mtime": 1795525179.9750116,
+    "seen": 1795525224.301615,
+    "ast_hash": "e3a770793d030cfe66a97dca8a0651bb",
     "semantic_hash": ""
   }
 }
