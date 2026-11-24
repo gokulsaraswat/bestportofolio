@@ -1194,8 +1194,8 @@
     "semantic_hash": ""
   },
   ".project-architecture.md": {
-    "mtime": 1795525548.4813285,
-    "seen": 1795525550.346549,
+    "mtime": 1795535816.1847022,
+    "seen": 1795535817.9767628,
     "ast_hash": "15b09bd4382b4762965fbbcd89a68fb9",
     "semantic_hash": ""
   },
@@ -1353,6 +1353,12 @@
     "mtime": 1795525537.4782412,
     "seen": 1795525550.34657,
     "ast_hash": "f59dccd83f4a76b3f3e5463497e4991f",
+    "semantic_hash": ""
+  },
+  "docs/ADMIN-ACCESS.md": {
+    "mtime": 1795535802.6650195,
+    "seen": 1795535817.9767702,
+    "ast_hash": "24b3ce4dbe3aff2ad6403b96b8e5ed03",
     "semantic_hash": ""
   }
 }
