@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "updated": "",
+  "sys": {
+    "mode": "",
+    "scale": "",
+    "stack": [],
+    "architectural_pattern": ""
+  },
+  "ui_state": {
+    "design_tokens": "",
+    "motion_library": "",
+    "active_component": ""
+  },
+  "sprint": {
+    "goal": "",
+    "bugs": [],
+    "done": [],
+    "todo_next": []
+  },
+  "context_window": {
+    "files_loaded": [],
+    "pending_lld_updates": []
+  }
+}
