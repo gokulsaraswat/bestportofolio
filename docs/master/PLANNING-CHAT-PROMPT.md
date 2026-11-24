@@ -1,4 +1,4 @@
-<!-- SNAPSHOT 2026-10-31 of platform/docs/PLANNING-CHAT-PROMPT.md. Master lives in github.com/gokulsaraswat/platform/docs. If they differ, the master wins. Do not edit here. -->
+<!-- SNAPSHOT 2026-11-17 of platform/docs/PLANNING-CHAT-PROMPT.md. Master lives in github.com/gokulsaraswat/platform/docs. If they differ, the master wins. Do not edit here. -->
 
 # Planning Chat: resume prompt
 
@@ -12,7 +12,7 @@ Repos (under /Users/gokulsaraswat.vc/Documents/Project): platform, admin, gokulm
 Markdown-studio, checkers-gym-management, gokul-omni-converter. Idea doc: "Not Repository/Ideas.md". Prompts: "Not Repository/prompts/".
 
 STARTUP
-1. Read Project/WORKLOG.md fully (REMINDERS, Architecture, Process, RUNBOOK, Open questions, Session log), then
+1. Read Project/WORKLOG.md fully, starting with RESUME HERE (URGENT items, repo table, requests for platform, GitHub/sync status), then (REMINDERS, Architecture, Process, RUNBOOK, Open questions, Session log), then
    Not Repository/prompts/PROMPTS.md and REPO-KIT.md, then platform/docs/WORKLOG.md. Run `git status -s` and `git log -3 --oneline`
    in each repo (read-only) to see what the repo chats did since the last log entry.
 2. Tell me, short: where we are (RUNBOOK position), what changed in repos since the last log, what is next, and every doubt.
@@ -41,7 +41,10 @@ HOW WE WORK
   rules, what "done" means); then write ONE self-contained prompt file `<repo>/docs/COLLABORATOR-PROMPT.md` (also `Not Repository/prompts/` copy) containing
   context, order of steps, rules, ask/decide policy, update-the-docs rules. Gokul first runs it in that repo's own chat to test it, you refine, then he gives it out.
   Record the prompt, its scope and who has it in WORKLOG.md and the repo's COLLABORATORS.md.
+- PRIVACY RULE: `Project/PRIVATE-STATUS.md` and `PRIVATE-TODO.md` are local-only. Read them for context, never copy their content into WORKLOG, prompts, snapshots or any repo (platform is public). Keep security specifics out of anything that gets synced or pushed.
 - Never commit/push unless Gokul says so. Never touch a repo's code from here; repo work happens in its own chat.
+
+STATE REFRESH: if Gokul says he worked elsewhere, or a date has passed since the last verification, re-verify read-only (git status/log + each repo's WORKLOG.md) and rewrite RESUME HERE before anything else.
 
 AFTER EVERY REPO REPORT (SYNC ROUTINE, do on approval)
 1. Update Project/WORKLOG.md: RUNBOOK status, repo states, Decisions, Open questions, REMINDERS, Session log line.

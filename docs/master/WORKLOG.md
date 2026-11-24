@@ -1,12 +1,44 @@
-<!-- SNAPSHOT 2026-10-31 of platform/docs/WORKLOG.md. Master lives in github.com/gokulsaraswat/platform/docs. If they differ, the master wins. Do not edit here. -->
+<!-- SNAPSHOT 2026-11-17 of platform/docs/WORKLOG.md. Master lives in github.com/gokulsaraswat/platform/docs. If they differ, the master wins. Do not edit here. -->
 
 # WORKLOG
 
 Shared memory across chats. Claude: read this first in every new chat. Edit only after Gokul says yes.
-Source: `Not Repository/Ideas.md` (vision + full to-do list). Updated: 2026-10-31.
+Source: `Not Repository/Ideas.md` (vision + full to-do list). Updated: 2026-11-14 (full read-only verification of all repos).
+
+## RESUME HERE (verified read-only on 2026-11-14 by the planning chat; repo logs were read, builds/CI NOT re-run)
+New session or collaborator: read THIS section first, then the repo's own `WORKLOG.md` + `docs/KICKOFF-PROMPT.md`.
+
+### URGENT (Gokul only)
+1. **Security task A (credential rotation, old Supabase project).** Details: `Project/PRIVATE-STATUS.md` (local only) and bestportofolio's local security notes. Deferred by Gokul on 2026-10-31.
+2. **Security task B (dev token needs narrower scope; revoke old).** Details: `Project/PRIVATE-STATUS.md`.
+3. **Privacy task:** a few repos hold material that should not be shared with collaborators or public history. Details and options: `Project/PRIVATE-STATUS.md`. Decide before any collaborator gets access.
+
+### Where each repo stands
+| Repo | State (from its git log + WORKLOG) | Next |
+|---|---|---|
+| platform | DONE: `@gokulsaraswat/ui|config|auth` 0.1.0 published, CI/release workflows. `mdx` NOT built (needs Calculator/WebWindow specs). Synced with GitHub; local docs sync + `.claude/` uncommitted. | Update CONTRACTS (requests below); GitHub settings (Gokul); mdx later |
+| admin | Phases 2a-2c DONE: login, `user_roles` migration APPLIED to Supabase `gokul-platform` + RLS test passed, role-aware shell, app switcher, per-app areas, access guard, phone menu, design docs, PORTFOLIO-ADMIN-SPEC. Phase 2d committed: hub config editor + publish action; storage bucket SQL written, NOT applied. NOT deployed to Vercel. | Apply bucket SQL, basePath `/admin`, CORS, Vercel deploy, `role_permissions` (delegated admin), portfolio sections AFTER data migration |
+| gokulmobilize | Web hub DONE (Astro 7 static at `/apps/`, PWA, offline, mock config, footer pages). Android Capacitor app DONE: signed release v0.1.0 on GitHub Releases, CI green. RESEARCH-OPTIONS.md written. Vercel first deploy FAILED (401: no `NODE_AUTH_TOKEN` on Vercel). | Vercel env var + domain, real `config.json` URL, bundle real GSpace/Studio, icon, iOS later |
+| bestportofolio | LIVE https://bestportofolio.vercel.app (auto-deploy main). Public pages verified, footer pages in, security fixes sec-1..6 live. 30 npm vulns (1 critical) not addressed. `gokulsaraswat.com` does not resolve. Live content = old sample seed + test rows. Data still on OLD Supabase. | URGENT 1 above, npm audit, delete `seed.ts` (say "delete seed.ts"), real legal text, domain, then data migration to the new project |
+| Progress (GSpace) | Astro 5 -> Astro 7 upgrade by Gokul in progress (not committed as far as git shows). Repo-kit files NEVER committed (untracked). `COLLABORATOR-DESIGN-CHAT-PROMPT.md` written (run in a Progress chat, it writes COLLABORATOR-PROMPT.md). MDX + `/gspace` base path NOT done. | Commit kit; MDX + base path; collaborator prompt step 2; privacy decision on `src/files/` |
+| Markdown-studio | Kit committed locally; 1 commit NOT pushed. Section "TO BE UPDATED". | Later chat; needs base `/studio` + release zip for the app bundle |
+| checkers-gym-management | Kit committed locally; 2 commits NOT pushed. Section "TO BE UPDATED". | Later: `/gym`, move off CRA to Vite, shared Supabase decision |
+| gokul-omni-converter | Standalone; kit committed locally; 2 commits NOT pushed. | Later, low priority |
+
+### Requests waiting for the `platform` repo (collected from repo logs; platform chat applies, planning chat syncs)
+- CONTRACTS: record bucket `public-config`, path `hub/config.json` (agreed), CORS must allow the web domain, `https://localhost`, `capacitor://localhost`.
+- CONTRACTS: per-app permissions now needed (delegated admin decided): design `role_permissions` (or equivalent) with admin; record it.
+- CONTRACTS: portfolio base path is root `/`; hub at `/apps/`; admin `/admin`; gym `/gym`; gspace `/gspace`; studio `/studio`.
+- Maybe: move `SavedItem` v1 type + validator into `@gokulsaraswat/config`; lighter config validator than zod.
+- `@gokulsaraswat/mdx` still blocks the portfolio MDX switch and the admin MDX editor.
+
+### GitHub / sync status (2026-11-14)
+- Pushed and clean: admin, gokulmobilize, bestportofolio, platform (except uncommitted docs sync).
+- NOT up to date on GitHub: Progress kit (untracked), Markdown-studio (1 unpushed), gym (2 unpushed), omni (2 unpushed), plus `docs/master` snapshot refreshes in all repos. Run `/gitmd` to fix (check `git status` of Progress first: Astro 7 work may be in progress).
+- Gokul tasks open: GitHub settings for platform (description, topics, branch protection), Vercel projects + env vars, domain `gokulsaraswat.com`, real legal text, fill `Calculator`/`WebWindow` specs for mdx.
 
 ## REMINDERS (Claude: raise these in the planning chat, do not let Gokul forget)
-- [ ] PRIVACY (found 2026-10-31): `platform` is a PUBLIC repo and its committed docs/WORKLOG.md (commit history too) contains a few employer work to-do lines (see PRIVATE-TODO.md for what they were; not repeated here). Removed from the planning/master copy now and moved to Project/PRIVATE-TODO.md, but already pushed history needs Gokul's decision (rewrite history + force-push, or accept). ALSO check visibility of `Progress` (remote github.com/gokulsaraswatvc-eng/GSpace): it tracks 94 files in `src/files/` incl. work material (OMS JSONs, PDN scripts, postbooking-* repo notes). If public or later shared with collaborators, decide what to untrack/remove. Nothing deleted by Claude.
+- [ ] PRIVACY: see `Project/PRIVATE-STATUS.md` (local only; never copy its content into any repo or snapshot). `platform` is PUBLIC, so master docs must stay free of private details.
 - [~] Supabase prep STATUS (2026-10-31): Gokul DONE = new project created, email sign-in/sign-ups off, GitHub read:packages token (NODE_AUTH_TOKEN). UPDATE: Gokul says ALL Supabase steps done (user created, keys collected in a private file, token set) = SUPABASE READY. Keys go into admin/.env.local ONLY when the admin chat asks (admin repo has no .gitignore yet: admin chat must create it first). Key file must stay outside every repo folder (/gitmd only catches .env*, *.pem, *.key style names). NEXT: admin chat.
 - [~] Supabase prep: `admin/docs/SUPABASE-SETUP.md` written (owner dashboard checklist + DRAFT SQL for user_roles/RLS/config bucket; nothing applied; Claude cannot create the project or authorize the Supabase connector). RISK logged: Prisma drift on shared `public` schema (unverified). SUPERSEDED 2026-10-31 by Gokul: NEW Supabase project for the platform now (see Decisions); portfolio data migrates later.
 - [ ] BEFORE the admin chat can finish, Gokul must have: (1) a Supabase project (free tier ok; Supabase connector in this app also needs /mcp authorization if Claude should use it), (2) a GitHub token with `read:packages` as env `NODE_AUTH_TOKEN` + `.npmrc` for installing `@gokulsaraswat/*` locally, (3) decision on migrating existing portfolio AdminUser rows + TOTP. The admin chat will ask; having them ready saves time.
@@ -25,16 +57,16 @@ Source: `Not Repository/Ideas.md` (vision + full to-do list). Updated: 2026-10-3
 ## RUNBOOK (one step at a time; Gokul asks "what next", Claude answers from here)
 Resume this planning chat in a new window with `Not Repository/prompts/PLANNING-CHAT-PROMPT.md`.
 Status legend: [ ] todo, [~] in progress, [x] done. Update after every report.
-- [ ] 0. Decide: commit the kit stubs per repo now, or let each repo chat commit its own (open).
+- [x] 0. Kit stubs: each repo's chat committed its own; Progress still has untracked kit files; Markdown/gym/omni have unpushed commits (see RESUME HERE).
 - [x] 1. Chat `platform` DONE 2026-10-31 (verified read-only: main in sync with origin, CI green per its log, 6 commits). Delivered: repo kit, npm workspace + Changesets, `@gokulsaraswat/ui` 0.1.0 (tokens, Tailwind v4 mapping, Footer + LegalPage placeholders, 10 tests), CI + Release + install-smoke workflows, docs/ARCHITECTURE + CONTRACTS. Left for Gokul: (a) step 6 GitHub description/topics/branch protection (web UI; `gh` not installed), (b) run `graphify hook install` in platform, (c) commit untracked `.claude/`, `.gitattributes` (use /gitmd). UPDATE 2026-10-31 (re-verified): platform ALSO shipped step 7+8: `@gokulsaraswat/config` 0.1.0 + `@gokulsaraswat/auth` 0.1.0 published (ui, config, auth on GitHub Packages); graphify hook installed; main in sync with origin. Remaining in platform: step 6 GitHub settings (Gokul, web UI) and `@gokulsaraswat/mdx` (Calculator/WebWindow, waits for their specs, needs REQ_CONTEXT answers from Gokul). Platform is READY for admin.
-- [ ] 2. FIRST Gokul creates the NEW Supabase project (admin/docs/SUPABASE-SETUP.md steps). THEN chat `admin` (Opus 5.5, high; max for auth/RLS): shell, Supabase Auth, roles, switcher. Return: sync.
+- [~] 2. Chat `admin`: Phases 2a-2d largely DONE (see RESUME HERE). Remaining: bucket SQL apply, basePath, Vercel deploy, role_permissions, portfolio sections after data migration.
 - PARALLEL RUNS (Gokul asked 2026-10-31): separate repos can run at once. Safe now: admin (2) + gokulmobilize (3, use mock/published config contract; admin's bucket path comes later) + bestportofolio (4, ONLY stack checks, seed data, build proof; NOT auth/admin removal) + Progress (5, MDX + base path). Recommended max 3 at a time (usage limit). Rules: no chat edits another repo or platform/docs; cross-repo needs go in the repo's WORKLOG 'Blockers / requests'; planning chat syncs. Markdown-studio, gym, omni: later.
-- [ ] 3. Chat `gokulmobilize` (Opus 5.5, high): hub PWA + Capacitor. Return: sync.
-- [ ] 4. Chat `bestportofolio` (Sonnet 5.5, medium): seed fake data, verify, adopt shared footer; admin removal LAST. Return: sync.
+- [~] 3. Chat `gokulmobilize`: web hub + signed Android v0.1.0 DONE. Remaining: Vercel deploy fix, real config.json, bundle apps, icon, iOS.
+- [~] 4. Chat `bestportofolio`: live on Vercel, security sec-1..6 done. Remaining: security task A (see RESUME HERE), npm audit, domain, real content, MDX, data migration, remove old admin LAST.
 - [ ] 5. Chat `Progress` (Sonnet 5.5, medium): MDX + /gspace base path. Return: sync.
 - [ ] 6. Fill the TO BE UPDATED sections: Markdown-studio, checkers-gym-management, gokul-omni-converter. (REMINDER)
 - [ ] 7. Cross-repo integration check: config.json flow, roles, shared components, base paths, CI green everywhere.
-- [~] C. Collaborator prompt for GSpace (friend, Opus 5.5 high, unattended, NO questions, PR only). Step 1 DONE: design-chat prompt written at `Progress/docs/COLLABORATOR-DESIGN-CHAT-PROMPT.md` (copy in Not Repository/prompts/). Step 2 (Gokul): new chat in Project/Progress (Opus 5.5, high), paste it, answer its questions; it writes `Progress/docs/COLLABORATOR-PROMPT.md`. Step 3: return here to sync. OPEN RISK: confidentiality of work material in Progress `src/files/` before the friend gets access (see PRIVACY reminder). Final prompt must forbid opening/pushing src/files/**.
+- [~] C. Collaborator prompt for GSpace (friend, Opus 5.5 high, unattended, NO questions, PR only). Step 1 DONE: design-chat prompt written at `Progress/docs/COLLABORATOR-DESIGN-CHAT-PROMPT.md` (copy in Not Repository/prompts/). Step 2 (Gokul): new chat in Project/Progress (Opus 5.5, high), paste it, answer its questions; it writes `Progress/docs/COLLABORATOR-PROMPT.md`. Step 3: return here to sync. OPEN RISK: confidentiality (see PRIVATE-STATUS.md) before the friend gets access. Final prompt must forbid opening/pushing `src/files/**`.
 - [ ] A. FUTURE (after basics + Claude Code paid plan): automate the runbook. Driver = an orchestrator Claude session (or headless `claude -p` runs, /loop, subagents, git worktrees per repo) that runs each repo's autonomous kickoff in runbook order, reads/updates WORKLOG.md as memory, opens PRs, stops at human gates. Human gates: account/keys/payments (Vercel, Supabase, NODE_AUTH_TOKEN, Apple), legal text, design taste, merge to main. Needs: sandboxed/permissioned unattended mode, plan usage limits checked, `.claude-session.json` steps in every repo, CI green as the stop condition. Prepare now: keep every step small, verifiable, and logged.
   Gokul's chosen mode (2026-10-31): Claude Desktop (Code tab). Orchestrator session in Project/ spawns one session per repo (own worktree/branch), each ends with a PULL REQUEST; Gokul merges to main. Sessions ASK Gokul when blocked (he answers: judgement, payments, legal, secrets, accounts). Prerequisites NOT yet done: GitHub access for PRs (`gh` CLI is NOT installed here; GitHub connector needs authorizing via /mcp), connectors Gokul wants to grant, plan usage check.
 - [ ] 8. Then feature work from the to-do list (portfolio content, courses, resume, etc.).

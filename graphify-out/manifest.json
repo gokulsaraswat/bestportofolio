@@ -1194,8 +1194,8 @@
     "semantic_hash": ""
   },
   ".project-architecture.md": {
-    "mtime": 1793465296.6344502,
-    "seen": 1793465301.9514508,
+    "mtime": 1793465331.397662,
+    "seen": 1793465333.5381088,
     "ast_hash": "15b09bd4382b4762965fbbcd89a68fb9",
     "semantic_hash": ""
   },
@@ -1273,14 +1273,14 @@
   },
   "prisma/migrations/20260627213813_init/migration.sql": {
     "mtime": 1793115024.4329333,
-    "seen": 1793438755.589795,
-    "ast_hash": "",
+    "seen": 1793465333.537954,
+    "ast_hash": "1033fdc1e00932d768560ca465add410",
     "semantic_hash": ""
   },
   "supabase/migrations/001_rag_schema.sql": {
     "mtime": 1793115024.5862012,
-    "seen": 1793438755.589949,
-    "ast_hash": "",
+    "seen": 1793465333.538105,
+    "ast_hash": "82c1dfedb47c6f5c30e78a034dc0e20e",
     "semantic_hash": ""
   },
   ".claude-session.json": {
