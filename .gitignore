@@ -60,3 +60,7 @@ graphify-out/manifest.json
 graphify-out/cache/
 graphify-out/manifest.json
 graphify-out/
+
+# private notes and employer material: never commit (see RULES.md section 7)
+Not Repository/
+PRIVATE-*.md
