@@ -30,6 +30,7 @@ Master status of all repos: platform/docs/WORKLOG.md (planning chat syncs it fro
 - Owner mode: commit + push to `main` after each step.
 
 ## Done (oldest first)
+- 2026-11-25: UI/motion upgrade queued as TODO only (no source changes). Prompt added to docs/KICKOFF-PROMPT.md; backlog item added; animation libs installed but unused (see backlog). PRT-I-001, PRT-X-001.
 - `28c5e4e` Startup review; kickoff docs, WORKLOG, `.claude-session.json` committed.
 - `80ff3db` `sitemap.ts` is `force-dynamic` (build no longer needs `DATABASE_URL`); Node 24 pinned.
 - `b7d3783` Removed unused next-auth, z-ai-web-dev-sdk, next-intl, @wrksz/themes, bun-types.

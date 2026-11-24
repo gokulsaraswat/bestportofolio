@@ -66,3 +66,55 @@ Scope: keep working; become public-only.
   3. Run build + lint + start and report real status (not yet verified by anyone).
   4. Check whether a newer Prisma/Next major is worth it; report only, do not upgrade without my OK.
 Questions to ask me first: hosting (Dockerfile/Caddyfile in repo), env setup, what "perfect" means for the verification list.
+
+## UI UPGRADE ADD-ON (TODO, backlog PRT-I-001; master: platform/docs/PROMPTS.md)
+Use only when Gokul asks for the UI/motion upgrade. Paste after SHARED BLOCK + REPO SECTION.
+
+```text
+UI UPGRADE: presentation layer only, zero regression. TODO, not started (backlog: PLT-I-001, ADM-I-001, MOB-I-001, PRT-I-001).
+
+Real topology (verified 2026-11-25):
+- platform: shared @gokulsaraswat/{ui,config,auth}. READ-ONLY for this task.
+- admin: Next 16 + Supabase Auth. The ONE role-aware admin; "super admin" is a role (user_roles app='*'), not a separate app.
+- gokulmobilize: Astro 7 hub PWA at /apps + Capacitor Android.
+- bestportofolio: Next 16 public site + the AI chatbot (Gemini + Supabase vector search) + its own cookie-session admin. There is NO separate chatbot repo.
+- Out of scope: GSpace, Markdown-studio (no shared packages), gokul-omni-converter (Python desktop).
+
+RULE 1: ZERO REGRESSION AND CONTRACT PRESERVATION
+1. Do NOT alter API contracts: route paths, methods, status codes, request/response shapes. This includes:
+   - POST /api/chat: JSON { messages: [{ role, content }] } in; text/plain streamed chunks out (NOT SSE; the widget reads them with getReader()); 400 when messages is not a non-empty array.
+   - GET /api/chat-status -> { enabled }.
+   - The anonymous rate limits in bestportofolio/src/proxy.ts.
+2. Shared packages are read-only: no change to exports, props, or CSS variable names in @gokulsaraswat/*. Restyle with app-level overrides of the tokens in the consuming repo's own CSS.
+3. Preserve business logic and auth: state, data hooks, validation, role checks, env var names, and
+   - admin: src/proxy.ts, src/lib/session.ts, route-group layouts, src/features/hub/config/* (actions, load), supabase/;
+   - bestportofolio: signed-cookie session, requireAdmin, Prisma access;
+   - hub config.json contract: bucket public-config, path hub/config.json, shape in @gokulsaraswat/config.
+4. Additive only: styling, layout, typography, CSS/Tailwind, motion. Wrap existing logic in upgraded UI components; never rewrite data fetching.
+
+RULE 2: WORKFLOW PER CHANGE
+1. Map dependencies of every file you plan to touch (which repos consume it).
+2. Propose the plan first: exact files, and confirm no API contract, shared type, auth flow or env var changes. Wait for approval (always when more than one repo is touched).
+3. One repo at a time. Proposed order (not yet confirmed by Gokul): gokulmobilize (pilot) -> bestportofolio (site, then chat widget, then its admin) -> admin.
+4. Verify after every repo with that repo's own commands (below); fix before moving on. Commit/push only per RULES.md section 2, after verification passes.
+5. Ask before adding any dependency beyond the ones listed below.
+
+VISUAL AND MOTION STANDARDS
+- Clean typography, layered surface depth, hardware-accelerated motion only (transform, opacity). Use the existing tokens (--motion-ease-enter/-exit, --motion-duration-*); respect prefers-reduced-motion.
+- Admin dashboards (admin repo and bestportofolio's admin panel): high-density, fast, scannable; subtle micro-interactions, crisp tables, no heavy or distracting animation, no smooth-scroll hijack.
+- User-facing views (portfolio site, hub): richer hero/scroll motion; chat widget streaming polish (typing indicator, chunk fade-in) without touching the fetch/stream code.
+
+Animation libraries installed 2026-11-25 (public npm, not yet used anywhere):
+- admin: motion, @formkit/auto-animate
+- gokulmobilize: motion, @formkit/auto-animate
+- bestportofolio: gsap, @gsap/react, lenis, @formkit/auto-animate; keeps its existing framer-motion ^12 (same engine as `motion`; import from 'framer-motion', do not add `motion` alongside it).
+```
+
+```text
+Repo: bestportofolio, three separate passes (verify each):
+- Verify: `npm run typecheck && npm run lint && npm run build`.
+- Pass A, public site (src/components/site/* except chat): hero, scroll reveals (gsap + @gsap/react, lenis for smooth scroll), cards.
+- Pass B, chat widget (src/components/site/chat-widget.tsx): visuals and animation only; the fetch('/api/chat') + getReader() loop and message state stay byte-for-byte equivalent.
+- Pass C, its own admin (src/components/admin/*, /admin routes): dense and fast; no lenis, minimal motion.
+- Keep src/proxy.ts, src/lib/session.ts, src/lib/require-admin.ts, src/app/api/*, prisma/ untouched.
+```
