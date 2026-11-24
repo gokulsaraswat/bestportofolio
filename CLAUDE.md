@@ -106,3 +106,6 @@ Condition: If the mode is not declared in the first message, assume [Organizatio
 - After structural changes (new/moved/deleted modules, routes, services, dependencies) in a session, run `./sync-architecture.sh && graphify update .` before finishing. Do not wait for a commit.
 - If hooks are missing in a fresh clone: `./sync-architecture.sh --install-hooks && graphify hook install`.
 - Commit `.project-architecture.md` and `CLAUDE.md` so the GitHub copy matches the working tree.
+
+## Context
+Read `docs/CONTEXT.md` first in every session (vision, repo map, cross-repo contracts, work modes).
