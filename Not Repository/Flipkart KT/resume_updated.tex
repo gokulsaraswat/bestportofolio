@@ -1,0 +1,174 @@
+\documentclass[letterpaper,11pt]{article}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage[table]{xcolor}
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\usepackage{fontawesome5}
+\usepackage{multicol}
+\usepackage{graphicx}
+\setlength{\multicolsep}{-3.0pt}
+\setlength{\columnsep}{-1pt}
+\input{glyphtounicode}
+
+% Adjust margins
+\addtolength{\oddsidemargin}{-0.6in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1.19in}
+\addtolength{\topmargin}{-.7in}
+\addtolength{\textheight}{1.4in}
+
+\urlstyle{same}
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Sections formatting
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\large\bfseries
+}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+
+\pdfgentounicode=1
+
+\newcommand{\resumeItem}[1]{
+  \item\small{{#1 \vspace{-2pt}}}
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{1.0\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{\large#1} & \textbf{\small #2} \\
+      \textit{\large#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+    \item
+    \begin{tabular*}{1.001\textwidth}{l@{\extracolsep{\fill}}r}
+      \small#1 & \textbf{\small #2}\\
+    \end{tabular*}\vspace{-6pt}
+}
+
+\renewcommand\labelitemi{$\vcenter{\hbox{\tiny$\bullet$}}$}
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.0in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+\begin{document}
+
+%----------HEADING----------
+\begin{center}
+    {\Huge \scshape Gokul Saraswat} \\ \vspace{1pt}
+    \textbf Bangalore, Karnataka \\ \vspace{1pt}
+    \small
+    \href{tel:+919829086012}{\faPhone\ +91-9829086012} ~
+    \href{mailto:gokulsaraswat07@gmail.com}{\faEnvelope\ gokulsaraswat07@gmail.com} ~
+    \href{https://www.linkedin.com/in/gokulsaraswat/}{\faLinkedin\ gokulsaraswat} ~
+    \href{https://github.com/gokulsaraswat}{\faGithub\ gokulsaraswat} ~
+    \href{https://leetcode.com/u/gokulsaraswat/}{\faCode\ gokulsaraswat}
+
+    \vspace{-8pt}
+\end{center}
+
+%------SUMMARY-------
+\section{Professional Summary}
+\resumeSubHeadingListStart
+    \item
+     Backend Engineer with 3+ years of experience building high-availability microservices for enterprise banking and post-booking travel platforms. Proficient in Java 8--21, Spring Boot, and distributed systems using Kafka, Redis, and GCP. Deep expertise in designing event-driven notification pipelines (Email, WhatsApp, SMS), Core Banking Systems (CBS), and EOD/payment migrations. Proven track record of reducing transaction latency, owning canary-to-production deployments, and delivering real business impact across multi-service distributed architectures.
+\resumeSubHeadingListEnd
+
+%-----------TECHNICAL SKILLS-----------
+
+\section{Technical Skills}
+    \begin{itemize}[leftmargin=0.0in, label={}]
+    \small{
+    \item \textbf{Languages:} Java 8/17/21, SQL (Oracle), PL/SQL, C++, Python, JavaScript, Data Structures \& Algorithms \\
+    \textbf{Frameworks/Tools:} Spring Boot 3.x, Spring WebFlux, Spring Cloud, Apache Kafka, Redis, FreeMarker, JUnit, Mockito \\
+    \textbf{APIs \& Architecture:} RESTful APIs, SOAP, Microservices, Event-Driven Architecture, JWT, OAuth 2.0, Multithreading \\
+    \textbf{Cloud/DevOps:} GCP (Secret Manager, Artifact Registry, Pub/Sub), Kubernetes, Docker, Bitbucket Pipelines, Grafana, Prometheus, Plexus, Linux \\
+    \textbf{Domain Specific:} Post-Booking Comms (WhatsApp/Email/SMS), Flexcube, Oracle BIP Server, OBX Tool \\
+    \textbf{Certifications:}
+    \href{https://www.linkedin.com/in/gokulsaraswat/details/certifications/}{Oracle Java 8--25},
+    \href{https://www.linkedin.com/in/gokulsaraswat/details/certifications/}{Oracle DB/SQL},
+    \href{https://drive.google.com/file/d/1X9quWFubCRT8ssYWKNbRchRBYZGTG3U9/view}{GDSC Cloud Track}
+}\end{itemize} \vspace{-15pt}
+
+
+%-----------EXPERIENCE-----------
+\section{Work Experience}
+\resumeSubHeadingListStart
+
+    \resumeSubheading
+      {Cleartrip (A Flipkart Company)}{Jul 2025 -- Present}
+      {Software Engineer}{Bangalore, India}
+      \resumeItemListStart
+        \item Engineered communication workflows across \textbf{Email, WhatsApp, and SMS} channels in the Air Demand communication service using \textbf{Java 21}, \textbf{Spring Boot 3.2}, \textbf{Kafka}, \textbf{Gupshup}, and \textbf{Meta Templates}; validated changes via \textbf{Argo CD} logs and deployed on \textbf{GKE}.
+        \item Managed end-to-end \textbf{canary-to-production deployments} via Bitbucket Pipelines, provisioning and rotating environment secrets across multiple repositories using \textbf{GCP Secret Manager}.
+        \item Refactored post-booking \textbf{DTOs} in the OMS integration layer to align with the initial test-run contract, coordinating changes across multiple interdependent repositories.
+        \item Collaborated cross-functionally with DevOps and frontend teams to resolve integration blockers; raised and closed \textbf{40+ Jira tasks} spanning infra provisioning, access management, and feature delivery.
+      \resumeItemListEnd
+
+    \resumeSubheading
+      {Oracle Financial Services Software}{Aug 2023 -- June 2024}
+      {Consultant (Backend Engineer)}{Bangalore, India}
+      \resumeItemListStart
+        \item Designed and implemented a \textbf{Report Microservice} to aggregate complex transactional and audit data from Oracle BIP using optimized SQL, delivering Base64-encoded PDF/Excel output via Spring Boot REST APIs.
+        \item Integrated reporting services as virtual layers in \textbf{Oracle Banking Microservices Architecture (OBX)} using OJET, designing dynamic menu hierarchies for custom enterprise banking modules.
+        \item Engineered end-to-end backend integrations and WebLogic server optimizations, decreasing API transaction latency by \textbf{30\%} across multiple global banking rollouts.
+        \item Formulated \textbf{30+ RESTful APIs} utilizing a standardized microservices configuration, mitigating system integration friction and ensuring atomic transactional behavior.
+        \item Delivered Tier-3 production support for high-availability banking apps, resolving \textbf{100+ critical production bottlenecks} (Root Cause Analysis) to maintain a \textbf{98\% system uptime}.
+        \item Managed End-of-Day (EOD) batch processing and data migration for 1 year of historical core banking transactions, guaranteeing \textbf{99.9\% data integrity} and zero cutover loss.
+      \resumeItemListEnd
+
+    \resumeSubheading
+      {Devsnest}{Feb 2023 -- July 2023}
+      {SDE Intern}{Bangalore, India}
+      \resumeItemListStart
+        \resumeItem{Developed a React-JS frontend featuring Firebase Authentication \& Redis caching, reducing application latency by 30\%.}
+        \resumeItem{Contributed to an Agile team of 5, ensuring timely sprint deliveries and high-quality feature implementation.}
+      \resumeItemListEnd
+
+\resumeSubHeadingListEnd
+
+
+%-----------EDUCATION-----------
+    \section{EDUCATION}
+    \resumeSubHeadingListStart
+ \resumeSubheading
+        {BMS Institute Of Technology and Management}
+        {August 2019 -- June 2023}
+        {BE in Information Science and Engineering}
+        {Bangalore, India}
+ \resumeSubHeadingListEnd
+
+
+%-----------PROJECTS-----------
+\section{Personal Projects}
+\resumeSubHeadingListStart
+
+\resumeProjectHeading
+{\href{https://github.com/gokulsaraswat/Real-Time-Schedular}
+{\textbf{Real-Time Scheduler}} $|$ \small{Java, Multi-threading, Concurrency}}{Sep 2022 -- Dec 2022}
+\resumeItemListStart
+    \resumeItem{Developed a real-time task scheduler using Java thread pool and concurrent collections, consistently processing 50 tasks/second.}
+    \resumeItem{Implemented a Priority Blocking Queue to manage and scale up to 1,000 concurrent tasks without race conditions.}
+    \resumeItem{Simulated a priority-based preemptive scheduling algorithm, reducing high-priority task response times by \textbf{50\%} with 100\% deadline adherence.}
+\resumeItemListEnd
+
+\resumeSubHeadingListEnd
+
+
+%-----------ACHIEVEMENTS-----------
+\section{Achievements}
+\resumeItemListStart
+    \resumeItem{\textbf{3-Star Coder at CodeChef} (Max Rating: \textbf{1414}) with over 500 problems solved on platforms like \href{https://leetcode.com/u/gokulsaraswat/}{LeetCode}, CodeChef, and \href{https://www.geeksforgeeks.org/profile/gokulsaraswat}{GeeksforGeeks}}
+\resumeItemListEnd
+
+\end{document}
