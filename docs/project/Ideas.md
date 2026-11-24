@@ -83,12 +83,6 @@ Browser-style frame that embeds a URL inside a page.
 
 To-dos
 Now (2-3 days)
-Work
-[ ] Strategy pattern for post-booking service
-[ ] FK refund flow: complete as much as possible
-[ ] Meeting: OMS values that were returned
-[ ] Create foglamp for pending repositories
-[ ] Collect all docs (Google Sheets, Docs, PDFs) and upload the missing ones to the existing documents section
 Portfolio (main target: everything works perfectly)
 [ ] Verify everything works end to end
 [ ] Add completed projects to the projects section
