@@ -113,3 +113,7 @@ Read `docs/CONTEXT.md` first in every session (vision, repo map, cross-repo cont
 ## STANDING RULES (from Gokul, apply in every session)
 1. **Push after every change.** After any change in this repo, commit and push to GitHub (`git add`, commit, `git push origin HEAD`; pull --rebase first if behind; never force-push, never skip hooks, never commit secrets). Do not leave uncommitted or unpushed work at the end of a turn.
 2. **Ask detailed questions when needed.** Whenever requirements, scope, trade-offs or cross-repo impact are unclear, ask Gokul questions with full detail and clear options (what each choice means, pros/cons) before acting, rather than guessing.
+
+
+## Standing rule: keep tracking files current
+At the end of every task or session, update PRIVATE-STATUS.md, PRIVATE-TODO.md, WORKLOG.md and WORKLOG-PROJECT.md in this repo, then commit and push. Keep copies in sync across all repos and with the Project root.
