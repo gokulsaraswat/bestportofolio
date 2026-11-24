@@ -51,3 +51,7 @@ bun.lock
 bun.lockb
 yarn.lock
 pnpm-lock.yaml
+
+# graphify churn
+graphify-out/cache/
+graphify-out/manifest.json
