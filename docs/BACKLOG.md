@@ -16,6 +16,7 @@ Status: open, doing, blocked, done, dropped. Cross-repo: `needs:` waits on, `blo
 ## Features
 | ID | Title | Pri | Status | Needs/Blocks | Notes |
 |---|---|---|---|---|---|
+| PRT-F-001 | Show GSpace feed (`public/gspace-feed.json`: public projects + learning) as a "Now / learning in public" section | P2 | open | needs: GSP-X-010 (done) | Feed written by GSpace Projects → Portfolio sync. Shape: { generatedAt, source, projects[{name,summary,status,stack[],repo,updatedAt}], learning[{title,status,url,tags[]}] } |
 
 ## Ideas (unscoped, not committed to)
 | ID | Idea | Pri | Status | Needs/Blocks | Notes |
