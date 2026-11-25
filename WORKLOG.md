@@ -30,6 +30,7 @@ Master status of all repos: platform/docs/WORKLOG.md (planning chat syncs it fro
 - Owner mode: commit + push to `main` after each step.
 
 ## Done (oldest first)
+- 2026-11-25 PRT-B-001 (P0): Vercel deploys failed since 9c4146a. Back to Prisma 6.19.3 (matches schema.prisma url/directUrl and the adapter-less src/lib/db.ts), removed unused @prisma/adapter-pg, pg and prisma.config.ts, lockfile regenerated (effect override now in sync). Verified in a clean clone: npm ci ok, npm run build ok (44 s), typecheck ok, lint ok. Vercel is rate limited until ~24 h after the last attempt, so this deploys on the next push after the reset.
 - 2026-11-25: UI/motion upgrade queued as TODO only (no source changes). Prompt added to docs/KICKOFF-PROMPT.md; backlog item added; animation libs installed but unused (see backlog). PRT-I-001, PRT-X-001.
 - `28c5e4e` Startup review; kickoff docs, WORKLOG, `.claude-session.json` committed.
 - `80ff3db` `sitemap.ts` is `force-dynamic` (build no longer needs `DATABASE_URL`); Node 24 pinned.

@@ -7,6 +7,7 @@ Status: open, doing, blocked, done, dropped. Cross-repo: `needs:` waits on, `blo
 ## Bugs
 | ID | Title | Pri | Status | Needs/Blocks | Notes (where, repro, evidence) |
 |---|---|---|---|---|---|
+| PRT-B-001 | Vercel builds fail since 9c4146a (Prisma 7 upgrade + effect override without lockfile sync); live site stuck on 5973bc2 | P0 | done | | npm ci failed: "Missing: effect@3.22.5 from lock file"; schema.prisma + src/lib/db.ts are Prisma 6 style (url in schema, no adapter). Fix: Prisma 6.19.3, drop unused @prisma/adapter-pg + pg, remove prisma.config.ts, regenerate lockfile. Deploy waits for Vercel rate limit reset. |
 
 ## Improvements
 | ID | Title | Pri | Status | Needs/Blocks | Notes |
