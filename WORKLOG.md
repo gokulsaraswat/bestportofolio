@@ -13,11 +13,11 @@ Master status of all repos: platform/docs/WORKLOG.md (planning chat syncs it fro
 4. Another chat may be working here at the same time (security steps sec-*): pull before committing, commit only your own files.
 
 ## Current state (2026-10-31, end of session)
-- Live: https://bestportofolio.vercel.app (Vercel, auto-deploys `main`; production green since `8a5d378`). `gokulsaraswat.com` does not resolve.
+- Live: https://bestportofolio.vercel.app (Vercel, auto-deploys `main`; builds failed from `9c4146a` until the PRT-B-001 fix `03972c2`, so live still serves the last good deploy until Vercel's rate limit resets). `gokulsaraswat.com` does not resolve.
 - Data: OLD Supabase project (Prisma). Most live content is the old sample seed (Learn Go, System Design, 5 blogs, Banking Microservices project, snippets), plus test rows like project `asdfasf`.
 - Node 24 (`.nvmrc`, `engines >=24 <25`), npm, one lockfile. `npm ci`, `lint`, `typecheck`, `build` pass; build needs no DB.
 - Public pages verified live: `/`, about, projects + detail, blog + detail, courses + detail, snippets, contact, privacy, 404, and the 6 shared footer pages.
-- `npm audit`: 30 vulnerabilities (1 critical), not addressed.
+- `npm audit` (after `npm ci`, 2026-11-25): 3 high, not addressed.
 - Security: findings sec-1..sec-6 (admin repo Phase 0 review) all fixed and live (last deploy `af2fcaa`). Summary in README "Security" and SECURITY.md "Security log".
 
 ## Decisions (Gokul, 2026-10-31)
@@ -31,6 +31,7 @@ Master status of all repos: platform/docs/WORKLOG.md (planning chat syncs it fro
 
 ## Done (oldest first)
 - 2026-11-25 Phase A inventory + baseline: `docs/FEATURES.md` = parity checklist for the Astro rebuild (15 pages, 23 API route groups, 14 admin sections, SEO items, global widgets, PRT-F-001 as planned) with baseline numbers. Baseline: `npm ci` 62 s (clean clone), node_modules 1.0 GB, build 51 s cold / 12 s warm, lint 0 problems, typecheck pass; First Load JS gzip `/` 264 kB, `/blog/[slug]` 332 kB, `/projects/[slug]` 336 kB, `/admin` 461 kB (computed from `.next` manifests; Next 16 no longer prints it). Lighthouse (live, still the pre-9c4146a deploy) mobile/desktop perf: `/` 87/99, `/blog` 91/95, project 67/96 (mobile LCP 8.5 s). Findings F1-F4 in FEATURES.md section 7 (admin nav hides Comments; GlobalKeyboardShortcuts never mounted). Not deployed: Vercel rate limited; verified locally.
+- 2026-11-25 Phase A kit fixes: CLAUDE.md standing rule (`626a02f`); `docs/PLATFORM-DOCS.md` replaces `docs/master/`, `docs/project/`, `WORKLOG-PROJECT.md` (`3a376cb`); `docs/ARCHITECTURE.md` added (`c4d3e58`); stale WORKLOG lines removed (seed.ts item, "production green", audit count).
 - 2026-11-25 PRT-B-001 (P0): Vercel deploys failed since 9c4146a. Back to Prisma 6.19.3 (matches schema.prisma url/directUrl and the adapter-less src/lib/db.ts), removed unused @prisma/adapter-pg, pg and prisma.config.ts, lockfile regenerated (effect override now in sync). Verified in a clean clone: npm ci ok, npm run build ok (44 s), typecheck ok, lint ok. Vercel is rate limited until ~24 h after the last attempt, so this deploys on the next push after the reset.
 - 2026-11-25: UI/motion upgrade queued as TODO only (no source changes). Prompt added to docs/KICKOFF-PROMPT.md; backlog item added; animation libs installed but unused (see backlog). PRT-I-001, PRT-X-001.
 - `28c5e4e` Startup review; kickoff docs, WORKLOG, `.claude-session.json` committed.
@@ -51,7 +52,6 @@ Master status of all repos: platform/docs/WORKLOG.md (planning chat syncs it fro
 ## Open items (need Gokul)
 - [ ] URGENT: rotate the OLD Supabase DB password (it was publicly exposed via `/api/test`), update `DATABASE_URL`/`DIRECT_URL` in Vercel + local `.env`, redeploy. Gokul deferred this on 2026-10-31 ("update later"); until done, anyone who saw `/api/test` can reach the DB.
 - [ ] Vercel Firewall rule `block-api-test` (deny path `/api/test`, returns 403) was added as a stopgap. The route is gone from code; keep or delete the rule (deleting it should give 404).
-- [ ] Delete root `seed.ts` (stale: plaintext `admin`/`admin123` + real phone/email; replaced by `scripts/seed.mjs`). Agent delete was blocked by permissions: say "delete seed.ts".
 - [ ] Review real text for the 6 placeholder pages (terms, cookies, data-deletion, accessibility, sitemap, faq).
 - [ ] Domain: `gokulsaraswat.com` does not resolve; `layout.tsx` metadata, `sitemap.ts` and `lib/jsonld.ts` use it as the site URL. Point the domain at Vercel or change BASE_URL.
 - [ ] Live content is mostly old sample seed + test rows (`asdfasf`): replace with real content (admin) when ready.
@@ -59,8 +59,8 @@ Master status of all repos: platform/docs/WORKLOG.md (planning chat syncs it fro
 
 ## Todo next (agent, ask Gokul before each)
 1. Verify sec-3..sec-6 with the old admin (Gokul): create a user (weak password refused, new user must change password), drafts still listed in admin, edit + save a blog/project/course/profile, send a contact message.
-2. Repo kit (platform/docs/REPO-KIT.md): `.github/workflows/ci.yml` (npm ci + lint + typecheck + build, `NODE_AUTH_TOKEN` secret), PR template, `docs/CONTRACTS.md`, `docs/ARCHITECTURE.md`, `LICENSE`, GitHub description/topics/branch protection. CI would have caught the Vercel standalone break.
-3. `npm audit`: review the 30 vulnerabilities; fix without major upgrades first.
+2. Repo kit (platform/docs/REPO-KIT.md): `.github/workflows/ci.yml` (npm ci + lint + typecheck + build, `NODE_AUTH_TOKEN` secret), PR template, `docs/CONTRACTS.md`, `LICENSE`, GitHub description/topics/branch protection. CI would have caught the Vercel standalone break.
+3. `npm audit`: review the 3 high findings; fix without major upgrades first.
 4. Kickoff stack item 4: report whether Prisma 7 / a newer Next major is worth it (report only, no upgrade without OK).
 5. Perf: lists fill after 3-10 s (client-side `/api/*` fetches); `/api/settings` fetched twice per page; `/api/auth` + `/api/chat-status` on every public page.
 6. `docker build` proof on a machine with Docker: `NODE_AUTH_TOKEN=... docker build --secret id=NODE_AUTH_TOKEN,env=NODE_AUTH_TOKEN -t portfolio .`
