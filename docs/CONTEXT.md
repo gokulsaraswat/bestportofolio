@@ -33,7 +33,7 @@ Separate repos/apps behind ONE shared backend, login, admin and UI kit, later jo
 - Keep seams clean: shared logic behind small interfaces, config in env, no hardcoded URLs or secrets, ADR-style note in `WORKLOG.md` for any stack decision.
 
 ## Working rules
-- Start: read `CLAUDE.md`, this file, `WORKLOG.md`, then `docs/master/WORKLOG.md` if present (master snapshot may lag; the Project-level planning chat owns it).
+- Start: read `CLAUDE.md`, this file, `WORKLOG.md`, then the cross-repo `platform/docs/WORKLOG.md` (links in `docs/PLATFORM-DOCS.md`; the Project-level planning chat owns it).
 - Use `/gitmd` to commit/push all repos; never commit `.env*`, keys, tokens.
 - Update this repo's `WORKLOG.md` (current state + next step) at the end of every session.
 - Do not undo Gokul's in-progress or uncommitted work without asking.
