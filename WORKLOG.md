@@ -30,6 +30,7 @@ Master status of all repos: platform/docs/WORKLOG.md (planning chat syncs it fro
 - Owner mode: commit + push to `main` after each step.
 
 ## Done (oldest first)
+- 2026-11-25 Phase A inventory + baseline: `docs/FEATURES.md` = parity checklist for the Astro rebuild (15 pages, 23 API route groups, 14 admin sections, SEO items, global widgets, PRT-F-001 as planned) with baseline numbers. Baseline: `npm ci` 62 s (clean clone), node_modules 1.0 GB, build 51 s cold / 12 s warm, lint 0 problems, typecheck pass; First Load JS gzip `/` 264 kB, `/blog/[slug]` 332 kB, `/projects/[slug]` 336 kB, `/admin` 461 kB (computed from `.next` manifests; Next 16 no longer prints it). Lighthouse (live, still the pre-9c4146a deploy) mobile/desktop perf: `/` 87/99, `/blog` 91/95, project 67/96 (mobile LCP 8.5 s). Findings F1-F4 in FEATURES.md section 7 (admin nav hides Comments; GlobalKeyboardShortcuts never mounted). Not deployed: Vercel rate limited; verified locally.
 - 2026-11-25 PRT-B-001 (P0): Vercel deploys failed since 9c4146a. Back to Prisma 6.19.3 (matches schema.prisma url/directUrl and the adapter-less src/lib/db.ts), removed unused @prisma/adapter-pg, pg and prisma.config.ts, lockfile regenerated (effect override now in sync). Verified in a clean clone: npm ci ok, npm run build ok (44 s), typecheck ok, lint ok. Vercel is rate limited until ~24 h after the last attempt, so this deploys on the next push after the reset.
 - 2026-11-25: UI/motion upgrade queued as TODO only (no source changes). Prompt added to docs/KICKOFF-PROMPT.md; backlog item added; animation libs installed but unused (see backlog). PRT-I-001, PRT-X-001.
 - `28c5e4e` Startup review; kickoff docs, WORKLOG, `.claude-session.json` committed.
@@ -83,6 +84,11 @@ Master status of all repos: platform/docs/WORKLOG.md (planning chat syncs it fro
 - Local DB access blocked by company VPN (GlobalProtect) on Gokul's Mac.
 - planning chat: sync to master `platform/docs/WORKLOG.md`: bestportofolio security sec-1..sec-6 done and live (`8d104aa`..`af2fcaa`); DB password rotation pending (Gokul).
 - admin: role semantics now enforced server-side (only `admin` may use admin-users, backup, settings PUT, profile PUT, ingest, operation-logs; `editor`/`viewer` content only). The new admin should keep or replace this.
+
+## Assumptions (2026-11-25, Phase A agent)
+- First Load JS is computed (gzip of rootMainFiles + layout/page entry chunks from `.next` manifests), since Next 16 removed the column; compare later builds with the same method.
+- Lighthouse numbers are single runs against the live site, which serves the last good deploy, not `main`.
+- `npm ci` hit EPERM because a running `next dev` (port 3000) held `@next/swc-win32-x64-msvc/*.node`; the locked file was moved to the gitignored `build/` folder (not deleted) and `npm ci` then succeeded. Restart that dev server; `build/locked-next-swc.node.old` can be deleted once it is stopped.
 
 ## Reminders
 - Never change `DATABASE_URL`/Supabase env vars or the Prisma schema without logging it here and in CONTRACTS.
