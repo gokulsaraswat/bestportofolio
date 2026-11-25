@@ -59,17 +59,16 @@ if [[ -f package.json ]]; then
       edge "API_Gateway -->|Renders| Route_$(id "$r")[\"$r\"]"
     done || true
   grep -rEho "from ['\"](\./|\.\./|@/)[^'\"]+" src app components packages 2>/dev/null \
-    | sed -E "s/from ['\"]//" | while read -r p; do
-        t=$(basename "$p" | cut -d. -f1); [[ -n "$t" ]] && edge "App_Components -.->|imports| $(id "$t")[\"$t\"]"
-      done | sort -u | head -n "$MAX_EDGES" >> "$GRAPH" || true
+    | sed -E "s/from ['\"]//; s#.*/##; s/\..*//" | grep -v '^$' | sort -u | head -n "$MAX_EDGES" \
+    | awk '{ i = $0; gsub(/[^[:alnum:]]/, "_", i); printf "    App_Components -.->|imports| %s[\"%s\"]\n", substr(i, 1, 48), $0 }' >> "$GRAPH" || true
   edge 'end'
 fi
 
 # ---------- Python ----------
-if [[ -f requirements.txt || -f pyproject.toml ]] || find . -name '*.py' -not -path '*/.*' -print -quit | grep -q .; then
+if [[ -f requirements.txt || -f pyproject.toml ]] || find . \( -name node_modules -o -name '.*' -o -name venv -o -name dist -o -name build \) -prune -o -name '*.py' -print -quit | grep -q .; then
   edge 'subgraph PyLayer["Python Backend Layer"]'
   grep -rlE "@(app|router|bp|blueprint)\.(get|post|put|patch|delete|route)|urlpatterns" \
-    --include='*.py' --exclude-dir={venv,.venv,__pycache__,build} . 2>/dev/null \
+    --include='*.py' --exclude-dir={venv,.venv,__pycache__,build,node_modules,.git} . 2>/dev/null \
     | sort -u | head -n "$MAX_EDGES" | while read -r f; do
       node "$(basename "$f" .py)" API_Gateway "Route"
     done || true
