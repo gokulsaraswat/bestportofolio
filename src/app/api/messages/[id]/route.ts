@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { logOperation } from '@/lib/log-operation'
-import { requireAdmin } from '@/lib/require-admin'
+import { requirePermission } from '@/lib/require-admin'
 
 interface RouteParams {
   params: Promise<{ id: string }>
@@ -21,7 +21,7 @@ interface RouteParams {
  * If `replied` is false, `repliedAt` is cleared.
  */
 export async function PATCH(request: NextRequest, { params }: RouteParams) {
-  const denied = await requireAdmin(request)
+  const denied = await requirePermission(request, 'messages')
   if (denied) return denied
 
   try {
@@ -110,7 +110,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
  */
 export async function DELETE(request: NextRequest, { params }: RouteParams) {
 
-  const denied = await requireAdmin(request)
+  const denied = await requirePermission(request, 'messages')
   if (denied) return denied
   try {
     const { id } = await params
@@ -147,7 +147,7 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
  * Convenience single-message fetch.
  */
 export async function GET(request: NextRequest, { params }: RouteParams) {
-  const denied = await requireAdmin(request)
+  const denied = await requirePermission(request, 'messages')
   if (denied) return denied
 
   try {

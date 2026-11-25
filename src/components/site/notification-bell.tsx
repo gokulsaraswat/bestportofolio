@@ -13,6 +13,7 @@ import {
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { cn } from '@/lib/utils'
 import { useAdminSession } from '@/hooks/use-admin-session'
+import { hasPermission } from '@/lib/permissions'
 
 interface ContactMessage {
   id: string
@@ -49,7 +50,8 @@ function timeAgo(dateStr: string): string {
  * requires a session, and the component hides itself without one.
  */
 export function NotificationBell() {
-  const { isAdmin, loading: sessionLoading } = useAdminSession()
+  const { session, isAdmin: signedIn, loading: sessionLoading } = useAdminSession()
+  const isAdmin = signedIn && hasPermission(session?.role, 'messages')
   const [open, setOpen] = useState(false)
   const [messages, setMessages] = useState<ContactMessage[]>([])
   const [loading, setLoading] = useState(false)

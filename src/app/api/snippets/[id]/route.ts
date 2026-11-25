@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { generateSlug } from '@/lib/slug'
 import { logOperation } from '@/lib/log-operation'
-import { requireAdmin } from '@/lib/require-admin'
+import { requireAdmin, requirePermission } from '@/lib/require-admin'
 
 export async function GET(
   request: NextRequest,
@@ -25,7 +25,7 @@ export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const denied = await requireAdmin(request)
+  const denied = await requirePermission(request, 'snippets')
   if (denied) return denied
 
   try {
@@ -71,7 +71,7 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const denied = await requireAdmin(request)
+  const denied = await requirePermission(request, 'snippets')
   if (denied) return denied
 
   try {

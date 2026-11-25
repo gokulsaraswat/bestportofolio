@@ -33,6 +33,8 @@ All public pages are client components (`'use client'`) that fetch `/api/*` in t
 ## 2. API routes (`src/app/api`, all dynamic)
 Auth legend: **public**; **session** = valid `admin_session` cookie (`requireAdmin`, blocks `mustChangePassword`);
 **admin** = `requireRole(request,'admin')`; **pub/adm** = public sees published only, admin sees all.
+Phase B (PRT-B-003): every "session" write below, plus GET messages/comments `?all=true`/blog-ideas/todos, now also needs
+the role's section (`requirePermission`, map in section 4 and `docs/ARCHITECTURE.md`); viewer gets 403 on all of them.
 The proxy (`src/proxy.ts`) also returns 401 for any POST/PUT/PATCH/DELETE on `/api/*` without a session, except
 `/api/contact`, `/api/comments`, `/api/auth`, `/api/chat`, and rate-limits POST auth 10/15 min, chat 20/10 min,
 contact 5/h, comments 10/h per IP (in-memory). Errors are `{ error: string }` with 4xx/5xx.
@@ -80,7 +82,9 @@ Login: username + password form (`POST /api/auth`), signed HttpOnly cookie `admi
 `mustChangePassword` are forced to the change-password screen (`POST /api/auth/password`) and blocked by proxy/`requireAdmin`.
 Sign out = `DELETE /api/auth`. Client nav per role (`rolePermissions`): admin = all 14 sections (comments added in Phase B, F1),
 blog_editor = dashboard, blogs, blog-ideas, todos; project_editor = dashboard, projects, todos; course_editor = dashboard,
-courses, todos; viewer = dashboard. Server enforcement: content routes need any session; admin-only routes listed in section 2.
+courses, todos; viewer = dashboard. Server enforcement (Phase B, PRT-B-003): same map in `src/lib/permissions.ts`, checked by
+`requirePermission(request, section)` on writes and sensitive reads; unknown roles get no section; admin-only routes
+listed in section 2. Notification bell shows only for roles with `messages`.
 Admin header: theme toggle, sign out. (Plan: all of this moves to the `admin` repo with Google sign-in.)
 
 | # | Section (id) | Component | Operations | Verify |

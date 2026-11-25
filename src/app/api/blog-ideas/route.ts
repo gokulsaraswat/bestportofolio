@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { logOperation, logError } from '@/lib/log-operation'
-import { requireAdmin } from '@/lib/require-admin'
+import { requirePermission } from '@/lib/require-admin'
 
 const VALID_STATUSES = ['idea', 'drafting', 'review', 'published']
 const VALID_PRIORITIES = ['low', 'medium', 'high']
 
 export async function GET(request: NextRequest) {
   // Unpublished article ideas are a private content pipeline.
-  const denied = await requireAdmin(request)
+  const denied = await requirePermission(request, 'blog-ideas')
   if (denied) return denied
 
   try {
@@ -59,7 +59,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const denied = await requireAdmin(request)
+  const denied = await requirePermission(request, 'blog-ideas')
   if (denied) return denied
 
   try {

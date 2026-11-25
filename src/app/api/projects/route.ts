@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { generateSlug } from '@/lib/slug'
 import { logOperation, logError } from '@/lib/log-operation'
-import { requireAdmin } from '@/lib/require-admin'
+import { requirePermission } from '@/lib/require-admin'
 
 export async function GET(request: NextRequest) {
   try {
@@ -55,7 +55,7 @@ function normalizeJsonArrayField(
 }
 
 export async function POST(request: NextRequest) {
-  const denied = await requireAdmin(request)
+  const denied = await requirePermission(request, 'projects')
   if (denied) return denied
 
   try {

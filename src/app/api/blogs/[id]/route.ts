@@ -4,7 +4,7 @@ import { pickFields } from '@/lib/pick-fields'
 import { Prisma } from '@prisma/client'
 import { generateSlug } from '@/lib/slug'
 import { logOperation, logError } from '@/lib/log-operation'
-import { requireAdmin } from '@/lib/require-admin'
+import { requireAdmin, requirePermission } from '@/lib/require-admin'
 
 /**
  * Coerce a resourceLinks payload into a JSON string.
@@ -63,7 +63,7 @@ export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const denied = await requireAdmin(request)
+  const denied = await requirePermission(request, 'blogs')
   if (denied) return denied
 
   try {
@@ -145,7 +145,7 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
 
-  const denied = await requireAdmin(request)
+  const denied = await requirePermission(request, 'blogs')
   if (denied) return denied
   try {
     const { id } = await params

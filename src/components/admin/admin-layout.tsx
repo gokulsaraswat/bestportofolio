@@ -49,6 +49,7 @@ import { SnippetManager } from './snippet-manager'
 import { CommentManager } from './comment-manager'
 import OperationLogsViewer from "./operation-logs-viewer";
 import { BlogIdeasManager } from './blog-ideas-manager'
+import { hasPermission } from '@/lib/permissions'
 
 type Section = 'dashboard' | 'blogs' | 'blog-ideas' | 'projects' | 'courses' | 'snippets' | 'messages' | 'comments' | 'todos' | 'backup' | 'rag-bot' | 'users' | 'settings' | 'logs';
 
@@ -75,13 +76,6 @@ const navItems: NavItem[] = [
   { id: 'settings', label: 'Settings', icon: Settings },
 ]
 
-const rolePermissions: Record<string, string[]> = {
-  admin: ['dashboard', 'blogs', 'blog-ideas', 'projects', 'courses', 'snippets', 'logs', 'messages', 'comments', 'todos', 'rag-bot', 'backup', 'settings', 'users'],
-  blog_editor: ['dashboard', 'blogs', 'blog-ideas', 'todos'],
-  project_editor: ['dashboard', 'projects', 'todos'],
-  course_editor: ['dashboard', 'courses', 'todos'],
-  viewer: ['dashboard'],
-}
 
 function ThemeToggle() {
   const { theme, setTheme } = useTheme()
@@ -221,8 +215,7 @@ export function AdminLayout({ onLogout, role = 'admin' }: { onLogout: () => void
   const [activeSection, setActiveSection] = useState<Section>('dashboard')
   const [mobileOpen, setMobileOpen] = useState(false)
 
-  const allowedSections = rolePermissions[role] || rolePermissions.admin
-  const filteredNavItems = navItems.filter(item => allowedSections.includes(item.id))
+  const filteredNavItems = navItems.filter(item => hasPermission(role, item.id))
 
   const handleNavigate = (section: string) => {
     setActiveSection(section as Section)

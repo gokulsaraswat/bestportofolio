@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { logOperation, logError } from '@/lib/log-operation'
-import { requireAdmin } from '@/lib/require-admin'
+import { requirePermission } from '@/lib/require-admin'
 
 const VALID_STATUSES = ['idea', 'drafting', 'review', 'published']
 const VALID_PRIORITIES = ['low', 'medium', 'high']
@@ -10,7 +10,7 @@ export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const denied = await requireAdmin(request)
+  const denied = await requirePermission(request, 'blog-ideas')
   if (denied) return denied
 
   try {
@@ -39,7 +39,7 @@ export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const denied = await requireAdmin(request)
+  const denied = await requirePermission(request, 'blog-ideas')
   if (denied) return denied
 
   try {
@@ -122,7 +122,7 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
 
-  const denied = await requireAdmin(request)
+  const denied = await requirePermission(request, 'blog-ideas')
   if (denied) return denied
   try {
     const { id } = await params

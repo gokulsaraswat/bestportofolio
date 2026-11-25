@@ -3,7 +3,7 @@ import { db } from '@/lib/db'
 import { pickFields } from '@/lib/pick-fields'
 import { Prisma } from '@prisma/client'
 import { generateSlug } from '@/lib/slug'
-import { requireAdmin } from '@/lib/require-admin'
+import { requirePermission } from '@/lib/require-admin'
 
 export async function GET(
   _request: NextRequest,
@@ -41,7 +41,7 @@ export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ courseId: string }> }
 ) {
-  const denied = await requireAdmin(request)
+  const denied = await requirePermission(request, 'courses')
   if (denied) return denied
 
   try {
@@ -86,7 +86,7 @@ export async function DELETE(
   { params }: { params: Promise<{ courseId: string }> }
 ) {
 
-  const denied = await requireAdmin(request)
+  const denied = await requirePermission(request, 'courses')
   if (denied) return denied
   try {
     const { courseId } = await params

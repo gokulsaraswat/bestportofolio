@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { logOperation, logError } from '@/lib/log-operation'
-import { requireAdmin } from '@/lib/require-admin'
+import { requirePermission } from '@/lib/require-admin'
 
 /**
  * Moderation endpoints for a single comment. Admin only — visitors can post
@@ -14,7 +14,7 @@ interface RouteParams {
 
 /** PATCH /api/comments/[id] — edit the body, e.g. to redact something. */
 export async function PATCH(request: NextRequest, { params }: RouteParams) {
-  const denied = await requireAdmin(request)
+  const denied = await requirePermission(request, 'comments')
   if (denied) return denied
 
   const { id } = await params
@@ -53,7 +53,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
 
 /** DELETE /api/comments/[id] — remove a comment. */
 export async function DELETE(request: NextRequest, { params }: RouteParams) {
-  const denied = await requireAdmin(request)
+  const denied = await requirePermission(request, 'comments')
   if (denied) return denied
 
   const { id } = await params

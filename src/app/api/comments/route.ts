@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { logOperation } from '@/lib/log-operation'
-import { getAdminSession } from '@/lib/require-admin'
+import { requirePermission } from '@/lib/require-admin'
 
 /**
  * Comments.
@@ -34,10 +34,8 @@ export async function GET(request: NextRequest) {
 
     // Moderation view: the whole list, newest first.
     if (searchParams.get('all') === 'true') {
-      const session = await getAdminSession(request)
-      if (!session) {
-        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-      }
+      const denied = await requirePermission(request, 'comments')
+      if (denied) return denied
       const comments = await db.comment.findMany({ orderBy: { createdAt: 'desc' } })
       return NextResponse.json(comments)
     }

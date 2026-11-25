@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
-import { requireAdmin } from '@/lib/require-admin'
+import { requirePermission } from '@/lib/require-admin'
 
 function diffFields(oldRec: Record<string, unknown>, newBody: Record<string, unknown>): Array<{ field: string; oldValue: string; newValue: string }> {
   const changes: Array<{ field: string; oldValue: string; newValue: string }> = []
@@ -14,7 +14,7 @@ function diffFields(oldRec: Record<string, unknown>, newBody: Record<string, unk
 }
 
 export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-  const denied = await requireAdmin(request)
+  const denied = await requirePermission(request, 'todos')
   if (denied) return denied
 
   try {
@@ -74,7 +74,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
 }
 
 export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-  const denied = await requireAdmin(request)
+  const denied = await requirePermission(request, 'todos')
   if (denied) return denied
 
   try {

@@ -34,6 +34,17 @@ public/             robots.txt, logo.svg, resume PDF, background music mp3s
   `admin_session` cookie (`src/lib/session.ts`). `requireAdmin` / `requireRole(request,'admin')` in
   `src/lib/require-admin.ts` guard handlers; `src/proxy.ts` additionally rejects unauthenticated mutating `/api/*` calls
   except contact, comments, auth, chat.
+- Roles (server-enforced): `src/lib/permissions.ts` holds `ROLE_PERMISSIONS` (role -> admin sections) and
+  `hasPermission(role, section)`; it is plain data so the admin nav (`admin-layout.tsx`) and the notification bell use the
+  same map. Route handlers call `requirePermission(request, section)` (`src/lib/require-admin.ts`): 401 no session, 403
+  `mustChangePassword`, 403 role without the section (unknown roles have none). Map: admin = every section;
+  blog_editor = dashboard, blogs, blog-ideas, todos; project_editor = dashboard, projects, todos; course_editor =
+  dashboard, courses, todos; viewer = dashboard only (no write passes). Gated: all writes on blogs, blog-ideas, projects,
+  courses + chapters, snippets, messages, comments (PATCH/DELETE), todos; sensitive reads `GET /api/messages*`,
+  `GET /api/comments?all=true`, `GET /api/blog-ideas*`, `GET /api/todos*`. Admin-only routes (users, backup, settings PUT,
+  profile PUT, ingest, operation-logs) keep `requireRole(request, 'admin')`. Draft visibility on blogs/snippets GET is any
+  usable session (`requireAdmin`). A new sign-in method only has to issue the same `admin_session` payload with the
+  AdminUser `role`; the checks read nothing else.
 - Chat: `POST /api/chat` embeds the question (`gemini-embedding-001`), searches Supabase vectors, streams a
   `gemini-2.5-flash` answer as `text/plain`. Enabled by `Profile.chatBotEnabled` (`/api/chat-status`).
 - Settings: `Profile` row holds profile fields plus a `siteSettings` JSON string; `/api/settings` merges both for the client.

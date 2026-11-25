@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { logOperation } from '@/lib/log-operation'
-import { requireAdmin } from '@/lib/require-admin'
+import { requirePermission } from '@/lib/require-admin'
 
 /**
  * GET /api/messages
@@ -12,7 +12,7 @@ import { requireAdmin } from '@/lib/require-admin'
  */
 export async function GET(request: NextRequest) {
   // Contact messages are private correspondence — admin only.
-  const denied = await requireAdmin(request)
+  const denied = await requirePermission(request, 'messages')
   if (denied) return denied
 
   try {
@@ -76,7 +76,7 @@ export async function GET(request: NextRequest) {
  * Legacy bulk-update endpoint — kept for backwards compatibility. Prefer PATCH /api/messages/[id].
  */
 export async function PUT(request: NextRequest) {
-  const denied = await requireAdmin(request)
+  const denied = await requirePermission(request, 'messages')
   if (denied) return denied
 
   try {
@@ -141,7 +141,7 @@ export async function PUT(request: NextRequest) {
  *   Body: { ids: string[] }
  */
 export async function DELETE(request: NextRequest) {
-  const denied = await requireAdmin(request)
+  const denied = await requirePermission(request, 'messages')
   if (denied) return denied
 
   try {
