@@ -78,7 +78,7 @@ contact 5/h, comments 10/h per IP (in-memory). Errors are `{ error: string }` wi
 ## 4. Admin (`/admin` → `components/admin/admin-layout.tsx`, 14 sections)
 Login: username + password form (`POST /api/auth`), signed HttpOnly cookie `admin_session` (`lib/session.ts`); accounts with
 `mustChangePassword` are forced to the change-password screen (`POST /api/auth/password`) and blocked by proxy/`requireAdmin`.
-Sign out = `DELETE /api/auth`. Client nav per role (`rolePermissions`): admin = all except comments (see finding F1),
+Sign out = `DELETE /api/auth`. Client nav per role (`rolePermissions`): admin = all 14 sections (comments added in Phase B, F1),
 blog_editor = dashboard, blogs, blog-ideas, todos; project_editor = dashboard, projects, todos; course_editor = dashboard,
 courses, todos; viewer = dashboard. Server enforcement: content routes need any session; admin-only routes listed in section 2.
 Admin header: theme toggle, sign out. (Plan: all of this moves to the `admin` repo with Google sign-in.)
@@ -93,7 +93,7 @@ Admin header: theme toggle, sign out. (Plan: all of this moves to the `admin` re
 | D6 | Snippets (`snippets`) | snippet-manager.tsx | List (limit 200), create/edit (code tabs, category, embeds, `includeInRag`, published, scheduled publish), copy, delete | Create snippet |
 | D7 | Logs (`logs`) | operation-logs-viewer.tsx | View/filter/refresh operation logs (`GET /api/operation-logs`) | Logs show recent edits |
 | D8 | Messages (`messages`) | message-manager.tsx | Inbox list, mark read/unread (PATCH), delete one, bulk delete | Send contact message, see it |
-| D9 | Comments (`comments`) | comment-manager.tsx | List all (`?all=true`), edit content (PATCH), delete | Unreachable from nav today (F1); render via code path only |
+| D9 | Comments (`comments`) | comment-manager.tsx | List all (`?all=true`), edit content (PATCH), delete | Admin nav → Comments (F1 fixed in Phase B) |
 | D10 | Todos (`todos`) | todo-manager.tsx | List/filter, create, edit, complete, delete, per-todo history | Complete a todo, view history |
 | D11 | AI Chat Bot (`rag-bot`) | rag-settings.tsx | Enable/disable bot (`PUT /api/profile`), test chat (`POST /api/chat`, also on mount: spends quota; Plan: fix), ingest text (`POST /api/ingest`), delete by source (`DELETE /api/ingest`), re-ingest | Toggle bot, ingest a note |
 | D12 | Backup (`backup`) | backup-manager.tsx | Entity counts, download JSON backup per entity selection (`GET /api/backup?entities=`), restore from file (`POST /api/backup`), export-data helper | Download backup |
@@ -124,7 +124,7 @@ Admin header: theme toggle, sign out. (Plan: all of this moves to the `admin` re
 | PRT-F-001 | GSpace feed section ("Now / learning in public") from `public/gspace-feed.json` | Backlog P2, open. Not built; file does not exist in this repo yet. Verify after build: section renders projects + learning from the feed. |
 
 ## 7. Findings recorded during inventory (not fixed in Phase A)
-- F1: `rolePermissions.admin` in `admin-layout.tsx` omits `comments`, so the Comments section (D9) is not in the admin nav.
+- F1 (FIXED Phase B, PRT-B-002): `rolePermissions.admin` in `admin-layout.tsx` omitted `comments`, so the Comments section (D9) was not in the admin nav.
 - F2: `GlobalKeyboardShortcuts` is imported in `app/layout.tsx` but never rendered.
 - F3: `/api/profile` GET and JSON-LD expose `phone`; public GET `/api/blogs` writes (auto-publish); `rag-settings` calls `/api/chat` on mount (all already in plan step 0 "Security fixes").
 - F4: `robots.txt` has no Sitemap line; sitemap/OG use `https://gokulsaraswat.com` which does not resolve.

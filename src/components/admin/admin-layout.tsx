@@ -76,7 +76,7 @@ const navItems: NavItem[] = [
 ]
 
 const rolePermissions: Record<string, string[]> = {
-  admin: ['dashboard', 'blogs', 'blog-ideas', 'projects', 'courses', 'snippets', 'logs', 'messages', 'todos', 'rag-bot', 'backup', 'settings', 'users'],
+  admin: ['dashboard', 'blogs', 'blog-ideas', 'projects', 'courses', 'snippets', 'logs', 'messages', 'comments', 'todos', 'rag-bot', 'backup', 'settings', 'users'],
   blog_editor: ['dashboard', 'blogs', 'blog-ideas', 'todos'],
   project_editor: ['dashboard', 'projects', 'todos'],
   course_editor: ['dashboard', 'courses', 'todos'],

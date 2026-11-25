@@ -31,3 +31,4 @@ Status: open, doing, blocked, done, dropped. Cross-repo: `needs:` waits on, `blo
 ## Done (recent)
 | ID | Title | Commit | Date |
 |---|---|---|---|
+| PRT-B-002 | Admin nav hid the Comments section (`rolePermissions.admin` lacked `comments`, FEATURES F1) | (Phase B, see WORKLOG) | 2026-11-25 |
