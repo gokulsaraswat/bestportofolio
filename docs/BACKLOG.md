@@ -31,6 +31,7 @@ Status: open, doing, blocked, done, dropped. Cross-repo: `needs:` waits on, `blo
 ## Done (recent)
 | ID | Title | Commit | Date |
 |---|---|---|---|
+| PRT-B-007 | robots.txt had no sitemap and let crawlers into /admin | (Phase B, see WORKLOG) | 2026-11-26 |
 | PRT-B-006 | `/api/chat` logged every visitor prompt (and the final RAG prompt) to the server console | (Phase B, see WORKLOG) | 2026-11-26 |
 | PRT-B-005 | Public `GET /api/blogs` and `/api/snippets` wrote to the DB (auto-publish of scheduled items) on every anonymous request | (Phase B, see WORKLOG) | 2026-11-26 |
 | PRT-B-004 | Public `GET /api/profile` and the Person JSON-LD exposed the phone number | (Phase B, see WORKLOG) | 2026-11-26 |
