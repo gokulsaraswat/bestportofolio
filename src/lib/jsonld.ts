@@ -22,7 +22,6 @@ export async function getPersonJsonLd() {
       name: profile?.company || 'Oracle Financial Services Software',
     },
     email: `mailto:${profile?.email || 'gokulsaraswat07@gmail.com'}`,
-    telephone: profile?.phone || undefined,
     address: {
       '@type': 'PostalAddress',
       addressLocality: profile?.location || 'Bangalore',

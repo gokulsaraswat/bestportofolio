@@ -2,9 +2,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { pickFields } from '@/lib/pick-fields'
 import { Prisma } from '@prisma/client'
-import { requireRole } from '@/lib/require-admin'
+import { requireAdmin, requireRole } from '@/lib/require-admin'
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
     const profile = await db.profile.findFirst()
 
@@ -13,6 +13,11 @@ export async function GET() {
         { error: 'Profile not found' },
         { status: 404 }
       )
+    }
+
+    if (await requireAdmin(request)) {
+      const { phone: _phone, ...publicProfile } = profile
+      return NextResponse.json(publicProfile)
     }
 
     return NextResponse.json(profile)
