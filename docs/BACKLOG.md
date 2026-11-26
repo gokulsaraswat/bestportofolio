@@ -31,6 +31,7 @@ Status: open, doing, blocked, done, dropped. Cross-repo: `needs:` waits on, `blo
 ## Done (recent)
 | ID | Title | Commit | Date |
 |---|---|---|---|
+| PRT-C-001 | Removed 18 unused dependencies (grep proof; tsc, eslint, build green without them); dotenv, react-dom, sharp, @types/* kept | (Phase B, see WORKLOG) | 2026-11-26 |
 | PRT-B-009 | F2 decision: `GlobalKeyboardShortcuts` stays unmounted (no behaviour change) | (Phase B, see WORKLOG) | 2026-11-26 |
 | PRT-B-008 | rag-settings status check POSTed a real chat request (Gemini call) on every open and reported OK on any HTTP result | (Phase B, see WORKLOG) | 2026-11-26 |
 | PRT-B-007 | robots.txt had no sitemap and let crawlers into /admin | (Phase B, see WORKLOG) | 2026-11-26 |
