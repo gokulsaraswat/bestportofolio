@@ -11,7 +11,6 @@ import { GlobalKeyboardShortcuts } from "@/components/global-keyboard-shortcuts"
 import { SettingsAwareCursor } from "@/components/settings-aware-cursor"
 import { GlobalLoader } from "@/components/site/global-loader";
 import { BackToTop } from "@/components/site/back-to-top";
-import { CookieConsent } from "@/components/site/cookie-consent";
 import { SkipToContent } from "@/components/site/skip-to-content";
 import { KeyboardShortcutsOverlay } from "@/components/site/keyboard-shortcuts-overlay";
 import { JsonLd } from "@/components/site/jsonld";
@@ -88,7 +87,6 @@ export default async function RootLayout({
               <KeyboardShortcutsOverlay />
               <MusicPlayer />
               <BackToTop />
-              <CookieConsent />
         </ThemeProvider>
              <SettingsAwareCursor />
       </body>
