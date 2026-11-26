@@ -138,8 +138,6 @@ export async function POST(request: NextRequest) {
 
     const userMessage = latestMessage.content.trim()
 
-    console.log('[CHAT] User Prompt:')
-    console.log(userMessage)
 
     //---------------------------------------------------
     // Initialize Gemini
@@ -233,7 +231,6 @@ export async function POST(request: NextRequest) {
     } else {
       const docs = JSON.parse(responseText)
 
-      console.log("docs:", docs)
 
       console.log(
         `[SUPABASE] Retrieved ${docs.length} matching documents`
@@ -300,9 +297,6 @@ Use bullet points where appropriate.
     //---------------------------------------------------
 
     console.log('[GEMINI] Starting generation...')
-    console.log("===== FINAL PROMPT =====")
-    console.log(finalPrompt.slice(0, 1500))
-    console.log("========================")
 
     
 
