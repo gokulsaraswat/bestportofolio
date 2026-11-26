@@ -31,6 +31,7 @@ Status: open, doing, blocked, done, dropped. Cross-repo: `needs:` waits on, `blo
 ## Done (recent)
 | ID | Title | Commit | Date |
 |---|---|---|---|
+| PRT-B-005 | Public `GET /api/blogs` and `/api/snippets` wrote to the DB (auto-publish of scheduled items) on every anonymous request | (Phase B, see WORKLOG) | 2026-11-26 |
 | PRT-B-004 | Public `GET /api/profile` and the Person JSON-LD exposed the phone number | (Phase B, see WORKLOG) | 2026-11-26 |
 | PRT-B-003 | Roles were client-side only: any signed-in role (incl. viewer) could write every content/inbox/todo API | (Phase B, see WORKLOG) | 2026-11-25 |
 | PRT-B-002 | Admin nav hid the Comments section (`rolePermissions.admin` lacked `comments`, FEATURES F1) | (Phase B, see WORKLOG) | 2026-11-25 |

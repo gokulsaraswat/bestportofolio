@@ -32,6 +32,10 @@ function normalizeResourceLinks(raw: unknown): string {
   return '[]'
 }
 
+function isLive(item: { published: boolean; scheduledAt: Date | null }, now: Date) {
+  return item.published || (item.scheduledAt !== null && item.scheduledAt <= now)
+}
+
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
@@ -42,22 +46,20 @@ export async function GET(request: NextRequest) {
     const category = searchParams.get('category')
     const tag = searchParams.get('tag')
 
-// Auto-publish scheduled posts whose time has come
-
-    await db.blogPost.updateMany({
-      where: {
-        published: false,
-        scheduledAt: { lte: new Date() },
-      },
-      data: { published: true },
-    })
-
     const isAdmin = !(await requireAdmin(request))
+    const now = new Date()
+
+    if (isAdmin) {
+      await db.blogPost.updateMany({
+        where: { published: false, scheduledAt: { lte: now } },
+        data: { published: true },
+      })
+    }
 
     // Feature #17: single-blog lookup by slug (used by course chapter linking)
     if (slug) {
       const blog = await db.blogPost.findUnique({ where: { slug } })
-      if (!blog || (!blog.published && !isAdmin)) {
+      if (!blog || (!isLive(blog, now) && !isAdmin)) {
         return NextResponse.json({ error: 'Blog not found' }, { status: 404 })
       }
       return NextResponse.json(blog)
@@ -66,7 +68,7 @@ export async function GET(request: NextRequest) {
     const where: Record<string, unknown> = {}
 
     if (!isAdmin) {
-      where.published = true
+      where.AND = [{ OR: [{ published: true }, { scheduledAt: { lte: now } }] }]
     } else if (published !== null) {
       where.published = published === 'true'
     }
