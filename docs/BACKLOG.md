@@ -33,6 +33,7 @@ Status: open, doing, blocked, done, dropped. Cross-repo: `needs:` waits on, `blo
 |---|---|---|---|
 | PRT-B-011 | Privacy page said no personal data is collected automatically; it did not mention the chat assistant (Gemini), the admin session cookie or host logs | (Phase B, see WORKLOG) | 2026-11-26 |
 | PRT-B-010 | Cookie banner mounted although the site sets no tracking cookies (contradicted the privacy page) | (Phase B, see WORKLOG) | 2026-11-26 |
+| PRT-C-003 | Removed 21 dependencies that only the deleted files used (grep proof; build green on a simulated clean install) | (Phase B, see WORKLOG) | 2026-11-26 |
 | PRT-C-002 | Deleted 30 unreferenced source files (grep proof); `src/proxy.ts` kept (Next loads it) | (Phase B, see WORKLOG) | 2026-11-26 |
 | PRT-C-001 | Removed 18 unused dependencies (grep proof; tsc, eslint, build green without them); dotenv, react-dom, sharp, @types/* kept | (Phase B, see WORKLOG) | 2026-11-26 |
 | PRT-B-009 | F2 decision: `GlobalKeyboardShortcuts` stays unmounted (no behaviour change) | (Phase B, see WORKLOG) | 2026-11-26 |
