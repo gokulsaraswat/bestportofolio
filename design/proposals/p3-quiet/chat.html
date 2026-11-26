@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en" data-gk-flavor="portfolio" data-gk-theme="system">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chat widget, Gokul Saraswat</title>
+<meta name="description" content="The site assistant answers questions about Gokul's projects, writing and courses.">
+<script>(function(){var t=new URLSearchParams(location.search).get('theme');if(!t){try{t=localStorage.getItem('q-theme')}catch(e){}}document.documentElement.dataset.gkTheme=t||'system';if(new URLSearchParams(location.search).has('still'))document.documentElement.dataset.still=''})()</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..600&family=JetBrains+Mono:wght@400;600&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&display=swap">
+<link rel="stylesheet" href="../../vendor/tokens.css">
+<link rel="stylesheet" href="../../vendor/components.css">
+<link rel="stylesheet" href="assets/quiet.css">
+</head>
+<body class="gk-app">
+<a class="q-skip" href="#main">Skip to content</a>
+
+<header class="q-nav">
+  <div class="q-wrap q-nav__in">
+    <a class="q-brand" href="index.html" aria-label="Gokul Saraswat, home"><span class="q-brand__mark" aria-hidden="true">g</span>Gokul Saraswat</a>
+    <nav aria-label="Main">
+      <div class="q-nav__links">
+        <a href="projects.html">Work</a>
+        <a href="post.html">Writing</a>
+        <a href="#courses">Courses</a>
+        <a href="#">Snippets</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+      </div>
+      <button class="gk-btn gk-btn--quiet q-nav__menu" type="button" aria-expanded="false" aria-controls="menu"><svg class="q-icon" aria-hidden="true"><use href="#i-menu"/></svg>Menu</button>
+    </nav>
+  </div>
+</header>
+<main id="main" class="q-wrap q-spec">
+  <header class="q-page-head" style="padding-block:1rem 1.5rem">
+    <h1>Chat widget</h1>
+    <p class="q-lede" style="text-align:left">Opened from the "Ask about my work" button. Answers come from the site's own projects, posts and courses. Starter questions disappear after the first message; each answer can offer up to three follow-ups.</p>
+  </header>
+  <div class="q-spec__grid">
+    <div class="q-spec__item">
+      <section class="q-chat" data-chat aria-labelledby="c1">
+        <header class="q-chat__head">
+          <span class="q-cm__av q-cm__av--me" aria-hidden="true">g</span>
+          <div><h2 id="c1">Ask about Gokul's work</h2><p>Answers from this site</p></div>
+          <button class="q-ib" type="button" aria-label="Close chat"><svg class="q-icon" aria-hidden="true"><use href="#i-close"/></svg></button>
+        </header>
+        <div class="q-chat__log" role="log" aria-live="polite">
+          <div class="q-msg q-msg--bot"><p>Hi, I'm Gokul's assistant. Ask me about his projects, his writing or how he works. I only answer from what's on this site.</p></div>
+          <div class="q-chips q-chips--stack" aria-label="Suggested questions">
+            <button class="q-chipbtn" type="button" data-starter>What does Gokul work on day to day?</button>
+            <button class="q-chipbtn" type="button" data-starter>Tell me about the banking platform</button>
+            <button class="q-chipbtn" type="button" data-starter>Which courses has he written?</button>
+            <button class="q-chipbtn" type="button" data-starter>Is he open to new roles?</button>
+          </div>
+        </div>
+        <form class="q-chat__form" onsubmit="return false">
+          <label class="gk-sr-only" for="m1">Your question</label>
+          <textarea id="m1" rows="1" placeholder="Ask a question"></textarea>
+          <button class="q-send" type="submit" aria-label="Send"><svg class="q-icon" aria-hidden="true"><use href="#i-send"/></svg></button>
+        </form>
+        <p class="q-chat__foot">Questions are counted, not stored.</p>
+      </section>
+      <p class="q-spec__cap"><strong>First open.</strong> Greeting and four starter questions, both set in admin.</p>
+    </div>
+
+    <div class="q-spec__item">
+      <section class="q-chat q-chat--auto" data-chat aria-labelledby="c2">
+        <header class="q-chat__head">
+          <span class="q-cm__av q-cm__av--me" aria-hidden="true">g</span>
+          <div><h2 id="c2">Ask about Gokul's work</h2><p>Answers from this site</p></div>
+          <button class="q-ib" type="button" aria-label="Close chat"><svg class="q-icon" aria-hidden="true"><use href="#i-close"/></svg></button>
+        </header>
+        <div class="q-chat__log" role="log" aria-live="polite">
+          <div class="q-msg q-msg--bot"><p>Hi, I'm Gokul's assistant. Ask me about his projects, his writing or how he works.</p></div>
+          <div class="q-msg q-msg--me">Tell me about the banking platform</div>
+          <div class="q-msg q-msg--bot">
+            <p>It's a set of Spring Boot microservices for an enterprise bank. Gokul worked on it as a backend engineer; the services run at 98% uptime and API latency came down by 30%.</p>
+            <p>The write-up covers the decision to use Spring Boot 2.7 on Java 17, the CI workflow and the Terraform for the ECS cluster.</p>
+            <p class="q-msg__src">Source: <a href="projects.html">Banking Microservices Platform</a></p>
+          </div>
+          <div class="q-chips q-chips--stack" aria-label="Follow-up questions">
+            <button class="q-chipbtn" type="button">Why Spring Boot over other frameworks?</button>
+            <button class="q-chipbtn" type="button">How are the services deployed?</button>
+            <button class="q-chipbtn" type="button">What else has he built with Java?</button>
+          </div>
+        </div>
+        <form class="q-chat__form" onsubmit="return false">
+          <label class="gk-sr-only" for="m2">Your question</label>
+          <textarea id="m2" rows="1" placeholder="Ask a follow-up"></textarea>
+          <button class="q-send" type="submit" aria-label="Send"><svg class="q-icon" aria-hidden="true"><use href="#i-send"/></svg></button>
+        </form>
+        <p class="q-chat__foot">Questions are counted, not stored.</p>
+      </section>
+      <p class="q-spec__cap"><strong>After a reply.</strong> Starters are gone; the answer names its source and offers three follow-ups.</p>
+    </div>
+
+    <div class="q-spec__item">
+      <section class="q-chat q-chat--auto" data-chat aria-labelledby="c3">
+        <header class="q-chat__head">
+          <span class="q-cm__av q-cm__av--me" aria-hidden="true">g</span>
+          <div><h2 id="c3">Ask about Gokul's work</h2><p>Answers from this site</p></div>
+          <button class="q-ib" type="button" aria-label="Close chat"><svg class="q-icon" aria-hidden="true"><use href="#i-close"/></svg></button>
+        </header>
+        <div class="q-chat__log" role="log" aria-live="polite">
+          <div class="q-msg q-msg--me">Which courses has he written?</div>
+          <div class="q-msg q-msg--bot" aria-label="Writing an answer"><span class="q-typing"><i></i><i></i><i></i></span></div>
+          <div class="q-msg q-msg--me">Is he open to new roles?</div>
+          <div class="gk-alert gk-alert--danger" role="alert" style="font-size:var(--gk-text-sm)">
+            <p class="gk-alert__title">The assistant didn't answer</p>
+            <p>The model is busy right now. Your question is still in the box below; send it again in a moment, or <a href="#">email Gokul</a>.</p>
+          </div>
+        </div>
+        <form class="q-chat__form" onsubmit="return false">
+          <label class="gk-sr-only" for="m3">Your question</label>
+          <textarea id="m3" rows="1">Is he open to new roles?</textarea>
+          <button class="q-send" type="submit" aria-label="Send again"><svg class="q-icon" aria-hidden="true"><use href="#i-send"/></svg></button>
+        </form>
+      </section>
+      <p class="q-spec__cap"><strong>Loading and error.</strong> Three dots while the answer streams; a plain cause and the next step when it fails.</p>
+    </div>
+  </div>
+</main>
+
+<footer class="q-foot">
+  <div class="q-wrap">
+    <div class="q-foot__top">
+      <nav class="q-foot__groups" aria-label="Footer">
+        <div><h2>Work</h2><ul><li><a href="projects.html">Projects</a></li><li><a href="#">Résumé (PDF)</a></li></ul></div>
+        <div><h2>Writing</h2><ul><li><a href="post.html">Blog</a></li><li><a href="#">Courses</a></li><li><a href="#">Snippets</a></li></ul></div>
+        <div><h2>About</h2><ul><li><a href="#">About me</a></li><li><a href="#">Contact</a></li><li><a href="chat.html">Ask the assistant</a></li></ul></div>
+        <div><h2>Elsewhere</h2><ul><li><a href="https://github.com/gokulsaraswat">GitHub</a></li><li><a href="https://www.linkedin.com/in/gokulsaraswat">LinkedIn</a></li><li><a href="https://twitter.com/gokulsaraswat">X</a></li><li><a href="mailto:gokulsaraswat07@gmail.com">Email</a></li></ul></div>
+      </nav>
+      <div class="q-foot__side">
+        <div>
+          <p class="q-foot__label" id="theme-l">Theme</p>
+          <div class="q-theme" role="radiogroup" aria-labelledby="theme-l">
+            <label><input type="radio" name="theme" value="system"><svg class="q-icon" aria-hidden="true"><use href="#i-system"/></svg>System</label>
+            <label><input type="radio" name="theme" value="light"><svg class="q-icon" aria-hidden="true"><use href="#i-sun"/></svg>Light</label>
+            <label><input type="radio" name="theme" value="dark"><svg class="q-icon" aria-hidden="true"><use href="#i-moon"/></svg>Dark</label>
+          </div>
+        </div>
+        <div data-playing>
+          <p class="q-foot__label">Now playing</p>
+          <p style="display:flex;align-items:center;gap:.625rem"><span class="q-eq" aria-hidden="true"><i></i><i></i><i></i></span><span>Monsoon Study <span class="gk-muted">by Saanjh</span></span></p>
+        </div>
+        <p class="gk-muted">© 2026 Gokul Saraswat</p>
+      </div>
+    </div>
+    <div class="q-foot__bottom">
+      <ul role="list">
+        <li><a href="#">Privacy</a></li><li><a href="#">Terms</a></li><li><a href="#">Cookies</a></li><li><a href="#">Accessibility</a></li><li><a href="#">Sitemap</a></li><li><a href="#">RSS</a></li>
+      </ul>
+      <p>Built with Astro in Bangalore</p>
+    </div>
+  </div>
+</footer>
+
+<p class="q-toast" role="status" hidden></p>
+<script src="assets/quiet.js"></script>
+</body>
+</html>

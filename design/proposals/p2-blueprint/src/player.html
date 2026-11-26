@@ -1,0 +1,97 @@
+<!--@page title="Music player, Blueprint mockup" desc="The site's own audio playlist: compact and expanded states." nav="none"-->
+<main id="main">
+<section class="band band--flush">
+  <div class="frame">
+    <header class="page-head" style="padding-bottom:var(--gk-space-8)">
+      <h1>Music player</h1>
+      <p>Off until you press play. It loads only then, remembers track, position, volume, loop and shuffle, and keeps playing as you move between pages. Docked bottom left on desktop, above the chat button on phones.</p>
+    </header>
+    <div class="sheet">
+      <div class="sheet__cell">
+        <div class="sheet__cap"><h2>Compact</h2><p>Play or pause, what is playing, and progress as a hairline. Expand opens the full player.</p></div>
+        <div class="sheet__stage">
+          <div class="mini" role="region" aria-label="Music player">
+            <button class="play" type="button" aria-label="Pause"><svg class="ico ico--fill" aria-hidden="true"><use href="#i-pause"/></svg></button>
+            <div class="mini__meta"><strong>Background music</strong><span>Site default</span></div>
+            <span class="eq" aria-hidden="true"><i></i><i></i><i></i></span>
+            <button class="icon-btn" type="button" aria-label="Next track"><svg class="ico ico--fill" aria-hidden="true"><use href="#i-next"/></svg></button>
+            <button class="icon-btn" type="button" aria-label="Expand player" aria-expanded="false"><svg class="ico" aria-hidden="true"><use href="#i-expand"/></svg></button>
+            <span class="mini__progress" style="width:38%" aria-hidden="true"></span>
+          </div>
+          <div class="mini" role="region" aria-label="Music player">
+            <button class="play" type="button" aria-label="Play Background music"><svg class="ico ico--fill" aria-hidden="true"><use href="#i-play"/></svg></button>
+            <div class="mini__meta"><strong>Play music</strong><span>3 tracks, starts on click</span></div>
+            <button class="icon-btn" type="button" aria-label="Expand player" aria-expanded="false"><svg class="ico" aria-hidden="true"><use href="#i-expand"/></svg></button>
+          </div>
+          <p class="ref__meta">Second row: the resting state before anything has played. No audio is fetched until play.</p>
+        </div>
+      </div>
+      <div class="sheet__cell">
+        <div class="sheet__cap"><h2>Expanded</h2><p>Every control from the brief. Loop cycles off, all, one; the badge shows "1" for one.</p></div>
+        <div class="sheet__stage">
+          <section class="player" aria-label="Music player">
+            <header class="player__head">
+              <svg class="ico" aria-hidden="true" style="width:1rem;height:1rem;color:var(--gk-color-accent)"><use href="#i-music"/></svg>
+              <h2>Now playing</h2>
+              <button class="icon-btn" type="button" aria-label="Collapse player" aria-expanded="true"><svg class="ico" aria-hidden="true"><use href="#i-collapse"/></svg></button>
+              <button class="icon-btn" type="button" aria-label="Stop and close player"><svg class="ico" aria-hidden="true"><use href="#i-close"/></svg></button>
+            </header>
+            <div class="player__now">
+              <div class="cover" aria-hidden="true"></div>
+              <div style="min-width:0"><p class="player__title">Background music</p><p class="player__artist">Site default</p><p class="player__src">/background-music.mp3</p></div>
+            </div>
+            <div class="scrub">
+              <label class="gk-sr-only" for="seek">Seek</label>
+              <input class="range" id="seek" type="range" min="0" max="192" value="73" style="--_p:38%" aria-valuetext="1 minute 13 seconds of 3 minutes 12 seconds">
+              <div class="scrub__times"><span>1:13</span><span>3:12</span></div>
+            </div>
+            <div class="controls">
+              <button class="ctl" type="button" data-toggle aria-pressed="true" aria-label="Shuffle"><svg class="ico" aria-hidden="true"><use href="#i-shuffle"/></svg></button>
+              <button class="ctl" type="button" aria-label="Previous track"><svg class="ico ico--fill" aria-hidden="true"><use href="#i-prev"/></svg></button>
+              <button class="play play--lg" type="button" aria-label="Pause"><svg class="ico ico--fill" aria-hidden="true"><use href="#i-pause"/></svg></button>
+              <button class="ctl" type="button" aria-label="Next track"><svg class="ico ico--fill" aria-hidden="true"><use href="#i-next"/></svg></button>
+              <button class="ctl" type="button" data-loop="all" aria-pressed="true" aria-label="Loop: all"><svg class="ico" aria-hidden="true"><use href="#i-repeat"/></svg><span class="badge1" hidden>1</span></button>
+            </div>
+            <div class="volume">
+              <svg class="ico" aria-hidden="true" style="width:1rem;height:1rem;color:var(--gk-color-text-muted)"><use href="#i-vol"/></svg>
+              <label class="gk-sr-only" for="vol">Volume</label>
+              <input class="range" id="vol" type="range" min="0" max="100" value="60" style="--_p:60%">
+              <span class="mono">60%</span>
+            </div>
+            <div class="playlist">
+              <h3><span>Playlist</span><span class="mono">3 tracks</span></h3>
+              <button class="track" type="button" aria-current="true"><span class="track__n"><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span class="gk-sr-only">Playing</span></span><span class="track__t"><strong>Background music</strong><span>Site default</span></span><time>3:12</time></button>
+              <button class="track" type="button"><span class="track__n">2</span><span class="track__t"><strong>Track title from admin</strong><span>Artist from admin</span></span><time>2:48</time></button>
+              <button class="track" type="button"><span class="track__n">3</span><span class="track__t"><strong>Another uploaded track</strong><span>Artist from admin</span></span><time>4:05</time></button>
+            </div>
+          </section>
+        </div>
+      </div>
+      <div class="sheet__cell">
+        <div class="sheet__cap"><h2>Loop states and errors</h2><p>Same button, three states, each with its own label for screen readers. A missing file skips ahead and says so.</p></div>
+        <div class="sheet__stage" style="justify-items:start">
+          <div class="tags">
+            <span style="display:grid;justify-items:center;gap:4px"><button class="ctl" type="button" aria-pressed="false" aria-label="Loop: off"><svg class="ico" aria-hidden="true"><use href="#i-repeat"/></svg></button><span class="mono ref__meta">off</span></span>
+            <span style="display:grid;justify-items:center;gap:4px"><button class="ctl" type="button" aria-pressed="true" aria-label="Loop: all"><svg class="ico" aria-hidden="true"><use href="#i-repeat"/></svg></button><span class="mono ref__meta">all</span></span>
+            <span style="display:grid;justify-items:center;gap:4px"><button class="ctl" type="button" aria-pressed="true" aria-label="Loop: one"><svg class="ico" aria-hidden="true"><use href="#i-repeat"/></svg><span class="badge1">1</span></button><span class="mono ref__meta">one</span></span>
+            <span style="display:grid;justify-items:center;gap:4px"><button class="ctl" type="button" aria-pressed="true" aria-label="Shuffle on"><svg class="ico" aria-hidden="true"><use href="#i-shuffle"/></svg></button><span class="mono ref__meta">shuffle</span></span>
+          </div>
+          <div class="state state--error" role="alert" style="width:100%">
+            <h3>Couldn't play "Track title from admin"</h3>
+            <p>The file didn't load, so the player moved to the next track.</p>
+<pre class="code"><span class="method method--del">404</span> /music/track-2.mp3</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+<!--@foot-->
+<div class="dock dock--left desk-only"><div class="mini" role="region" aria-label="Music player (docked)">
+  <button class="play" type="button" aria-label="Pause"><svg class="ico ico--fill" aria-hidden="true"><use href="#i-pause"/></svg></button>
+  <div class="mini__meta"><strong>Background music</strong><span>Site default</span></div>
+  <span class="eq" aria-hidden="true"><i></i><i></i><i></i></span>
+  <button class="icon-btn" type="button" aria-label="Expand player" aria-expanded="false"><svg class="ico" aria-hidden="true"><use href="#i-expand"/></svg></button>
+  <span class="mini__progress" style="width:38%" aria-hidden="true"></span>
+</div></div>

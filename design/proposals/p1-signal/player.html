@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en" data-gk-flavor="portfolio" data-gk-theme="system">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Music player, Signal mockup</title>
+<script>(function(){try{var q=new URLSearchParams(location.search).get('theme');var t=q||JSON.parse(localStorage.getItem('pf-theme')||'"system"');document.documentElement.setAttribute('data-gk-theme',t);}catch(e){}})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@75..125,200..900&family=Martian+Mono:wdth,wght@75..112.5,300..700&display=swap">
+<link rel="stylesheet" href="../../vendor/tokens.css">
+<link rel="stylesheet" href="../../vendor/components.css">
+<link rel="stylesheet" href="signal-tokens.css">
+<link rel="stylesheet" href="signal.css">
+</head>
+<body class="gk-app">
+<a class="pf-skip" href="#main">Skip to content</a>
+<div data-pf="nav" data-current=""></div>
+
+<main id="main" class="pf-wrap">
+  <header class="pf-pagehead">
+    <h1>Music player. <span class="pf-dim">Off until you press play, then it follows you between pages.</span></h1>
+    <p>Compact in the corner while you read; expanded for the playlist. Both stay in sync, and so does the footer.</p>
+  </header>
+
+  <div class="pf-stage">
+    <div>
+      <p class="pf-stage__cap"><b>Compact.</b> Docked bottom left; the thin red line is progress.</p>
+      <div class="pf-backdrop" style="justify-items:start">
+        <div class="pf-mini">
+          <button class="pf-play" type="button" data-p="toggle" aria-label="Play"></button>
+          <div class="pf-mini__text"><b data-p="title"></b><span data-p="artist"></span></div>
+          <button class="pf-ibtn" type="button" data-p="next" aria-label="Next track"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 5.5v13a1 1 0 0 0 1.5.86L17 13.7V18a1 1 0 0 0 2 0V6a1 1 0 0 0-2 0v4.3L7.5 4.64A1 1 0 0 0 6 5.5Z"/></svg></button>
+          <button class="pf-ibtn" type="button" aria-label="Expand player" aria-expanded="false" aria-controls="xp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m6 15 6-6 6 6"/></svg></button>
+          <div class="pf-mini__bar" aria-hidden="true"><i data-p="bar"></i></div>
+        </div>
+      </div>
+      <p class="pf-stage__cap" style="margin-top:var(--gk-space-8)"><b>Before the first click.</b> Nothing loads until play is pressed; the audio file is fetched lazily.</p>
+      <div class="pf-backdrop" style="justify-items:start;min-height:auto">
+        <div class="pf-mini">
+          <button class="pf-play" type="button" aria-label="Play Background music"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5Z"/></svg></button>
+          <div class="pf-mini__text"><b>Music is off</b><span>5 tracks, press play to start</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <p class="pf-stage__cap"><b>Expanded.</b> Playlist, shuffle, loop off / one / all, volume.</p>
+      <section class="pf-player" id="xp" aria-label="Music player">
+        <header class="pf-player__head"><span data-p="state">Paused</span>
+          <button class="pf-ibtn" type="button" aria-label="Collapse player" aria-expanded="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button></header>
+        <div class="pf-player__now"><p class="pf-player__title" data-p="title"></p><p class="pf-player__artist" data-p="artist"></p></div>
+        <div class="pf-seek">
+          <label class="gk-sr-only" for="seek">Position</label>
+          <input class="pf-range" id="seek" type="range" min="0" step="1" data-p="seek">
+          <div class="pf-seek__times"><span data-p="cur">0:00</span><span data-p="dur">0:00</span></div>
+        </div>
+        <div class="pf-controls">
+          <button class="pf-ibtn" type="button" data-p="shuffle" aria-label="Shuffle" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h4v4M4 20 20 4M20 16v4h-4M15 15l5 5M4 4l5 5"/></svg></button>
+          <button class="pf-ibtn" type="button" data-p="prev" aria-label="Previous track"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 5.5v13a1 1 0 0 1-1.5.86L7 13.7V18a1 1 0 0 1-2 0V6a1 1 0 0 1 2 0v4.3l9.5-5.66A1 1 0 0 1 18 5.5Z"/></svg></button>
+          <button class="pf-play pf-play--lg" type="button" data-p="toggle" aria-label="Play"></button>
+          <button class="pf-ibtn" type="button" data-p="next" aria-label="Next track"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 5.5v13a1 1 0 0 0 1.5.86L17 13.7V18a1 1 0 0 0 2 0V6a1 1 0 0 0-2 0v4.3L7.5 4.64A1 1 0 0 0 6 5.5Z"/></svg></button>
+          <button class="pf-ibtn" type="button" data-p="loop" aria-label="Loop: off"></button>
+        </div>
+        <div class="pf-vol">
+          <button class="pf-ibtn" type="button" data-p="mute" aria-label="Mute" aria-pressed="false"></button>
+          <label class="gk-sr-only" for="vol">Volume</label>
+          <input class="pf-range" id="vol" type="range" min="0" max="100" data-p="vol">
+        </div>
+        <ol class="pf-playlist" data-p="list" aria-label="Playlist"></ol>
+      </section>
+    </div>
+  </div>
+</main>
+
+<div data-pf="footer"></div>
+<div data-pf="launcher"></div>
+<script src="signal.js"></script>
+</body>
+</html>

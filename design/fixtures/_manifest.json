@@ -1,0 +1,49 @@
+{
+  "source": "https://bestportofolio.vercel.app",
+  "fetchedAt": "2026-11-24T23:29:15.245Z",
+  "endpoints": {
+    "projects": "/api/projects",
+    "blogs": "/api/blogs?published=true",
+    "courses": "/api/courses",
+    "snippets": "/api/snippets?published=true",
+    "settings": "/api/settings"
+  },
+  "counts": {
+    "projects": 2,
+    "blogs": 5,
+    "courses": 2,
+    "snippets": 3,
+    "settingsKeys": 43
+  },
+  "droppedFields": {
+    "blogs": [
+      "acceptedBy",
+      "writtenBy"
+    ],
+    "snippets": [
+      "includeInRag"
+    ]
+  },
+  "sanitized": [
+    {
+      "file": "projects.json",
+      "slug": "banking-microservices",
+      "fields": [
+        "description",
+        "website",
+        "role",
+        "process",
+        "results",
+        "performanceMetrics",
+        "securityImplementation",
+        "stack"
+      ],
+      "reason": "employer-identifying detail removed (RULES.md section 7); shortDesc reused as description"
+    }
+  ],
+  "testRows": [
+    "projects:asdfasf",
+    "snippets:test-ing-snipped"
+  ],
+  "notes": "Public API responses for static mockups only. Shapes are the OLD Prisma API (JSON-in-strings); the Astro rebuild reads the NEW schema (PORTFOLIO-ADMIN-ASTRO-PLAN.md section 3). Test rows are kept to design edge cases; they will arrive unpublished after migration."
+}

@@ -1,0 +1,169 @@
+<!--@page title="Dockerize Your Go Applications, Gokul Saraswat" desc="Learn how to containerize your Go applications using Docker for consistent development and deployment." nav="blog"-->
+<div class="band band--flush">
+<div class="frame">
+<div class="docs">
+
+  <nav class="docs__nav" aria-label="Blog posts"><div class="docs__stick">
+    <h2>Blog</h2>
+    <label class="filter"><svg class="ico" aria-hidden="true" style="width:1rem;height:1rem"><use href="#i-search"/></svg><span class="gk-sr-only">Filter posts</span><input type="search" placeholder="Filter posts"></label>
+    <div class="navgroup">
+      <h3><span class="method method--arch">architecture</span>2</h3>
+      <a href="#">System Design Fundamentals</a>
+      <a href="#">Getting Started with NATS</a>
+    </div>
+    <div class="navgroup">
+      <h3><span class="method method--devops">devops</span>2</h3>
+      <a href="#">Introduction to IaC with Terraform</a>
+      <a href="post.html" aria-current="page">Dockerize Your Go Applications</a>
+    </div>
+    <div class="navgroup">
+      <h3><span class="method method--oss">open source</span>1</h3>
+      <a href="#">Vite is Too Fast</a>
+    </div>
+  </div></nav>
+
+  <main id="main" class="docs__main">
+    <div class="docs-m"><details><summary>Blog <span>devops, 2 of 5 posts</span><svg class="ico" aria-hidden="true"><use href="#i-chevd"/></svg></summary></details></div>
+    <div class="docs-m docs-m--toc"><details><summary>On this page <span>4 sections</span><svg class="ico" aria-hidden="true"><use href="#i-chevd"/></svg></summary></details></div>
+
+    <article>
+      <header class="article-head">
+        <nav class="crumbs" aria-label="Breadcrumb"><a href="#">Blog</a><svg class="ico" aria-hidden="true"><use href="#i-chev"/></svg><a href="#">DevOps</a></nav>
+        <h1>Dockerize Your Go Applications</h1>
+        <p class="lede">Learn how to containerize your Go applications using Docker for consistent development and deployment.</p>
+        <div class="byline">
+          <span class="who"><span class="avatar avatar--me" aria-hidden="true">GS</span>Gokul Saraswat</span>
+          <time datetime="2026-08-03">3 Aug 2026</time>
+          <span>3 min read</span>
+          <span class="tags"><a class="tag" href="#">docker</a><a class="tag" href="#">go</a><a class="tag" href="#">devops</a></span>
+        </div>
+      </header>
+
+      <div class="prose">
+        <p>Docker has revolutionized the way we build, ship, and run applications. In this guide, we explore how to effectively containerize Go applications.</p>
+        <h2 id="why">Why Docker for Go?<a class="anchor" href="#why" aria-label="Link to this section">#</a></h2>
+        <p>Go compiles to a single binary, making it an excellent candidate for containerization.</p>
+        <h2 id="multi">Multi-Stage Builds<a class="anchor" href="#multi" aria-label="Link to this section">#</a></h2>
+        <div class="codeblock">
+          <div class="codeblock__bar"><svg class="ico" aria-hidden="true" style="width:.875rem;height:.875rem"><use href="#i-code"/></svg>Dockerfile<button class="icon-btn" type="button" aria-label="Copy code"><svg class="ico" aria-hidden="true"><use href="#i-copy"/></svg></button></div>
+<pre class="code"><code><span class="f">FROM</span> golang:1.21-alpine <span class="f">AS</span> builder
+<span class="f">WORKDIR</span> /app
+<span class="f">COPY</span> go.mod go.sum ./
+<span class="f">RUN</span> go mod download
+<span class="f">COPY</span> . .
+<span class="f">RUN</span> CGO_ENABLED=<span class="n">0</span> go build -o server .
+
+<span class="f">FROM</span> alpine:latest
+<span class="f">COPY</span> --from=builder /app/server /server
+<span class="f">EXPOSE</span> <span class="n">8080</span>
+<span class="f">CMD</span> [<span class="s">"/server"</span>]</code></pre>
+        </div>
+        <h2 id="resources">Resources<a class="anchor" href="#resources" aria-label="Link to this section">#</a></h2>
+        <div class="resources">
+          <a href="https://docs.docker.com"><strong>Docker Official Docs</strong><span class="mono">docs.docker.com</span><span>Official Docker documentation</span></a>
+          <a href="https://gobyexample.com"><strong>Go by Example</strong><span class="mono">gobyexample.com</span><span>Hands-on Go examples</span></a>
+        </div>
+      </div>
+
+      <div class="react">
+        <p class="react__q">Was this useful?</p>
+        <button class="like" type="button" data-toggle aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-heart"/></svg><span data-n>12</span><span class="gk-sr-only">likes. Like this post</span></button>
+        <details class="share" open>
+          <summary class="btn btn--sm"><svg class="ico" aria-hidden="true"><use href="#i-share"/></svg>Share</summary>
+          <span class="mobile-only ref__meta" style="margin-left:var(--gk-space-2)">Opens the phone's share sheet</span>
+          <div class="share__menu desk-only" role="menu">
+            <span class="share__url">gokulsaraswat.com/blog/dockerize-go</span>
+            <button type="button" role="menuitem"><svg class="ico" aria-hidden="true"><use href="#i-link"/></svg>Copy link<span class="done">Copied</span></button>
+            <a role="menuitem" href="#"><span class="si" style="--si:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/x.svg)" aria-hidden="true"></span>Post on X</a>
+            <a role="menuitem" href="#"><span class="si" style="--si:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/linkedin.svg)" aria-hidden="true"></span>Share on LinkedIn</a>
+            <hr>
+            <button type="button" role="menuitem"><svg class="ico" aria-hidden="true"><use href="#i-share"/></svg>More options<span class="done" style="color:var(--gk-color-text-subtle)">phones</span></button>
+          </div>
+        </details>
+      </div>
+
+      <nav class="pager" aria-label="More posts">
+        <a href="#"><span><svg class="ico" aria-hidden="true"><use href="#i-left"/></svg>Previous</span><strong>Vite is Too Fast</strong></a>
+        <a class="next" href="#"><span>Next<svg class="ico" aria-hidden="true"><use href="#i-right"/></svg></span><strong>Getting Started with NATS</strong></a>
+      </nav>
+    </article>
+
+    <section class="comments" id="comments" aria-labelledby="c-title">
+      <div class="comments__head"><h2 id="c-title">Comments <span class="num" style="color:var(--gk-color-text-subtle);font-weight:400">3</span></h2><p>Reviewed before they appear</p></div>
+      <form class="cform" onsubmit="return false">
+        <div class="cform__row">
+          <label>Name<input name="name" autocomplete="name" placeholder="How you'd like to be shown"></label>
+          <label>Email <span>(optional)</span><input name="email" type="email" autocomplete="email" placeholder="Only for reply alerts, never shown"></label>
+        </div>
+        <label>Comment<textarea name="body" placeholder="Ask a question or add what worked for you"></textarea></label>
+        <div class="cform__foot"><span>Plain text and `code`. Links are not clickable.</span><button class="btn btn--primary btn--sm" type="submit">Post comment</button></div>
+      </form>
+
+      <ol class="thread" role="list">
+        <li class="cmt">
+          <span class="avatar" aria-hidden="true">AR</span>
+          <div class="cmt__main">
+            <div class="cmt__head"><strong>Ananya R.</strong><time datetime="2026-11-23">2 days ago</time></div>
+            <p class="cmt__body">The multi-stage build took our image from around 800 MB to under 20 MB. Is there a reason to prefer <code class="mono">alpine:latest</code> over distroless for the last stage?</p>
+            <div class="cmt__actions">
+              <button type="button" data-toggle aria-pressed="true"><svg class="ico" aria-hidden="true"><use href="#i-heart"/></svg><span data-n>4</span><span class="gk-sr-only">likes</span></button>
+              <button type="button"><svg class="ico" aria-hidden="true"><use href="#i-reply"/></svg>Reply</button>
+              <button type="button"><svg class="ico" aria-hidden="true"><use href="#i-link"/></svg>Copy link</button>
+            </div>
+          </div>
+          <ol class="replies" role="list" aria-label="Replies to Ananya R.">
+            <li class="cmt cmt--author">
+              <span class="avatar avatar--me" aria-hidden="true">GS</span>
+              <div class="cmt__main">
+                <div class="cmt__head"><strong>Gokul Saraswat</strong><span class="badge-author">Author</span><time datetime="2026-11-24">1 day ago</time></div>
+                <p class="cmt__body">Distroless is the better default when you don't need a shell. I kept Alpine so readers can exec into the container while following along. A distroless variant is going into the post.</p>
+                <div class="cmt__actions">
+                  <button type="button" data-toggle aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-heart"/></svg><span data-n>2</span><span class="gk-sr-only">likes</span></button>
+                </div>
+              </div>
+            </li>
+          </ol>
+        </li>
+        <li class="cmt">
+          <span class="avatar" aria-hidden="true">M</span>
+          <div class="cmt__main">
+            <div class="cmt__head"><strong>Marco</strong><time datetime="2026-11-20">5 days ago</time></div>
+            <p class="cmt__body"><code class="mono">CGO_ENABLED=0</code> was the missing piece for me. The binary kept failing on Alpine without it.</p>
+            <div class="cmt__actions">
+              <button type="button" data-toggle aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-heart"/></svg><span data-n>1</span><span class="gk-sr-only">like</span></button>
+              <button type="button"><svg class="ico" aria-hidden="true"><use href="#i-reply"/></svg>Reply</button>
+              <button type="button"><svg class="ico" aria-hidden="true"><use href="#i-link"/></svg>Copy link</button>
+            </div>
+          </div>
+          <ol class="replies" role="list" aria-label="Replies to Marco">
+            <li class="cmt cmt--pending" role="status">
+              <span class="avatar" aria-hidden="true">You</span>
+              <div class="cmt__main">
+                <div class="cmt__head"><strong>You</strong><span class="pending-note"><svg class="ico" aria-hidden="true"><use href="#i-clock"/></svg>Awaiting review</span><time datetime="2026-11-25">just now</time></div>
+                <p class="cmt__body">Same here. Would love a follow-up on caching <code class="mono">go mod download</code> in CI.</p>
+                <p class="ref__meta" style="margin-top:var(--gk-space-2)">Only you can see this until it is approved. You can edit it for 10 minutes.</p>
+              </div>
+            </li>
+          </ol>
+        </li>
+      </ol>
+    </section>
+  </main>
+
+  <aside class="docs__toc" aria-label="On this page">
+    <h2>On this page</h2>
+    <a href="#why" aria-current="true">Why Docker for Go?</a>
+    <a href="#multi">Multi-Stage Builds</a>
+    <a href="#resources">Resources</a>
+    <a href="#comments">Comments (3)</a>
+    <div class="toc-tools">
+      <button type="button" data-toggle aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-heart"/></svg>Like</button>
+      <button type="button"><svg class="ico" aria-hidden="true"><use href="#i-link"/></svg>Copy link</button>
+      <a href="#"><svg class="ico" aria-hidden="true"><use href="#i-chat"/></svg>Ask about this post</a>
+    </div>
+  </aside>
+
+</div>
+</div>
+</div>
+<!--@foot-->

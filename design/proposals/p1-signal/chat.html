@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en" data-gk-flavor="portfolio" data-gk-theme="system">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chat widget, Signal mockup</title>
+<script>(function(){try{var q=new URLSearchParams(location.search).get('theme');var t=q||JSON.parse(localStorage.getItem('pf-theme')||'"system"');document.documentElement.setAttribute('data-gk-theme',t);}catch(e){}})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@75..125,200..900&family=Martian+Mono:wdth,wght@75..112.5,300..700&display=swap">
+<link rel="stylesheet" href="../../vendor/tokens.css">
+<link rel="stylesheet" href="../../vendor/components.css">
+<link rel="stylesheet" href="signal-tokens.css">
+<link rel="stylesheet" href="signal.css">
+</head>
+<body class="gk-app">
+<a class="pf-skip" href="#main">Skip to content</a>
+<div data-pf="nav" data-current=""></div>
+
+<main id="main" class="pf-wrap">
+  <header class="pf-pagehead">
+    <h1>Chat widget. <span class="pf-dim">Opened from the launcher at the bottom right.</span></h1>
+    <p>Left panel is live: pick a starter to see the reply and its follow-ups. Right panel is the state after one answer.</p>
+  </header>
+
+  <div class="pf-stage">
+    <div>
+      <p class="pf-stage__cap"><b>Before the first message.</b> Greeting and four starters, both set in admin.</p>
+      <section class="pf-chat" data-live aria-label="Ask about Gokul's work">
+        <header class="pf-chat__head">
+          <div><h2 class="pf-chat__title">Ask about my work</h2><span class="pf-chat__sub">Answers come from my projects and posts</span></div>
+          <button class="gk-btn gk-btn--ghost gk-btn--icon" type="button" aria-label="Close chat"><span class="pf-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></span></button>
+        </header>
+        <div class="pf-chat__log" aria-live="polite">
+          <div class="pf-msg pf-msg--bot"><p>Hi, I'm Gokul's assistant. I can walk you through his projects, stack and writing, or tell you how to reach him.</p></div>
+          <div class="pf-chips" role="group" aria-label="Suggested questions">
+            <button class="pf-chip" type="button">What is Gokul working on right now?</button>
+            <button class="pf-chip" type="button">Is he open to work?</button>
+            <button class="pf-chip" type="button">Walk me through the banking platform</button>
+            <button class="pf-chip" type="button">Which stack does he use most?</button>
+          </div>
+        </div>
+        <form class="pf-chat__foot">
+          <div class="pf-chat__input"><label class="gk-sr-only" for="q1">Your question</label><textarea id="q1" rows="1" placeholder="Ask a question"></textarea>
+            <button class="gk-btn gk-btn--primary gk-btn--icon" type="submit" aria-label="Send"><span class="pf-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg></span></button></div>
+          <p class="pf-chat__note">AI answers can be wrong. Check the linked source.</p>
+        </form>
+      </section>
+    </div>
+
+    <div>
+      <p class="pf-stage__cap"><b>After a reply.</b> Starters are gone; the answer cites sources and offers three follow-ups.</p>
+      <section class="pf-chat" aria-label="Ask about Gokul's work, after a reply">
+        <header class="pf-chat__head">
+          <div><h2 class="pf-chat__title">Ask about my work</h2><span class="pf-chat__sub">Answers come from my projects and posts</span></div>
+          <button class="gk-btn gk-btn--ghost gk-btn--icon" type="button" aria-label="Close chat"><span class="pf-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></span></button>
+        </header>
+        <div class="pf-chat__log">
+          <div class="pf-msg pf-msg--bot"><p>Hi, I'm Gokul's assistant. I can walk you through his projects, stack and writing, or tell you how to reach him.</p></div>
+          <div class="pf-msg pf-msg--user">Walk me through the banking platform</div>
+          <div class="pf-msg pf-msg--bot">
+            <p>It is an enterprise banking microservices platform where Gokul was the backend engineer. Services run Java 17 on Spring Boot, ship as Docker images to Kubernetes, and report into Grafana.</p>
+            <p>The measured results: API latency down 30% and 98% uptime. The choice of Spring Boot is written up as ADR-001.</p>
+            <div class="pf-msg__src"><a href="projects.html">Banking Microservices Platform</a><a href="projects.html">ADR-001: Use Spring Boot</a></div>
+          </div>
+          <div class="pf-chips" role="group" aria-label="Suggested follow-ups">
+            <span class="pf-chips__label">Ask next</span>
+            <button class="pf-chip" type="button">Why Spring Boot instead of Go here?</button>
+            <button class="pf-chip" type="button">How did the CI pipeline work?</button>
+            <button class="pf-chip" type="button">What did the Grafana dashboards track?</button>
+          </div>
+        </div>
+        <form class="pf-chat__foot">
+          <div class="pf-chat__input"><label class="gk-sr-only" for="q2">Your question</label><textarea id="q2" rows="1" placeholder="Ask a follow-up"></textarea>
+            <button class="gk-btn gk-btn--primary gk-btn--icon" type="submit" aria-label="Send"><span class="pf-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg></span></button></div>
+          <p class="pf-chat__note">AI answers can be wrong. Check the linked source.</p>
+        </form>
+      </section>
+    </div>
+  </div>
+</main>
+
+<div data-pf="footer"></div>
+<div data-pf="dock"></div>
+<script src="signal.js"></script>
+</body>
+</html>

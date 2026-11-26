@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en" data-gk-flavor="portfolio" data-gk-theme="system">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dockerize Your Go Applications, Gokul Saraswat</title>
+<meta name="description" content="Learn how to containerize your Go applications using Docker for consistent development and deployment.">
+<script>(function(){try{var q=new URLSearchParams(location.search).get('theme');var t=q||JSON.parse(localStorage.getItem('pf-theme')||'"system"');document.documentElement.setAttribute('data-gk-theme',t);}catch(e){}})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@75..125,200..900&family=Martian+Mono:wdth,wght@75..112.5,300..700&display=swap">
+<link rel="stylesheet" href="../../vendor/tokens.css">
+<link rel="stylesheet" href="../../vendor/components.css">
+<link rel="stylesheet" href="signal-tokens.css">
+<link rel="stylesheet" href="signal.css">
+</head>
+<body class="gk-app">
+<a class="pf-skip" href="#main">Skip to content</a>
+<div data-pf="nav" data-current="writing"></div>
+
+<div class="pf-wrap pf-docs">
+  <nav class="pf-side pf-side--left" aria-label="Posts in DevOps">
+    <div class="pf-side__block"><h2>DevOps</h2>
+      <ul>
+        <li><a href="#">Introduction to IaC with Terraform</a></li>
+        <li><a href="#" aria-current="page">Dockerize Your Go Applications</a></li>
+      </ul></div>
+    <div class="pf-side__block"><h2>Architecture</h2>
+      <ul>
+        <li><a href="#">System Design Fundamentals</a></li>
+        <li><a href="#">Getting Started with NATS</a></li>
+      </ul></div>
+    <div class="pf-side__block"><h2>Open Source</h2>
+      <ul><li><a href="#">Vite is Too Fast</a></li></ul></div>
+  </nav>
+
+  <main id="main">
+    <article>
+      <ol class="pf-crumbs" aria-label="Breadcrumb"><li><a href="#">Writing</a></li><li><a href="#">DevOps</a></li></ol>
+      <h1 class="pf-article__title">Dockerize Your Go Applications</h1>
+      <p class="pf-article__lede">Learn how to containerize your Go applications using Docker for consistent development and deployment.</p>
+      <div class="pf-article__meta">
+        <span>By <span class="pf-strong">Gokul Saraswat</span></span>
+        <time datetime="2026-08-03">Aug 3, 2026</time>
+        <span>3 min read</span>
+        <ul class="pf-tags" aria-label="Tags"><li class="pf-tag">docker</li><li class="pf-tag">go</li><li class="pf-tag">devops</li></ul>
+      </div>
+
+      <div class="pf-prose">
+        <p>Docker has revolutionized the way we build, ship, and run applications. In this guide, we explore how to effectively containerize Go applications.</p>
+        <h2 id="why">Why Docker for Go?</h2>
+        <p>Go compiles to a single binary, making it an excellent candidate for containerization. Set <code>CGO_ENABLED=0</code> and the binary runs on a minimal base image with nothing else installed.</p>
+        <h2 id="multi-stage">Multi-Stage Builds</h2>
+        <p>The first stage compiles with the full Go toolchain; the second copies only the binary into Alpine.</p>
+        <div class="pf-code">
+          <div class="pf-code__head"><span class="pf-mono">Dockerfile</span><button class="gk-btn gk-btn--ghost gk-btn--sm" type="button" data-copy="FROM golang:1.21-alpine AS builder" data-done="Code copied">Copy</button></div>
+<pre><code><span class="kw">FROM</span> golang:1.21-alpine <span class="kw">AS</span> builder
+<span class="kw">WORKDIR</span> /app
+<span class="kw">COPY</span> go.mod go.sum ./
+<span class="kw">RUN</span> go mod download
+<span class="kw">COPY</span> . .
+<span class="kw">RUN</span> CGO_ENABLED=0 go build -o server .
+
+<span class="kw">FROM</span> alpine:latest
+<span class="kw">COPY</span> --from=builder /app/server /server
+<span class="kw">EXPOSE</span> 8080
+<span class="kw">CMD</span> ["/server"]</code></pre>
+        </div>
+        <h2 id="resources">Resources</h2>
+        <ul class="pf-resources" role="list">
+          <li><a href="https://docs.docker.com"><b>Docker Official Docs</b><span>Official Docker documentation</span></a></li>
+          <li><a href="https://gobyexample.com"><b>Go by Example</b><span>Hands-on Go examples</span></a></li>
+        </ul>
+      </div>
+
+      <div class="pf-actions">
+        <button class="gk-btn pf-like" type="button" aria-pressed="true" aria-label="Like this post"><span class="pf-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"/></svg></span><span class="pf-num">24</span></button>
+        <button class="gk-btn" type="button" data-share aria-haspopup="true" aria-expanded="true" aria-controls="share-menu"><span class="pf-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg></span>Share</button>
+        <ul class="pf-menu" id="share-menu" role="list">
+          <li><button type="button" data-copy="url"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg>Copy link</button></li>
+          <li><a href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.8 3h3.1l-6.8 7.7L22 21h-6.2l-4.9-6.4L5.3 21H2.2l7.2-8.3L1.8 3h6.4l4.4 5.8L17.8 3Zm-1.1 16.2h1.7L7.4 4.7H5.6l11.1 14.5Z"/></svg>Post on X</a></li>
+          <li><a href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.5h4V21H3V9.5Zm6.5 0h3.8v1.6h.1c.5-1 1.8-2 3.7-2 4 0 4.7 2.6 4.7 6V21h-4v-5.2c0-1.2 0-2.8-1.7-2.8s-2 1.3-2 2.7V21h-4V9.5Z"/></svg>Share on LinkedIn</a></li>
+          <li><hr></li>
+          <li><button type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/></svg>More options on your device</button></li>
+        </ul>
+        <p class="pf-actions__note">Likes are anonymous, one per device.</p>
+      </div>
+
+      <nav class="pf-pager" aria-label="More posts">
+        <a href="#"><span>Previous</span><b>Getting Started with NATS</b></a>
+        <a class="pf-pager__next" href="#"><span>Next</span><b>Introduction to IaC with Terraform</b></a>
+      </nav>
+
+      <section class="pf-comments" aria-labelledby="c-h">
+        <div class="pf-comments__head"><h2 id="c-h">3 comments</h2><span class="gk-muted" style="font-size:var(--gk-text-sm)">Oldest first</span></div>
+
+        <form class="pf-form" aria-label="Write a comment">
+          <div class="pf-form__row">
+            <div class="gk-field"><label class="gk-label" for="c-name">Name</label><input class="gk-input" id="c-name" autocomplete="name" value="Riya"></div>
+            <div class="gk-field"><label class="gk-label" for="c-mail">Email <span class="gk-muted">(never shown)</span></label><input class="gk-input" id="c-mail" type="email" autocomplete="email" placeholder="you@example.com"></div>
+          </div>
+          <div class="gk-field"><label class="gk-label" for="c-body">Comment</label><textarea class="gk-textarea" id="c-body" placeholder="Add to the discussion"></textarea></div>
+          <div class="pf-form__foot"><span class="gk-hint">Comments appear after Gokul approves them.</span><button class="gk-btn gk-btn--primary" type="submit">Post comment</button></div>
+        </form>
+
+        <ol class="pf-thread" role="list">
+          <li class="pf-cmt">
+            <span class="pf-avatar" aria-hidden="true">AK</span>
+            <div>
+              <div class="pf-cmt__head"><span class="pf-cmt__name">Arjun K.</span><time class="pf-cmt__time" datetime="2026-08-04">Aug 4, 2026</time></div>
+              <p class="pf-cmt__body">Does the Alpine runtime stage still need ca-certificates if the service calls external HTTPS APIs? My build worked locally and failed in the cluster.</p>
+              <div class="pf-cmt__tools">
+                <button class="gk-btn gk-btn--ghost pf-like" type="button" aria-pressed="false" aria-label="Like comment by Arjun K."><span class="pf-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"/></svg></span><span class="pf-num">6</span></button>
+                <button class="gk-btn gk-btn--ghost" type="button">Reply</button>
+                <button class="gk-btn gk-btn--ghost" type="button" data-copy="url">Copy link</button>
+              </div>
+            </div>
+            <ol class="pf-replies" role="list">
+              <li class="pf-cmt">
+                <span class="pf-avatar pf-avatar--author" aria-hidden="true">GS</span>
+                <div>
+                  <div class="pf-cmt__head"><span class="pf-cmt__name">Gokul Saraswat</span><span class="pf-badge">Author</span><time class="pf-cmt__time" datetime="2026-08-04">Aug 4, 2026</time></div>
+                  <p class="pf-cmt__body">Yes. Alpine ships without a CA bundle, so add <code>RUN apk add --no-cache ca-certificates</code> to the second stage. I will add it to the Dockerfile above.</p>
+                  <div class="pf-cmt__tools">
+                    <button class="gk-btn gk-btn--ghost pf-like" type="button" aria-pressed="true" aria-label="Like reply by Gokul Saraswat"><span class="pf-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"/></svg></span><span class="pf-num">9</span></button>
+                    <button class="gk-btn gk-btn--ghost" type="button" data-copy="url">Copy link</button>
+                  </div>
+                </div>
+              </li>
+            </ol>
+          </li>
+
+          <li class="pf-cmt">
+            <span class="pf-avatar" aria-hidden="true">MN</span>
+            <div>
+              <div class="pf-cmt__head"><span class="pf-cmt__name">Meera N.</span><time class="pf-cmt__time" datetime="2026-08-06">Aug 6, 2026</time></div>
+              <p class="pf-cmt__body">Distroless static is another option for the runtime stage: no shell, smaller attack surface.</p>
+              <div class="pf-cmt__tools">
+                <button class="gk-btn gk-btn--ghost pf-like" type="button" aria-pressed="false" aria-label="Like comment by Meera N."><span class="pf-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"/></svg></span><span class="pf-num">2</span></button>
+                <button class="gk-btn gk-btn--ghost" type="button" aria-expanded="true">Reply</button>
+                <button class="gk-btn gk-btn--ghost" type="button" data-copy="url">Copy link</button>
+              </div>
+            </div>
+            <form class="pf-reply-form" aria-label="Reply to Meera N.">
+              <label class="gk-sr-only" for="r-body">Your reply</label>
+              <textarea class="gk-textarea" id="r-body" placeholder="Reply to Meera N."></textarea>
+              <div class="pf-reply-form__foot"><button class="gk-btn gk-btn--ghost gk-btn--sm" type="button">Cancel</button><button class="gk-btn gk-btn--primary gk-btn--sm" type="submit">Post reply</button></div>
+            </form>
+          </li>
+
+          <li class="pf-cmt pf-cmt--pending">
+            <span class="pf-avatar" aria-hidden="true">R</span>
+            <div>
+              <div class="pf-cmt__head"><span class="pf-cmt__name">Riya (you)</span><span class="pf-badge pf-badge--plain">Pending review</span><time class="pf-cmt__time" datetime="2026-11-25">Just now</time></div>
+              <p class="pf-cmt__body">Would love a follow-up on multi-arch builds with buildx for ARM nodes.</p>
+              <p class="pf-pending" role="status"><span><b>Only you can see this for now.</b> It goes public once Gokul approves it. Likes and replies open after that.</span></p>
+            </div>
+          </li>
+        </ol>
+      </section>
+    </article>
+  </main>
+
+  <nav class="pf-side pf-side--right" aria-label="On this page">
+    <div class="pf-side__block"><h2>On this page</h2>
+      <ul>
+        <li><a href="#why" aria-current="location">Why Docker for Go?</a></li>
+        <li><a href="#multi-stage">Multi-Stage Builds</a></li>
+        <li><a href="#resources">Resources</a></li>
+        <li><a href="#c-h">Comments</a></li>
+      </ul></div>
+  </nav>
+</div>
+
+<div data-pf="footer"></div>
+<div data-pf="dock"></div>
+<div data-pf="launcher"></div>
+<script src="signal.js"></script>
+</body>
+</html>

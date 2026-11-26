@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en" data-gk-flavor="portfolio" data-gk-theme="system">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gokul Saraswat, full stack developer</title>
+<meta name="description" content="Backend systems, the tooling around them, and notes on what I learned building them.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400..700&family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap">
+<link rel="stylesheet" href="../../vendor/tokens.css">
+<link rel="stylesheet" href="../../vendor/components.css">
+<link rel="stylesheet" href="blueprint.css">
+<script src="blueprint.js" defer></script>
+</head>
+<body class="gk-app">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M8 20h8M12 16v4"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-ur" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></symbol>
+  <symbol id="i-right" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-left" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+  <symbol id="i-chevd" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 5 5 9-10"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7.2a4.3 4.3 0 0 1 7.5 2.6C19.5 15.4 12 20 12 20z"/></symbol>
+  <symbol id="i-share" viewBox="0 0 24 24"><path d="M12 3v12M7.5 7.5 12 3l4.5 4.5M5 13v6a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-6"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></symbol>
+  <symbol id="i-reply" viewBox="0 0 24 24"><path d="M9 15 4 10l5-5M4 10h10a6 6 0 0 1 6 6v3"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H10l-6 4z"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="M5 12h13M12 5l7 7-7 7"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13a.5.5 0 0 0 .8.4l10-6.5a.5.5 0 0 0 0-.8l-10-6.5a.5.5 0 0 0-.8.4z"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></symbol>
+  <symbol id="i-prev" viewBox="0 0 24 24"><path d="M18 6.5v11a.5.5 0 0 1-.8.4L9 12.4a.5.5 0 0 1 0-.8l8.2-5.5a.5.5 0 0 1 .8.4z"/><rect x="6" y="6" width="2" height="12" rx=".5"/></symbol>
+  <symbol id="i-next" viewBox="0 0 24 24"><path d="M6 6.5v11a.5.5 0 0 0 .8.4l8.2-5.5a.5.5 0 0 0 0-.8L6.8 6.1a.5.5 0 0 0-.8.4z"/><rect x="16" y="6" width="2" height="12" rx=".5"/></symbol>
+  <symbol id="i-repeat" viewBox="0 0 24 24"><path d="m17 2 3 3-3 3M4 11V9a4 4 0 0 1 4-4h12M7 22l-3-3 3-3M20 13v2a4 4 0 0 1-4 4H4"/></symbol>
+  <symbol id="i-shuffle" viewBox="0 0 24 24"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></symbol>
+  <symbol id="i-vol" viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></symbol>
+  <symbol id="i-music" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 7 8.5 6 8.5-6"/></symbol>
+  <symbol id="i-rss" viewBox="0 0 24 24"><path d="M5 11a8 8 0 0 1 8 8M5 5a14 14 0 0 1 14 14"/><circle cx="6" cy="18" r="1"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 3 2.7 5.6 6.1.8-4.5 4.2 1.1 6.1L12 16.8l-5.4 2.9 1.1-6.1-4.5-4.2 6.1-.8z"/></symbol>
+  <symbol id="i-expand" viewBox="0 0 24 24"><path d="M15 4h5v5M9 20H4v-5M20 4l-6 6M4 20l6-6"/></symbol>
+  <symbol id="i-collapse" viewBox="0 0 24 24"><path d="M4 14h6v6M20 10h-6V4M14 10l6-6M10 14l-6 6"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19V5a2 2 0 0 1 2-2h14v14H6a2 2 0 0 0-2 2 2 2 0 0 0 2 2h14"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 4 2.5 20h19z"/><path d="M12 10v4M12 17h.01"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/></symbol>
+  <symbol id="i-code" viewBox="0 0 24 24"><path d="m8 7-5 5 5 5M16 7l5 5-5 5"/></symbol>
+  <symbol id="i-terminal" viewBox="0 0 24 24"><path d="m5 7 5 5-5 5M12 18h7"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <div class="frame">
+    <a class="brand" href="index.html" aria-label="Gokul Saraswat, home"><span class="brand__mark" aria-hidden="true">gs</span><span class="brand__name">Gokul Saraswat</span></a>
+    <nav class="nav" aria-label="Main">
+      <a href="projects.html">Projects</a>
+      <a href="post.html">Blog</a>
+      <a href="#">Courses</a>
+      <a href="#">Snippets</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+    </nav>
+    <div class="top__tools">
+      <button class="search-btn" type="button" aria-label="Search posts, projects and courses"><svg class="ico" aria-hidden="true"><use href="#i-search"/></svg><span>Search</span><kbd>Ctrl K</kbd></button>
+      <button class="icon-btn" type="button" data-theme-set="dark" aria-label="Use dark theme"><svg class="ico" aria-hidden="true"><use href="#i-moon"/></svg></button>
+      <button class="icon-btn menu-btn" type="button" aria-label="Open menu" aria-expanded="false"><svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="band band--flush hero" aria-labelledby="hero-title">
+  <div class="frame">
+    <div class="hero__inner">
+      <span class="avail"><span class="avail__dot" aria-hidden="true"></span>Open to work</span>
+      <h1 id="hero-title"><span class="wave">Hi, I'm</span> Gokul Saraswat</h1>
+      <p class="roles" aria-live="off">
+        <span class="roles__slot" data-roles>
+          <span class="roles__item">Full Stack Developer</span>
+          <span class="roles__item" aria-hidden="true">Problem Solver</span>
+          <span class="roles__item" aria-hidden="true">FDE</span>
+          <span class="roles__item" aria-hidden="true">SDE</span>
+        </span>
+        <span>in Bangalore, India</span>
+      </p>
+      <p class="lede">I build backend systems and the tooling around them, then write down what I learned. Lately that means Go, NATS, Docker and Terraform.</p>
+      <div class="hero__actions">
+        <a class="btn btn--primary" href="#">Get in touch</a>
+        <a class="btn" href="#"><svg class="ico" aria-hidden="true"><use href="#i-download"/></svg>Download résumé</a>
+      </div>
+
+      <figure class="req" aria-label="A sample API request about Gokul and its response">
+        <div class="req__bar">
+          <span class="method method--get">GET</span>
+          <span class="req__path">/gokul</span>
+          <span class="req__status"><span><b>200</b> OK</span><span class="ms">38 ms</span></span>
+          <button class="icon-btn" type="button" aria-label="Copy as curl"><svg class="ico" aria-hidden="true"><use href="#i-copy"/></svg></button>
+        </div>
+        <div class="req__tabs" role="tablist" aria-label="Request view">
+          <button role="tab" type="button" aria-selected="true" aria-controls="r-json" id="t-json">Response</button>
+          <button role="tab" type="button" aria-selected="false" aria-controls="r-curl" id="t-curl">curl</button>
+        </div>
+<pre class="code" id="r-json" role="tabpanel" aria-labelledby="t-json"><code>{
+  <span class="k">"name"</span>: <span class="s">"Gokul Saraswat"</span>,
+  <span class="k">"role"</span>: <span class="s live" data-role-live>"Full Stack Developer"</span>,
+  <span class="k">"stack"</span>: [<span class="s">"Java"</span>, <span class="s">"Spring Boot"</span>, <span class="s">"Go"</span>, <span class="s">"Docker"</span>, <span class="s">"Kubernetes"</span>],
+  <span class="k">"location"</span>: <span class="s">"Bangalore, India"</span>,
+  <span class="k">"open_to_work"</span>: <span class="b">true</span>,
+  <span class="k">"latest_post"</span>: <span class="s">"/blog/system-design-fundamentals"</span>
+}</code></pre>
+<pre class="code" id="r-curl" role="tabpanel" aria-labelledby="t-curl" hidden><code><span class="c"># the same data, from the public API</span>
+curl https://gokulsaraswat.com/api/gokul</code></pre>
+        <figcaption class="req__foot"><span>Role, stack and location come from the admin profile.</span><a class="route" href="#">/about</a></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="band stats-wrap" aria-label="Numbers">
+  <div class="frame">
+    <div class="stats" id="stats">
+      <div class="stat"><span class="stat__value" data-count="30"><span>0</span><small>%</small></span><span class="stat__label">API latency cut</span><span class="stat__desc">Banking microservices platform</span></div>
+      <div class="stat"><span class="stat__value" data-count="98"><span>0</span><small>%</small></span><span class="stat__label">Service uptime</span><span class="stat__desc">Same platform, in production</span></div>
+      <div class="stat"><span class="stat__value" data-count="12"><span>0</span></span><span class="stat__label">Course chapters</span><span class="stat__desc">Learn Go and System Design</span></div>
+      <div class="stat"><span class="stat__value" data-count="5"><span>0</span></span><span class="stat__label">Posts published</span><span class="stat__desc">Architecture, DevOps, open source</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="band section" aria-labelledby="skills-title">
+  <div class="frame">
+    <div class="sec-head">
+      <div><h2 id="skills-title">Skills and tools</h2><p>What I reach for, grouped by where it sits in a system.</p></div>
+      <span class="legend"><i aria-hidden="true"></i>Daily driver</span>
+    </div>
+    <div class="skills">
+      <div class="skills__row">
+        <div class="skills__cat"><h3>Languages</h3><span>3 items</span></div>
+        <ul class="skills__items" role="list">
+          <li class="skill skill--primary"><span class="si" style="--si:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/openjdk.svg)" aria-hidden="true"></span>Java<span class="gk-sr-only">, daily driver</span></li>
+          <li class="skill skill--primary"><span class="si" style="--si:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/go.svg)" aria-hidden="true"></span>Go<span class="gk-sr-only">, daily driver</span></li>
+          <li class="skill"><span class="skill__glyph" aria-hidden="true">S</span>SQL</li>
+        </ul>
+      </div>
+      <div class="skills__row">
+        <div class="skills__cat"><h3>Backend and APIs</h3><span>4 items</span></div>
+        <ul class="skills__items" role="list">
+          <li class="skill skill--primary"><span class="si" style="--si:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/springboot.svg)" aria-hidden="true"></span>Spring Boot<span class="gk-sr-only">, daily driver</span></li>
+          <li class="skill"><span class="si" style="--si:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/swagger.svg)" aria-hidden="true"></span>REST APIs</li>
+          <li class="skill"><span class="si" style="--si:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/natsdotio.svg)" aria-hidden="true"></span>NATS</li>
+          <li class="skill"><span class="skill__glyph" aria-hidden="true">M</span>Microservices</li>
+        </ul>
+      </div>
+      <div class="skills__row">
+        <div class="skills__cat"><h3>Cloud and delivery</h3><span>5 items</span></div>
+        <ul class="skills__items" role="list">
+          <li class="skill skill--primary"><span class="si" style="--si:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/docker.svg)" aria-hidden="true"></span>Docker<span class="gk-sr-only">, daily driver</span></li>
+          <li class="skill"><span class="si" style="--si:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/kubernetes.svg)" aria-hidden="true"></span>Kubernetes</li>
+          <li class="skill"><span class="si" style="--si:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/terraform.svg)" aria-hidden="true"></span>Terraform</li>
+          <li class="skill"><span class="si" style="--si:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/amazonwebservices.svg)" aria-hidden="true"></span>AWS</li>
+          <li class="skill"><span class="si" style="--si:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/githubactions.svg)" aria-hidden="true"></span>GitHub Actions</li>
+        </ul>
+      </div>
+      <div class="skills__row">
+        <div class="skills__cat"><h3>Frontend</h3><span>2 items</span></div>
+        <ul class="skills__items" role="list">
+          <li class="skill"><span class="si" style="--si:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/react.svg)" aria-hidden="true"></span>React</li>
+          <li class="skill"><span class="si" style="--si:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/vite.svg)" aria-hidden="true"></span>Vite</li>
+        </ul>
+      </div>
+      <div class="skills__row">
+        <div class="skills__cat"><h3>Observability and design</h3><span>2 items</span></div>
+        <ul class="skills__items" role="list">
+          <li class="skill"><span class="si" style="--si:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/grafana.svg)" aria-hidden="true"></span>Grafana</li>
+          <li class="skill"><span class="skill__glyph" aria-hidden="true">D</span>System design</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band section" aria-labelledby="work-title">
+  <div class="frame">
+    <div class="sec-head">
+      <div><h2 id="work-title">Featured project</h2><p>The write-up includes the decision record, pipeline and infrastructure code.</p></div>
+      <a class="route" href="projects.html">/projects<svg class="ico" aria-hidden="true"><use href="#i-right"/></svg><span class="gk-sr-only">All projects</span></a>
+    </div>
+    <article class="endpoint">
+      <div class="endpoint__main">
+        <span class="star"><svg class="ico" aria-hidden="true"><use href="#i-star"/></svg>Featured</span>
+        <h3><a href="#">Banking Microservices Platform</a></h3>
+        <p>Enterprise banking microservices with 30% API latency reduction and 98% uptime.</p>
+        <dl class="endpoint__facts">
+          <dt>Role</dt><dd>Backend Engineer</dd>
+          <dt>Complexity</dt><dd><span class="complex" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i></span> <span class="gk-sr-only">3 of 3</span></dd>
+          <dt>Stack</dt><dd><div class="tags"><span class="tag">java</span><span class="tag">spring-boot</span><span class="tag">sql</span><span class="tag">rest</span><span class="tag">docker</span><span class="tag">kubernetes</span><span class="tag">grafana</span></div></dd>
+        </dl>
+        <div><a class="btn" href="#">Read the case study</a></div>
+      </div>
+      <div class="endpoint__side">
+        <div class="file-tabs" role="tablist" aria-label="Project files">
+          <button role="tab" type="button" aria-selected="true" aria-controls="f-adr">ADR-001.md</button>
+          <button role="tab" type="button" aria-selected="false" aria-controls="f-ci">ci.yml</button>
+          <button role="tab" type="button" aria-selected="false" aria-controls="f-iac">main.tf</button>
+        </div>
+<pre class="code" id="f-adr" role="tabpanel"><code><span class="k"># ADR-001: Use Spring Boot for Microservices</span>
+
+<span class="f">## Context</span>
+We need a framework that supports rapid
+microservice development with strong
+ecosystem support.
+
+<span class="f">## Decision</span>
+Adopt Spring Boot 2.7 with Java 17.
+
+<span class="f">## Consequences</span>
+- Mature dependency injection
+- Excellent observability integrations
+- Large talent pool</code></pre>
+<pre class="code" id="f-ci" role="tabpanel" hidden><code><span class="k">name</span>: CI
+<span class="k">on</span>: [push]
+<span class="k">jobs</span>:
+  <span class="k">build</span>:
+    <span class="k">runs-on</span>: ubuntu-latest
+    <span class="k">steps</span>:
+      - <span class="k">uses</span>: actions/checkout@v4
+      - <span class="k">name</span>: Set up JDK 17
+        <span class="k">uses</span>: actions/setup-java@v4
+        <span class="k">with</span>:
+          <span class="k">java-version</span>: <span class="s">"17"</span>
+      - <span class="k">name</span>: Build with Maven
+        <span class="k">run</span>: mvn -B package --file pom.xml</code></pre>
+<pre class="code" id="f-iac" role="tabpanel" hidden><code><span class="f">resource</span> <span class="s">"aws_ecs_cluster"</span> <span class="s">"banking"</span> {
+  <span class="k">name</span> = <span class="s">"banking-prod"</span>
+}
+
+<span class="f">resource</span> <span class="s">"aws_ecs_service"</span> <span class="s">"report"</span> {
+  <span class="k">name</span>            = <span class="s">"report-svc"</span>
+  <span class="k">cluster</span>         = aws_ecs_cluster.banking.id
+  <span class="k">desired_count</span>   = <span class="n">3</span>
+}</code></pre>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="band section" aria-labelledby="posts-title">
+  <div class="frame">
+    <div class="sec-head">
+      <div><h2 id="posts-title">Latest posts</h2></div>
+      <a class="route" href="post.html">/blog<svg class="ico" aria-hidden="true"><use href="#i-right"/></svg><span class="gk-sr-only">All posts</span></a>
+    </div>
+    <ol class="ref" role="list">
+      <li class="ref__row post-row"><time datetime="2026-08-03">3 Aug 2026</time><span><span class="method method--arch">architecture</span></span><div><h3><a href="#">System Design Fundamentals</a></h3><p>Comprehensive course covering system design from networking basics to designing scalable distributed systems.</p></div><span class="read">1 min read</span></li>
+      <li class="ref__row post-row"><time datetime="2026-08-03">3 Aug 2026</time><span><span class="method method--devops">devops</span></span><div><h3><a href="#">Introduction to IaC with Terraform</a></h3><p>Learn Infrastructure as Code fundamentals with Terraform for managing cloud resources declaratively.</p></div><span class="read">2 min read</span></li>
+      <li class="ref__row post-row"><time datetime="2026-08-03">3 Aug 2026</time><span><span class="method method--arch">architecture</span></span><div><h3><a href="#">Getting Started with NATS</a></h3><p>An introduction to NATS, the high-performance messaging system for distributed systems.</p></div><span class="read">2 min read</span></li>
+      <li class="ref__row post-row"><time datetime="2026-08-03">3 Aug 2026</time><span><span class="method method--devops">devops</span></span><div><h3><a href="post.html">Dockerize Your Go Applications</a></h3><p>Learn how to containerize your Go applications using Docker for consistent development and deployment.</p></div><span class="read">3 min read</span></li>
+    </ol>
+  </div>
+</section>
+
+<section class="band section" aria-labelledby="courses-title">
+  <div class="frame">
+    <div class="sec-head">
+      <div><h2 id="courses-title">Courses</h2><p>Long-form, chapter by chapter, with a docs-style reader.</p></div>
+      <a class="route" href="#">/courses<svg class="ico" aria-hidden="true"><use href="#i-right"/></svg><span class="gk-sr-only">All courses</span></a>
+    </div>
+    <ul class="ref" role="list">
+      <li class="ref__row course-row"><div><h3><a href="#">Learn Go</a></h3><p>Master Go from fundamentals to advanced concurrency patterns.</p></div><span class="chapters z"><span class="chapters__bar" aria-hidden="true"><i></i><i></i><i></i><i></i></span>4 chapters</span></li>
+      <li class="ref__row course-row"><div><h3><a href="#">System Design</a></h3><p>Deisgn Big Apps</p></div><span class="chapters z"><span class="chapters__bar" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>8 chapters</span></li>
+    </ul>
+  </div>
+</section>
+
+</main>
+<footer class="foot">
+  <div class="frame">
+    <div class="foot__top">
+      <nav aria-labelledby="f-work"><h2 id="f-work">Work</h2><ul role="list">
+        <li><a href="projects.html">Projects</a></li><li><a href="#">Snippets</a></li><li><a href="#">Résumé (PDF)</a></li></ul></nav>
+      <nav aria-labelledby="f-writing"><h2 id="f-writing">Writing</h2><ul role="list">
+        <li><a href="post.html">Blog</a></li><li><a href="#">Courses</a></li><li><a href="#">Tags</a></li></ul></nav>
+      <nav aria-labelledby="f-about"><h2 id="f-about">About</h2><ul role="list">
+        <li><a href="#">About me</a></li><li><a href="#">Gallery</a></li><li><a href="#">Contact</a></li></ul></nav>
+      <nav aria-labelledby="f-else"><h2 id="f-else">Elsewhere</h2><ul role="list">
+        <li><a href="https://github.com/gokulsaraswat"><span class="si" style="--si:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/github.svg)" aria-hidden="true"></span>GitHub</a></li>
+        <li><a href="https://www.linkedin.com/in/gokulsaraswat"><span class="si" style="--si:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/linkedin.svg)" aria-hidden="true"></span>LinkedIn</a></li>
+        <li><a href="https://twitter.com/gokulsaraswat"><span class="si" style="--si:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/x.svg)" aria-hidden="true"></span>X</a></li>
+        <li><a href="mailto:gokulsaraswat07@gmail.com"><svg class="ico" aria-hidden="true" style="width:.875rem;height:.875rem"><use href="#i-mail"/></svg>Email</a></li></ul></nav>
+      <div class="foot__side">
+        <div>
+          <h2 id="f-theme">Theme</h2>
+          <div class="seg" role="radiogroup" aria-labelledby="f-theme">
+            <button type="button" role="radio" data-theme-set="system" aria-checked="true"><svg class="ico" aria-hidden="true"><use href="#i-monitor"/></svg>System</button>
+            <button type="button" role="radio" data-theme-set="light" aria-checked="false"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg>Light</button>
+            <button type="button" role="radio" data-theme-set="dark" aria-checked="false"><svg class="ico" aria-hidden="true"><use href="#i-moon"/></svg>Dark</button>
+          </div>
+        </div>
+        <div>
+          <h2>Now playing</h2>
+          <div class="nowline"><button class="play" type="button" style="width:2.25rem;height:2.25rem" aria-label="Pause Background music"><svg class="ico ico--fill" aria-hidden="true" style="width:.875rem;height:.875rem"><use href="#i-pause"/></svg></button><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span><b>Background music</b> by Site default</span></div>
+        </div>
+        <p class="copy">© 2026 Gokul Saraswat. Words and code here are mine unless a post says otherwise.</p>
+      </div>
+    </div>
+    <div class="foot__bottom">
+      <a href="#">Privacy</a><a href="#">Terms</a><a href="#">Cookies</a><a href="#">Accessibility</a><a href="#">Sitemap</a><a href="#"><svg class="ico" aria-hidden="true" style="width:.875rem;height:.875rem"><use href="#i-rss"/></svg>RSS</a>
+      <span class="mono">Bangalore, India</span>
+    </div>
+  </div>
+</footer>
+
+<div class="dock dock--right"><button class="launcher" type="button" aria-haspopup="dialog"><svg class="ico" aria-hidden="true"><use href="#i-chat"/></svg>Ask about my work</button></div>
+</body>
+</html>

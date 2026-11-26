@@ -1,0 +1,56 @@
+<!--@page title="Projects, Gokul Saraswat" desc="Systems I have built, with decision records, pipelines and infrastructure code." nav="projects"-->
+<main id="main">
+<section class="band band--flush">
+  <div class="frame">
+    <header class="page-head">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><svg class="ico" aria-hidden="true"><use href="#i-chev"/></svg><span>Projects</span></nav>
+      <h1>Projects</h1>
+      <p>Systems I have built, each with the role I played, the stack, and where available the decision records, CI pipeline and infrastructure code behind it.</p>
+    </header>
+  </div>
+</section>
+<section class="band">
+  <div class="frame">
+    <div class="toolbar" role="group" aria-label="Filter by stack">
+      <button class="fchip" type="button" aria-pressed="true">All <small>2</small></button>
+      <button class="fchip" type="button" aria-pressed="false"><span class="si" style="--si:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/openjdk.svg)" aria-hidden="true"></span>Java <small>1</small></button>
+      <button class="fchip" type="button" aria-pressed="false"><span class="si" style="--si:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/springboot.svg)" aria-hidden="true"></span>Spring Boot <small>1</small></button>
+      <button class="fchip" type="button" aria-pressed="false"><span class="si" style="--si:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/docker.svg)" aria-hidden="true"></span>Docker <small>1</small></button>
+      <button class="fchip" type="button" aria-pressed="false"><span class="si" style="--si:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/kubernetes.svg)" aria-hidden="true"></span>Kubernetes <small>1</small></button>
+      <button class="fchip" type="button" aria-pressed="false"><span class="si" style="--si:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/grafana.svg)" aria-hidden="true"></span>Grafana <small>1</small></button>
+      <div class="toolbar__end"><label for="sort">Sort</label><select class="select" id="sort"><option>Featured first</option><option>Newest</option><option>Complexity</option></select></div>
+    </div>
+    <table class="proj-table">
+      <caption class="gk-sr-only">2 projects</caption>
+      <thead><tr><th scope="col">Project</th><th scope="col">Role</th><th scope="col">Stack</th><th scope="col">Complexity</th><th scope="col"><span class="gk-sr-only">Links</span></th></tr></thead>
+      <tbody>
+        <tr>
+          <td><h2><a href="#">Banking Microservices Platform</a></h2><p>Enterprise banking microservices with 30% API latency reduction and 98% uptime.</p>
+            <div class="tags" style="margin-top:var(--gk-space-3)"><span class="method method--put">ADR</span><span class="method method--post">CI</span><span class="method method--get">IaC</span><span class="method">2 diagrams</span></div></td>
+          <td class="facts">Backend Engineer<br><span class="star"><svg class="ico" aria-hidden="true"><use href="#i-star"/></svg>Featured</span></td>
+          <td><div class="tags"><span class="tag">java</span><span class="tag">spring-boot</span><span class="tag">sql</span><span class="tag">rest</span><span class="tag">docker</span><span class="tag">kubernetes</span><span class="tag">grafana</span></div></td>
+          <td class="facts"><span class="complex" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i></span><span class="gk-sr-only">3 of 3</span> <span class="dim">High</span></td>
+          <td><div class="links"><button class="icon-btn" type="button" aria-label="Like Banking Microservices Platform" data-toggle aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-heart"/></svg></button><button class="icon-btn" type="button" aria-label="Share Banking Microservices Platform"><svg class="ico" aria-hidden="true"><use href="#i-share"/></svg></button><a class="icon-btn" href="#" aria-label="Open case study"><svg class="ico" aria-hidden="true"><use href="#i-right"/></svg></a></div></td>
+        </tr>
+        <tr>
+          <td><h2><a href="#">asdfasf</a></h2><p>adsf</p></td>
+          <td class="facts"><span class="dim">Role not set</span></td>
+          <td><span class="muted-note">No stack listed</span></td>
+          <td class="facts"><span class="complex" aria-hidden="true"><i class="on"></i><i></i><i></i></span><span class="gk-sr-only">1 of 3</span> <span class="dim">Low</span></td>
+          <td><div class="links"><button class="icon-btn" type="button" aria-label="Like asdfasf" data-toggle aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-heart"/></svg></button><button class="icon-btn" type="button" aria-label="Share asdfasf"><svg class="ico" aria-hidden="true"><use href="#i-share"/></svg></button><a class="icon-btn" href="#" aria-label="Open project"><svg class="ico" aria-hidden="true"><use href="#i-right"/></svg></a></div></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="section" style="padding-block:var(--gk-space-10)">
+      <div class="state">
+        <span class="method">GET /projects?stack=go</span>
+        <h3>No projects use Go yet</h3>
+        <p>Go shows up in the writing instead. Clear the filter, or read the Go posts and course.</p>
+        <div class="tags"><button class="btn btn--sm" type="button">Clear filter</button><a class="btn btn--sm btn--quiet" href="#">Learn Go course</a></div>
+      </div>
+      <p class="ref__meta" style="margin-top:var(--gk-space-2)">Empty state shown when a filter matches nothing (example: Go).</p>
+    </div>
+  </div>
+</section>
+</main>
+<!--@foot-->

@@ -1,0 +1,28 @@
+[
+  {
+    "id": "cmsdjbrmj000auhj8ze405ly0",
+    "title": "Learn Go",
+    "slug": "go",
+    "description": "Master Go from fundamentals to advanced concurrency patterns.",
+    "banner": "",
+    "createdAt": "2026-08-03T18:00:37.531Z",
+    "updatedAt": "2026-08-03T18:00:37.531Z",
+    "embeds": "",
+    "_count": {
+      "chapters": 4
+    }
+  },
+  {
+    "id": "cmqxhxlxh0000uh6kli4vz30g",
+    "title": "System Design ",
+    "slug": "system-design",
+    "description": "Deisgn Big Apps",
+    "banner": "",
+    "createdAt": "2026-06-28T07:57:34.781Z",
+    "updatedAt": "2026-06-28T07:57:34.781Z",
+    "embeds": "",
+    "_count": {
+      "chapters": 8
+    }
+  }
+]

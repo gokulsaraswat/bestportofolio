@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en" data-gk-flavor="portfolio" data-gk-theme="system">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>States, Gokul Saraswat</title>
+<meta name="description" content="Loading, empty and error states, and the stats rail with more than four items.">
+<script>(function(){var t=new URLSearchParams(location.search).get('theme');if(!t){try{t=localStorage.getItem('q-theme')}catch(e){}}document.documentElement.dataset.gkTheme=t||'system';if(new URLSearchParams(location.search).has('still'))document.documentElement.dataset.still=''})()</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..600&family=JetBrains+Mono:wght@400;600&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&display=swap">
+<link rel="stylesheet" href="../../vendor/tokens.css">
+<link rel="stylesheet" href="../../vendor/components.css">
+<link rel="stylesheet" href="assets/quiet.css">
+</head>
+<body class="gk-app">
+<a class="q-skip" href="#main">Skip to content</a>
+
+<header class="q-nav">
+  <div class="q-wrap q-nav__in">
+    <a class="q-brand" href="index.html" aria-label="Gokul Saraswat, home"><span class="q-brand__mark" aria-hidden="true">g</span>Gokul Saraswat</a>
+    <nav aria-label="Main">
+      <div class="q-nav__links">
+        <a href="projects.html">Work</a>
+        <a href="post.html">Writing</a>
+        <a href="#courses">Courses</a>
+        <a href="#">Snippets</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+      </div>
+      <button class="gk-btn gk-btn--quiet q-nav__menu" type="button" aria-expanded="false" aria-controls="menu"><svg class="q-icon" aria-hidden="true"><use href="#i-menu"/></svg>Menu</button>
+    </nav>
+  </div>
+</header>
+<main id="main" class="q-wrap q-spec">
+  <header class="q-page-head" style="padding-block:1rem 1.5rem">
+    <h1>States</h1>
+    <p class="q-lede" style="text-align:left">What the quiet parts look like when there is more, less or nothing to show.</p>
+  </header>
+  <div style="display:grid;gap:4.5rem;max-inline-size:var(--q-col)">
+    <section class="q-sec" aria-labelledby="s1">
+      <div class="q-sec__head"><h2 class="q-h2" id="s1">Stats rail with six items</h2></div>
+      <div class="q-rail">
+        <ul class="q-stats" role="list" aria-label="Numbers">
+          <li class="q-stat"><p class="q-stat__v"><span data-count="30">30</span><small>%</small></p><p class="q-stat__l">lower API latency on a banking platform</p></li>
+          <li class="q-stat"><p class="q-stat__v"><span data-count="98">98</span><small>%</small></p><p class="q-stat__l">uptime across the same services</p></li>
+          <li class="q-stat"><p class="q-stat__v"><span data-count="12">12</span></p><p class="q-stat__l">course chapters on Go and system design</p></li>
+          <li class="q-stat"><p class="q-stat__v"><span data-count="5">5</span></p><p class="q-stat__l">articles on architecture and DevOps</p></li>
+          <li class="q-stat"><p class="q-stat__v"><span data-count="3">3</span></p><p class="q-stat__l">code snippets for Java and Spring</p></li>
+          <li class="q-stat"><p class="q-stat__v"><span data-count="2">2</span></p><p class="q-stat__l">projects with full write-ups</p></li>
+        </ul>
+        <div class="q-rail__ctl" style="justify-content:flex-end;margin-block-start:.75rem">
+          <button class="q-ib" type="button" data-dir="-1" aria-label="Previous numbers"><svg class="q-icon" aria-hidden="true"><use href="#i-left"/></svg></button>
+          <button class="q-ib" type="button" data-dir="1" aria-label="More numbers"><svg class="q-icon" aria-hidden="true"><use href="#i-right"/></svg></button>
+        </div>
+      </div>
+      <p class="q-note">Up to four sit in a row. Beyond four, the row becomes a rail that snaps to each number, fades at the edge and gets two small buttons. Numbers count up once when they come into view; with reduced motion they appear final.</p>
+    </section>
+
+    <section class="q-sec" aria-labelledby="s2">
+      <div class="q-sec__head"><h2 class="q-h2" id="s2">Writing, loading</h2></div>
+      <div class="q-rows" aria-busy="true" aria-label="Loading posts">
+        <div class="q-row"><span class="gk-skeleton" style="inline-size:55%;block-size:1.1rem"></span><span class="gk-skeleton q-row__m" style="inline-size:5.5rem"></span><span class="gk-skeleton q-row__d" style="inline-size:85%"></span></div>
+        <div class="q-row"><span class="gk-skeleton" style="inline-size:42%;block-size:1.1rem"></span><span class="gk-skeleton q-row__m" style="inline-size:5.5rem"></span><span class="gk-skeleton q-row__d" style="inline-size:75%"></span></div>
+        <div class="q-row"><span class="gk-skeleton" style="inline-size:60%;block-size:1.1rem"></span><span class="gk-skeleton q-row__m" style="inline-size:5.5rem"></span><span class="gk-skeleton q-row__d" style="inline-size:80%"></span></div>
+      </div>
+    </section>
+
+    <section class="q-sec" aria-labelledby="s3">
+      <div class="q-sec__head"><h2 class="q-h2" id="s3">Projects, filtered to nothing</h2></div>
+      <div class="gk-state" style="border:1px dashed var(--gk-color-border-strong);border-radius:var(--gk-radius-lg)">
+        <svg class="q-icon gk-state__icon" aria-hidden="true" style="width:2rem;height:2rem"><use href="#i-inbox"/></svg>
+        <p class="gk-state__title" style="font-weight:400;font-size:1.25rem">No frontend projects yet</p>
+        <p class="gk-state__body">The frontend work so far lives inside the full stack projects. Show everything, or read the React notes instead.</p>
+        <div class="gk-state__actions"><button class="gk-btn gk-btn--ghost" type="button">Show all projects</button><a class="gk-btn gk-btn--quiet" href="#">Read about React</a></div>
+      </div>
+    </section>
+
+    <section class="q-sec" aria-labelledby="s4">
+      <div class="q-sec__head"><h2 class="q-h2" id="s4">Comment form, with an error</h2></div>
+      <form class="q-form" onsubmit="return false" aria-labelledby="s4">
+        <div class="q-form__row">
+          <div class="gk-field"><label class="gk-label" for="e-name">Name</label><input class="gk-input" id="e-name" aria-invalid="true" aria-describedby="e-name-err"><p class="gk-field-error" id="e-name-err">Add a name so replies make sense.</p></div>
+          <div class="gk-field"><label class="gk-label" for="e-mail">Email <span class="gk-muted">(optional, never shown)</span></label><input class="gk-input" id="e-mail" type="email"></div>
+        </div>
+        <div class="gk-field"><label class="gk-label" for="e-body">Comment</label><textarea class="gk-textarea" id="e-body" rows="3">Great write-up, thanks.</textarea></div>
+        <div class="gk-alert gk-alert--danger" role="alert"><p class="gk-alert__title">Comment not posted</p><p>The server didn't respond. Your text is kept here; post it again.</p></div>
+        <div class="q-form__foot"><p class="gk-hint">Comments are reviewed before they appear.</p><button class="gk-btn gk-btn--primary" type="submit" aria-busy="true" disabled>Posting…</button></div>
+      </form>
+    </section>
+  </div>
+</main>
+
+<footer class="q-foot">
+  <div class="q-wrap">
+    <div class="q-foot__top">
+      <nav class="q-foot__groups" aria-label="Footer">
+        <div><h2>Work</h2><ul><li><a href="projects.html">Projects</a></li><li><a href="#">Résumé (PDF)</a></li></ul></div>
+        <div><h2>Writing</h2><ul><li><a href="post.html">Blog</a></li><li><a href="#">Courses</a></li><li><a href="#">Snippets</a></li></ul></div>
+        <div><h2>About</h2><ul><li><a href="#">About me</a></li><li><a href="#">Contact</a></li><li><a href="chat.html">Ask the assistant</a></li></ul></div>
+        <div><h2>Elsewhere</h2><ul><li><a href="https://github.com/gokulsaraswat">GitHub</a></li><li><a href="https://www.linkedin.com/in/gokulsaraswat">LinkedIn</a></li><li><a href="https://twitter.com/gokulsaraswat">X</a></li><li><a href="mailto:gokulsaraswat07@gmail.com">Email</a></li></ul></div>
+      </nav>
+      <div class="q-foot__side">
+        <div>
+          <p class="q-foot__label" id="theme-l">Theme</p>
+          <div class="q-theme" role="radiogroup" aria-labelledby="theme-l">
+            <label><input type="radio" name="theme" value="system"><svg class="q-icon" aria-hidden="true"><use href="#i-system"/></svg>System</label>
+            <label><input type="radio" name="theme" value="light"><svg class="q-icon" aria-hidden="true"><use href="#i-sun"/></svg>Light</label>
+            <label><input type="radio" name="theme" value="dark"><svg class="q-icon" aria-hidden="true"><use href="#i-moon"/></svg>Dark</label>
+          </div>
+        </div>
+        <div data-playing>
+          <p class="q-foot__label">Now playing</p>
+          <p style="display:flex;align-items:center;gap:.625rem"><span class="q-eq" aria-hidden="true"><i></i><i></i><i></i></span><span>Monsoon Study <span class="gk-muted">by Saanjh</span></span></p>
+        </div>
+        <p class="gk-muted">© 2026 Gokul Saraswat</p>
+      </div>
+    </div>
+    <div class="q-foot__bottom">
+      <ul role="list">
+        <li><a href="#">Privacy</a></li><li><a href="#">Terms</a></li><li><a href="#">Cookies</a></li><li><a href="#">Accessibility</a></li><li><a href="#">Sitemap</a></li><li><a href="#">RSS</a></li>
+      </ul>
+      <p>Built with Astro in Bangalore</p>
+    </div>
+  </div>
+</footer>
+
+<p class="q-toast" role="status" hidden></p>
+<script src="assets/quiet.js"></script>
+</body>
+</html>

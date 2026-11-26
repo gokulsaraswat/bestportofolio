@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en" data-gk-flavor="portfolio" data-gk-theme="system">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>States sheet, Signal mockup</title>
+<script>(function(){try{var q=new URLSearchParams(location.search).get('theme');var t=q||JSON.parse(localStorage.getItem('pf-theme')||'"system"');document.documentElement.setAttribute('data-gk-theme',t);}catch(e){}})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@75..125,200..900&family=Martian+Mono:wdth,wght@75..112.5,300..700&display=swap">
+<link rel="stylesheet" href="../../vendor/tokens.css">
+<link rel="stylesheet" href="../../vendor/components.css">
+<link rel="stylesheet" href="signal-tokens.css">
+<link rel="stylesheet" href="signal.css">
+</head>
+<body class="gk-app">
+<a class="pf-skip" href="#main">Skip to content</a>
+<div data-pf="nav" data-current=""></div>
+
+<main id="main" class="pf-wrap">
+  <header class="pf-pagehead">
+    <h1>States. <span class="pf-dim">The parts that only show up sometimes.</span></h1>
+  </header>
+
+  <section class="pf-stats" aria-label="Six stats in the rail" style="padding-top:0">
+    <p class="pf-stage__cap"><b>Stats rail, more than four.</b> Snaps per item; arrows appear only when it overflows.</p>
+    <div class="pf-stats__head" hidden>
+      <button class="gk-btn gk-btn--ghost gk-btn--icon gk-btn--sm" type="button" aria-label="Previous numbers"><span class="pf-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg></span></button>
+      <button class="gk-btn gk-btn--ghost gk-btn--icon gk-btn--sm" type="button" aria-label="Next numbers"><span class="pf-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span></button>
+    </div>
+    <ul class="pf-stats__rail" aria-label="Numbers">
+      <li class="pf-stat"><p class="pf-stat__value"><span data-count="30">30</span><span class="pf-stat__suffix">%</span></p><p class="pf-stat__label">lower API latency on the banking platform</p></li>
+      <li class="pf-stat"><p class="pf-stat__value"><span data-count="98">98</span><span class="pf-stat__suffix">%</span></p><p class="pf-stat__label">service uptime on the same platform</p></li>
+      <li class="pf-stat"><p class="pf-stat__value"><span data-count="5">5</span></p><p class="pf-stat__label">articles published</p></li>
+      <li class="pf-stat"><p class="pf-stat__value"><span data-count="12">12</span></p><p class="pf-stat__label">course chapters</p></li>
+      <li class="pf-stat"><p class="pf-stat__value"><span data-count="3">3</span></p><p class="pf-stat__label">code snippets</p></li>
+      <li class="pf-stat"><p class="pf-stat__value"><span data-count="2">2</span></p><p class="pf-stat__label">architecture diagrams</p></li>
+    </ul>
+  </section>
+
+  <section class="pf-section" aria-labelledby="s-card" style="padding-top:var(--gk-space-10)">
+    <h2 class="pf-h2" id="s-card" style="margin-bottom:var(--gk-space-6)">Project with a banner. <span class="pf-dim">Cards only when there is an image.</span></h2>
+    <div class="pf-stage">
+      <article class="pf-proj" style="grid-template-columns:1fr">
+        <div class="pf-proj__media">Banner image, 16:9</div>
+        <div><h3 class="pf-proj__title"><a href="#">Project title from admin</a></h3><p class="pf-proj__desc">Short description, two lines at most on the card.</p></div>
+      </article>
+      <div>
+        <p class="pf-stage__cap"><b>Loading.</b> Skeleton rows mirror the real row list.</p>
+        <div class="pf-rows" aria-busy="true" aria-label="Loading posts">
+          <div class="pf-skel-row"><span class="gk-skeleton" style="width:70%"></span><span><span class="gk-skeleton" style="width:60%;height:1.1rem"></span><span class="gk-skeleton" style="width:90%;margin-top:.6rem"></span></span><span class="gk-skeleton"></span></div>
+          <div class="pf-skel-row"><span class="gk-skeleton" style="width:70%"></span><span><span class="gk-skeleton" style="width:45%;height:1.1rem"></span><span class="gk-skeleton" style="width:80%;margin-top:.6rem"></span></span><span class="gk-skeleton"></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pf-section" aria-labelledby="s-empty">
+    <h2 class="pf-h2" id="s-empty" style="margin-bottom:var(--gk-space-6)">Empty and error. <span class="pf-dim">Say what happened and what to do next.</span></h2>
+    <div class="pf-stage">
+      <div class="gk-state pf-state">
+        <span class="gk-state__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="11" cy="11" r="6"/><path d="m20 20-4.5-4.5"/></svg></span>
+        <h3 class="gk-state__title">No projects use Rust yet</h3>
+        <p class="gk-state__body">Try another filter, or read the posts on Go instead.</p>
+        <div class="gk-state__actions"><button class="gk-btn" type="button">Clear filter</button></div>
+      </div>
+      <div class="gk-state gk-state--error pf-state" role="alert">
+        <span class="gk-state__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16.5v.5"/></svg></span>
+        <h3 class="gk-state__title">The assistant did not answer</h3>
+        <p class="gk-state__body">The model is busy right now (503). Your question is kept; send it again in a minute, or email Gokul directly.</p>
+        <div class="gk-state__actions"><button class="gk-btn gk-btn--primary" type="button">Send again</button><a class="gk-btn" href="mailto:gokulsaraswat07@gmail.com">Email Gokul</a></div>
+      </div>
+    </div>
+    <div class="gk-alert gk-alert--danger" role="alert" style="margin-top:var(--gk-space-8);max-width:var(--gk-measure)">
+      <span class="gk-alert__title">Comment not posted</span>
+      <span>Add a comment of at least 3 characters, then post again.</span>
+    </div>
+  </section>
+</main>
+
+<div data-pf="footer"></div>
+<script src="signal.js"></script>
+</body>
+</html>

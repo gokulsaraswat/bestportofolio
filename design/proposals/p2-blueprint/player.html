@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en" data-gk-flavor="portfolio" data-gk-theme="system">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Music player, Blueprint mockup</title>
+<meta name="description" content="The site's own audio playlist: compact and expanded states.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400..700&family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap">
+<link rel="stylesheet" href="../../vendor/tokens.css">
+<link rel="stylesheet" href="../../vendor/components.css">
+<link rel="stylesheet" href="blueprint.css">
+<script src="blueprint.js" defer></script>
+</head>
+<body class="gk-app">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M8 20h8M12 16v4"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-ur" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></symbol>
+  <symbol id="i-right" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-left" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+  <symbol id="i-chevd" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 5 5 9-10"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7.2a4.3 4.3 0 0 1 7.5 2.6C19.5 15.4 12 20 12 20z"/></symbol>
+  <symbol id="i-share" viewBox="0 0 24 24"><path d="M12 3v12M7.5 7.5 12 3l4.5 4.5M5 13v6a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-6"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></symbol>
+  <symbol id="i-reply" viewBox="0 0 24 24"><path d="M9 15 4 10l5-5M4 10h10a6 6 0 0 1 6 6v3"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H10l-6 4z"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="M5 12h13M12 5l7 7-7 7"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13a.5.5 0 0 0 .8.4l10-6.5a.5.5 0 0 0 0-.8l-10-6.5a.5.5 0 0 0-.8.4z"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></symbol>
+  <symbol id="i-prev" viewBox="0 0 24 24"><path d="M18 6.5v11a.5.5 0 0 1-.8.4L9 12.4a.5.5 0 0 1 0-.8l8.2-5.5a.5.5 0 0 1 .8.4z"/><rect x="6" y="6" width="2" height="12" rx=".5"/></symbol>
+  <symbol id="i-next" viewBox="0 0 24 24"><path d="M6 6.5v11a.5.5 0 0 0 .8.4l8.2-5.5a.5.5 0 0 0 0-.8L6.8 6.1a.5.5 0 0 0-.8.4z"/><rect x="16" y="6" width="2" height="12" rx=".5"/></symbol>
+  <symbol id="i-repeat" viewBox="0 0 24 24"><path d="m17 2 3 3-3 3M4 11V9a4 4 0 0 1 4-4h12M7 22l-3-3 3-3M20 13v2a4 4 0 0 1-4 4H4"/></symbol>
+  <symbol id="i-shuffle" viewBox="0 0 24 24"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></symbol>
+  <symbol id="i-vol" viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></symbol>
+  <symbol id="i-music" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 7 8.5 6 8.5-6"/></symbol>
+  <symbol id="i-rss" viewBox="0 0 24 24"><path d="M5 11a8 8 0 0 1 8 8M5 5a14 14 0 0 1 14 14"/><circle cx="6" cy="18" r="1"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 3 2.7 5.6 6.1.8-4.5 4.2 1.1 6.1L12 16.8l-5.4 2.9 1.1-6.1-4.5-4.2 6.1-.8z"/></symbol>
+  <symbol id="i-expand" viewBox="0 0 24 24"><path d="M15 4h5v5M9 20H4v-5M20 4l-6 6M4 20l6-6"/></symbol>
+  <symbol id="i-collapse" viewBox="0 0 24 24"><path d="M4 14h6v6M20 10h-6V4M14 10l6-6M10 14l-6 6"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19V5a2 2 0 0 1 2-2h14v14H6a2 2 0 0 0-2 2 2 2 0 0 0 2 2h14"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 4 2.5 20h19z"/><path d="M12 10v4M12 17h.01"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/></symbol>
+  <symbol id="i-code" viewBox="0 0 24 24"><path d="m8 7-5 5 5 5M16 7l5 5-5 5"/></symbol>
+  <symbol id="i-terminal" viewBox="0 0 24 24"><path d="m5 7 5 5-5 5M12 18h7"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <div class="frame">
+    <a class="brand" href="index.html" aria-label="Gokul Saraswat, home"><span class="brand__mark" aria-hidden="true">gs</span><span class="brand__name">Gokul Saraswat</span></a>
+    <nav class="nav" aria-label="Main">
+      <a href="projects.html">Projects</a>
+      <a href="post.html">Blog</a>
+      <a href="#">Courses</a>
+      <a href="#">Snippets</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+    </nav>
+    <div class="top__tools">
+      <button class="search-btn" type="button" aria-label="Search posts, projects and courses"><svg class="ico" aria-hidden="true"><use href="#i-search"/></svg><span>Search</span><kbd>Ctrl K</kbd></button>
+      <button class="icon-btn" type="button" data-theme-set="dark" aria-label="Use dark theme"><svg class="ico" aria-hidden="true"><use href="#i-moon"/></svg></button>
+      <button class="icon-btn menu-btn" type="button" aria-label="Open menu" aria-expanded="false"><svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<section class="band band--flush">
+  <div class="frame">
+    <header class="page-head" style="padding-bottom:var(--gk-space-8)">
+      <h1>Music player</h1>
+      <p>Off until you press play. It loads only then, remembers track, position, volume, loop and shuffle, and keeps playing as you move between pages. Docked bottom left on desktop, above the chat button on phones.</p>
+    </header>
+    <div class="sheet">
+      <div class="sheet__cell">
+        <div class="sheet__cap"><h2>Compact</h2><p>Play or pause, what is playing, and progress as a hairline. Expand opens the full player.</p></div>
+        <div class="sheet__stage">
+          <div class="mini" role="region" aria-label="Music player">
+            <button class="play" type="button" aria-label="Pause"><svg class="ico ico--fill" aria-hidden="true"><use href="#i-pause"/></svg></button>
+            <div class="mini__meta"><strong>Background music</strong><span>Site default</span></div>
+            <span class="eq" aria-hidden="true"><i></i><i></i><i></i></span>
+            <button class="icon-btn" type="button" aria-label="Next track"><svg class="ico ico--fill" aria-hidden="true"><use href="#i-next"/></svg></button>
+            <button class="icon-btn" type="button" aria-label="Expand player" aria-expanded="false"><svg class="ico" aria-hidden="true"><use href="#i-expand"/></svg></button>
+            <span class="mini__progress" style="width:38%" aria-hidden="true"></span>
+          </div>
+          <div class="mini" role="region" aria-label="Music player">
+            <button class="play" type="button" aria-label="Play Background music"><svg class="ico ico--fill" aria-hidden="true"><use href="#i-play"/></svg></button>
+            <div class="mini__meta"><strong>Play music</strong><span>3 tracks, starts on click</span></div>
+            <button class="icon-btn" type="button" aria-label="Expand player" aria-expanded="false"><svg class="ico" aria-hidden="true"><use href="#i-expand"/></svg></button>
+          </div>
+          <p class="ref__meta">Second row: the resting state before anything has played. No audio is fetched until play.</p>
+        </div>
+      </div>
+      <div class="sheet__cell">
+        <div class="sheet__cap"><h2>Expanded</h2><p>Every control from the brief. Loop cycles off, all, one; the badge shows "1" for one.</p></div>
+        <div class="sheet__stage">
+          <section class="player" aria-label="Music player">
+            <header class="player__head">
+              <svg class="ico" aria-hidden="true" style="width:1rem;height:1rem;color:var(--gk-color-accent)"><use href="#i-music"/></svg>
+              <h2>Now playing</h2>
+              <button class="icon-btn" type="button" aria-label="Collapse player" aria-expanded="true"><svg class="ico" aria-hidden="true"><use href="#i-collapse"/></svg></button>
+              <button class="icon-btn" type="button" aria-label="Stop and close player"><svg class="ico" aria-hidden="true"><use href="#i-close"/></svg></button>
+            </header>
+            <div class="player__now">
+              <div class="cover" aria-hidden="true"></div>
+              <div style="min-width:0"><p class="player__title">Background music</p><p class="player__artist">Site default</p><p class="player__src">/background-music.mp3</p></div>
+            </div>
+            <div class="scrub">
+              <label class="gk-sr-only" for="seek">Seek</label>
+              <input class="range" id="seek" type="range" min="0" max="192" value="73" style="--_p:38%" aria-valuetext="1 minute 13 seconds of 3 minutes 12 seconds">
+              <div class="scrub__times"><span>1:13</span><span>3:12</span></div>
+            </div>
+            <div class="controls">
+              <button class="ctl" type="button" data-toggle aria-pressed="true" aria-label="Shuffle"><svg class="ico" aria-hidden="true"><use href="#i-shuffle"/></svg></button>
+              <button class="ctl" type="button" aria-label="Previous track"><svg class="ico ico--fill" aria-hidden="true"><use href="#i-prev"/></svg></button>
+              <button class="play play--lg" type="button" aria-label="Pause"><svg class="ico ico--fill" aria-hidden="true"><use href="#i-pause"/></svg></button>
+              <button class="ctl" type="button" aria-label="Next track"><svg class="ico ico--fill" aria-hidden="true"><use href="#i-next"/></svg></button>
+              <button class="ctl" type="button" data-loop="all" aria-pressed="true" aria-label="Loop: all"><svg class="ico" aria-hidden="true"><use href="#i-repeat"/></svg><span class="badge1" hidden>1</span></button>
+            </div>
+            <div class="volume">
+              <svg class="ico" aria-hidden="true" style="width:1rem;height:1rem;color:var(--gk-color-text-muted)"><use href="#i-vol"/></svg>
+              <label class="gk-sr-only" for="vol">Volume</label>
+              <input class="range" id="vol" type="range" min="0" max="100" value="60" style="--_p:60%">
+              <span class="mono">60%</span>
+            </div>
+            <div class="playlist">
+              <h3><span>Playlist</span><span class="mono">3 tracks</span></h3>
+              <button class="track" type="button" aria-current="true"><span class="track__n"><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span class="gk-sr-only">Playing</span></span><span class="track__t"><strong>Background music</strong><span>Site default</span></span><time>3:12</time></button>
+              <button class="track" type="button"><span class="track__n">2</span><span class="track__t"><strong>Track title from admin</strong><span>Artist from admin</span></span><time>2:48</time></button>
+              <button class="track" type="button"><span class="track__n">3</span><span class="track__t"><strong>Another uploaded track</strong><span>Artist from admin</span></span><time>4:05</time></button>
+            </div>
+          </section>
+        </div>
+      </div>
+      <div class="sheet__cell">
+        <div class="sheet__cap"><h2>Loop states and errors</h2><p>Same button, three states, each with its own label for screen readers. A missing file skips ahead and says so.</p></div>
+        <div class="sheet__stage" style="justify-items:start">
+          <div class="tags">
+            <span style="display:grid;justify-items:center;gap:4px"><button class="ctl" type="button" aria-pressed="false" aria-label="Loop: off"><svg class="ico" aria-hidden="true"><use href="#i-repeat"/></svg></button><span class="mono ref__meta">off</span></span>
+            <span style="display:grid;justify-items:center;gap:4px"><button class="ctl" type="button" aria-pressed="true" aria-label="Loop: all"><svg class="ico" aria-hidden="true"><use href="#i-repeat"/></svg></button><span class="mono ref__meta">all</span></span>
+            <span style="display:grid;justify-items:center;gap:4px"><button class="ctl" type="button" aria-pressed="true" aria-label="Loop: one"><svg class="ico" aria-hidden="true"><use href="#i-repeat"/></svg><span class="badge1">1</span></button><span class="mono ref__meta">one</span></span>
+            <span style="display:grid;justify-items:center;gap:4px"><button class="ctl" type="button" aria-pressed="true" aria-label="Shuffle on"><svg class="ico" aria-hidden="true"><use href="#i-shuffle"/></svg></button><span class="mono ref__meta">shuffle</span></span>
+          </div>
+          <div class="state state--error" role="alert" style="width:100%">
+            <h3>Couldn't play "Track title from admin"</h3>
+            <p>The file didn't load, so the player moved to the next track.</p>
+<pre class="code"><span class="method method--del">404</span> /music/track-2.mp3</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+<footer class="foot">
+  <div class="frame">
+    <div class="foot__top">
+      <nav aria-labelledby="f-work"><h2 id="f-work">Work</h2><ul role="list">
+        <li><a href="projects.html">Projects</a></li><li><a href="#">Snippets</a></li><li><a href="#">Résumé (PDF)</a></li></ul></nav>
+      <nav aria-labelledby="f-writing"><h2 id="f-writing">Writing</h2><ul role="list">
+        <li><a href="post.html">Blog</a></li><li><a href="#">Courses</a></li><li><a href="#">Tags</a></li></ul></nav>
+      <nav aria-labelledby="f-about"><h2 id="f-about">About</h2><ul role="list">
+        <li><a href="#">About me</a></li><li><a href="#">Gallery</a></li><li><a href="#">Contact</a></li></ul></nav>
+      <nav aria-labelledby="f-else"><h2 id="f-else">Elsewhere</h2><ul role="list">
+        <li><a href="https://github.com/gokulsaraswat"><span class="si" style="--si:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/github.svg)" aria-hidden="true"></span>GitHub</a></li>
+        <li><a href="https://www.linkedin.com/in/gokulsaraswat"><span class="si" style="--si:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/linkedin.svg)" aria-hidden="true"></span>LinkedIn</a></li>
+        <li><a href="https://twitter.com/gokulsaraswat"><span class="si" style="--si:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/x.svg)" aria-hidden="true"></span>X</a></li>
+        <li><a href="mailto:gokulsaraswat07@gmail.com"><svg class="ico" aria-hidden="true" style="width:.875rem;height:.875rem"><use href="#i-mail"/></svg>Email</a></li></ul></nav>
+      <div class="foot__side">
+        <div>
+          <h2 id="f-theme">Theme</h2>
+          <div class="seg" role="radiogroup" aria-labelledby="f-theme">
+            <button type="button" role="radio" data-theme-set="system" aria-checked="true"><svg class="ico" aria-hidden="true"><use href="#i-monitor"/></svg>System</button>
+            <button type="button" role="radio" data-theme-set="light" aria-checked="false"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg>Light</button>
+            <button type="button" role="radio" data-theme-set="dark" aria-checked="false"><svg class="ico" aria-hidden="true"><use href="#i-moon"/></svg>Dark</button>
+          </div>
+        </div>
+        <div>
+          <h2>Now playing</h2>
+          <div class="nowline"><button class="play" type="button" style="width:2.25rem;height:2.25rem" aria-label="Pause Background music"><svg class="ico ico--fill" aria-hidden="true" style="width:.875rem;height:.875rem"><use href="#i-pause"/></svg></button><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span><b>Background music</b> by Site default</span></div>
+        </div>
+        <p class="copy">© 2026 Gokul Saraswat. Words and code here are mine unless a post says otherwise.</p>
+      </div>
+    </div>
+    <div class="foot__bottom">
+      <a href="#">Privacy</a><a href="#">Terms</a><a href="#">Cookies</a><a href="#">Accessibility</a><a href="#">Sitemap</a><a href="#"><svg class="ico" aria-hidden="true" style="width:.875rem;height:.875rem"><use href="#i-rss"/></svg>RSS</a>
+      <span class="mono">Bangalore, India</span>
+    </div>
+  </div>
+</footer>
+
+<div class="dock dock--left desk-only"><div class="mini" role="region" aria-label="Music player (docked)">
+  <button class="play" type="button" aria-label="Pause"><svg class="ico ico--fill" aria-hidden="true"><use href="#i-pause"/></svg></button>
+  <div class="mini__meta"><strong>Background music</strong><span>Site default</span></div>
+  <span class="eq" aria-hidden="true"><i></i><i></i><i></i></span>
+  <button class="icon-btn" type="button" aria-label="Expand player" aria-expanded="false"><svg class="ico" aria-hidden="true"><use href="#i-expand"/></svg></button>
+  <span class="mini__progress" style="width:38%" aria-hidden="true"></span>
+</div></div>
+</body>
+</html>

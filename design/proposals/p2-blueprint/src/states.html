@@ -1,0 +1,61 @@
+<!--@page title="States, Blueprint mockup" desc="Stats rail beyond four items, loading skeletons and empty and error states." nav="none"-->
+<main id="main">
+<section class="band band--flush">
+  <div class="frame">
+    <header class="page-head" style="padding-bottom:var(--gk-space-8)">
+      <h1>States</h1>
+      <p>The stats row when admin enables more than four items, and the loading, empty and error states the home sections fall back to.</p>
+    </header>
+  </div>
+</section>
+<section class="band stats-wrap" aria-label="Numbers, six items">
+  <div class="frame">
+    <div class="stats stats--rail" id="rail6" tabindex="0" aria-label="Numbers, scrolls sideways">
+      <div class="stat"><span class="stat__value" data-count="30"><span>0</span><small>%</small></span><span class="stat__label">API latency cut</span><span class="stat__desc">Banking microservices platform</span></div>
+      <div class="stat"><span class="stat__value" data-count="98"><span>0</span><small>%</small></span><span class="stat__label">Service uptime</span><span class="stat__desc">Same platform, in production</span></div>
+      <div class="stat"><span class="stat__value" data-count="12"><span>0</span></span><span class="stat__label">Course chapters</span><span class="stat__desc">Learn Go and System Design</span></div>
+      <div class="stat"><span class="stat__value" data-count="5"><span>0</span></span><span class="stat__label">Posts published</span><span class="stat__desc">Architecture, DevOps, open source</span></div>
+      <div class="stat"><span class="stat__value" data-count="3"><span>0</span></span><span class="stat__label">Snippets</span><span class="stat__desc">Java and Spring</span></div>
+      <div class="stat"><span class="stat__value" data-count="2"><span>0</span></span><span class="stat__label">Courses</span><span class="stat__desc">Go, system design</span></div>
+    </div>
+    <div class="rail-ctl" data-rail-ctl="rail6" style="padding-bottom:var(--gk-space-4)">
+      <span class="rail-ctl__count">6 items, 4 visible</span>
+      <button class="icon-btn" type="button" data-dir="-1" aria-label="Previous numbers"><svg class="ico" aria-hidden="true"><use href="#i-left"/></svg></button>
+      <button class="icon-btn" type="button" data-dir="1" aria-label="More numbers"><svg class="ico" aria-hidden="true"><use href="#i-right"/></svg></button>
+    </div>
+  </div>
+</section>
+<section class="band section">
+  <div class="frame">
+    <div class="sheet" style="border-top:0">
+      <div class="sheet__cell">
+        <div class="sheet__cap"><h2>Loading: latest posts</h2><p>Skeleton rows mirror the real row grid, so nothing jumps when data lands.</p></div>
+        <div class="ref" aria-busy="true" aria-label="Loading posts" style="width:100%">
+          <div class="ref__row" style="grid-template-columns:5rem 1fr;gap:var(--gk-space-4)"><span class="skel"></span><span><span class="skel" style="width:70%"></span><span class="skel" style="width:95%;margin-top:.5rem;height:.625rem"></span></span></div>
+          <div class="ref__row" style="grid-template-columns:5rem 1fr;gap:var(--gk-space-4)"><span class="skel"></span><span><span class="skel" style="width:55%"></span><span class="skel" style="width:85%;margin-top:.5rem;height:.625rem"></span></span></div>
+          <div class="ref__row" style="grid-template-columns:5rem 1fr;gap:var(--gk-space-4)"><span class="skel"></span><span><span class="skel" style="width:62%"></span><span class="skel" style="width:90%;margin-top:.5rem;height:.625rem"></span></span></div>
+        </div>
+      </div>
+      <div class="sheet__cell">
+        <div class="sheet__cap"><h2>Empty: no posts yet</h2><p>Says what will be here and offers the next useful place.</p></div>
+        <div class="state" style="width:100%">
+          <span class="method">GET /blog</span>
+          <h3>No posts published yet</h3>
+          <p>Writing on Go, NATS and Terraform is on the way. The courses are already readable.</p>
+          <a class="btn btn--sm" href="#">Browse courses</a>
+        </div>
+      </div>
+      <div class="sheet__cell">
+        <div class="sheet__cap"><h2>Error: section failed</h2><p>The rest of the page still renders; only this section shows the failure.</p></div>
+        <div class="state state--error" role="alert" style="width:100%">
+          <h3>Projects didn't load</h3>
+          <p>The request timed out. Try again, or open the projects page directly.</p>
+<pre class="code"><span class="method method--del">504</span> GET /api/projects</pre>
+          <div class="tags"><button class="btn btn--sm" type="button"><svg class="ico" aria-hidden="true"><use href="#i-refresh"/></svg>Try again</button><a class="btn btn--sm btn--quiet" href="projects.html">Open projects</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+<!--@foot-->

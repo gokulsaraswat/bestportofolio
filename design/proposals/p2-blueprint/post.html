@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en" data-gk-flavor="portfolio" data-gk-theme="system">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dockerize Your Go Applications, Gokul Saraswat</title>
+<meta name="description" content="Learn how to containerize your Go applications using Docker for consistent development and deployment.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400..700&family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap">
+<link rel="stylesheet" href="../../vendor/tokens.css">
+<link rel="stylesheet" href="../../vendor/components.css">
+<link rel="stylesheet" href="blueprint.css">
+<script src="blueprint.js" defer></script>
+</head>
+<body class="gk-app">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M8 20h8M12 16v4"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-ur" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></symbol>
+  <symbol id="i-right" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-left" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+  <symbol id="i-chevd" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 5 5 9-10"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7.2a4.3 4.3 0 0 1 7.5 2.6C19.5 15.4 12 20 12 20z"/></symbol>
+  <symbol id="i-share" viewBox="0 0 24 24"><path d="M12 3v12M7.5 7.5 12 3l4.5 4.5M5 13v6a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-6"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></symbol>
+  <symbol id="i-reply" viewBox="0 0 24 24"><path d="M9 15 4 10l5-5M4 10h10a6 6 0 0 1 6 6v3"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H10l-6 4z"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="M5 12h13M12 5l7 7-7 7"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13a.5.5 0 0 0 .8.4l10-6.5a.5.5 0 0 0 0-.8l-10-6.5a.5.5 0 0 0-.8.4z"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></symbol>
+  <symbol id="i-prev" viewBox="0 0 24 24"><path d="M18 6.5v11a.5.5 0 0 1-.8.4L9 12.4a.5.5 0 0 1 0-.8l8.2-5.5a.5.5 0 0 1 .8.4z"/><rect x="6" y="6" width="2" height="12" rx=".5"/></symbol>
+  <symbol id="i-next" viewBox="0 0 24 24"><path d="M6 6.5v11a.5.5 0 0 0 .8.4l8.2-5.5a.5.5 0 0 0 0-.8L6.8 6.1a.5.5 0 0 0-.8.4z"/><rect x="16" y="6" width="2" height="12" rx=".5"/></symbol>
+  <symbol id="i-repeat" viewBox="0 0 24 24"><path d="m17 2 3 3-3 3M4 11V9a4 4 0 0 1 4-4h12M7 22l-3-3 3-3M20 13v2a4 4 0 0 1-4 4H4"/></symbol>
+  <symbol id="i-shuffle" viewBox="0 0 24 24"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></symbol>
+  <symbol id="i-vol" viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></symbol>
+  <symbol id="i-music" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 7 8.5 6 8.5-6"/></symbol>
+  <symbol id="i-rss" viewBox="0 0 24 24"><path d="M5 11a8 8 0 0 1 8 8M5 5a14 14 0 0 1 14 14"/><circle cx="6" cy="18" r="1"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 3 2.7 5.6 6.1.8-4.5 4.2 1.1 6.1L12 16.8l-5.4 2.9 1.1-6.1-4.5-4.2 6.1-.8z"/></symbol>
+  <symbol id="i-expand" viewBox="0 0 24 24"><path d="M15 4h5v5M9 20H4v-5M20 4l-6 6M4 20l6-6"/></symbol>
+  <symbol id="i-collapse" viewBox="0 0 24 24"><path d="M4 14h6v6M20 10h-6V4M14 10l6-6M10 14l-6 6"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19V5a2 2 0 0 1 2-2h14v14H6a2 2 0 0 0-2 2 2 2 0 0 0 2 2h14"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 4 2.5 20h19z"/><path d="M12 10v4M12 17h.01"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/></symbol>
+  <symbol id="i-code" viewBox="0 0 24 24"><path d="m8 7-5 5 5 5M16 7l5 5-5 5"/></symbol>
+  <symbol id="i-terminal" viewBox="0 0 24 24"><path d="m5 7 5 5-5 5M12 18h7"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <div class="frame">
+    <a class="brand" href="index.html" aria-label="Gokul Saraswat, home"><span class="brand__mark" aria-hidden="true">gs</span><span class="brand__name">Gokul Saraswat</span></a>
+    <nav class="nav" aria-label="Main">
+      <a href="projects.html">Projects</a>
+      <a href="post.html" aria-current="page">Blog</a>
+      <a href="#">Courses</a>
+      <a href="#">Snippets</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+    </nav>
+    <div class="top__tools">
+      <button class="search-btn" type="button" aria-label="Search posts, projects and courses"><svg class="ico" aria-hidden="true"><use href="#i-search"/></svg><span>Search</span><kbd>Ctrl K</kbd></button>
+      <button class="icon-btn" type="button" data-theme-set="dark" aria-label="Use dark theme"><svg class="ico" aria-hidden="true"><use href="#i-moon"/></svg></button>
+      <button class="icon-btn menu-btn" type="button" aria-label="Open menu" aria-expanded="false"><svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<div class="band band--flush">
+<div class="frame">
+<div class="docs">
+
+  <nav class="docs__nav" aria-label="Blog posts"><div class="docs__stick">
+    <h2>Blog</h2>
+    <label class="filter"><svg class="ico" aria-hidden="true" style="width:1rem;height:1rem"><use href="#i-search"/></svg><span class="gk-sr-only">Filter posts</span><input type="search" placeholder="Filter posts"></label>
+    <div class="navgroup">
+      <h3><span class="method method--arch">architecture</span>2</h3>
+      <a href="#">System Design Fundamentals</a>
+      <a href="#">Getting Started with NATS</a>
+    </div>
+    <div class="navgroup">
+      <h3><span class="method method--devops">devops</span>2</h3>
+      <a href="#">Introduction to IaC with Terraform</a>
+      <a href="post.html" aria-current="page">Dockerize Your Go Applications</a>
+    </div>
+    <div class="navgroup">
+      <h3><span class="method method--oss">open source</span>1</h3>
+      <a href="#">Vite is Too Fast</a>
+    </div>
+  </div></nav>
+
+  <main id="main" class="docs__main">
+    <div class="docs-m"><details><summary>Blog <span>devops, 2 of 5 posts</span><svg class="ico" aria-hidden="true"><use href="#i-chevd"/></svg></summary></details></div>
+    <div class="docs-m docs-m--toc"><details><summary>On this page <span>4 sections</span><svg class="ico" aria-hidden="true"><use href="#i-chevd"/></svg></summary></details></div>
+
+    <article>
+      <header class="article-head">
+        <nav class="crumbs" aria-label="Breadcrumb"><a href="#">Blog</a><svg class="ico" aria-hidden="true"><use href="#i-chev"/></svg><a href="#">DevOps</a></nav>
+        <h1>Dockerize Your Go Applications</h1>
+        <p class="lede">Learn how to containerize your Go applications using Docker for consistent development and deployment.</p>
+        <div class="byline">
+          <span class="who"><span class="avatar avatar--me" aria-hidden="true">GS</span>Gokul Saraswat</span>
+          <time datetime="2026-08-03">3 Aug 2026</time>
+          <span>3 min read</span>
+          <span class="tags"><a class="tag" href="#">docker</a><a class="tag" href="#">go</a><a class="tag" href="#">devops</a></span>
+        </div>
+      </header>
+
+      <div class="prose">
+        <p>Docker has revolutionized the way we build, ship, and run applications. In this guide, we explore how to effectively containerize Go applications.</p>
+        <h2 id="why">Why Docker for Go?<a class="anchor" href="#why" aria-label="Link to this section">#</a></h2>
+        <p>Go compiles to a single binary, making it an excellent candidate for containerization.</p>
+        <h2 id="multi">Multi-Stage Builds<a class="anchor" href="#multi" aria-label="Link to this section">#</a></h2>
+        <div class="codeblock">
+          <div class="codeblock__bar"><svg class="ico" aria-hidden="true" style="width:.875rem;height:.875rem"><use href="#i-code"/></svg>Dockerfile<button class="icon-btn" type="button" aria-label="Copy code"><svg class="ico" aria-hidden="true"><use href="#i-copy"/></svg></button></div>
+<pre class="code"><code><span class="f">FROM</span> golang:1.21-alpine <span class="f">AS</span> builder
+<span class="f">WORKDIR</span> /app
+<span class="f">COPY</span> go.mod go.sum ./
+<span class="f">RUN</span> go mod download
+<span class="f">COPY</span> . .
+<span class="f">RUN</span> CGO_ENABLED=<span class="n">0</span> go build -o server .
+
+<span class="f">FROM</span> alpine:latest
+<span class="f">COPY</span> --from=builder /app/server /server
+<span class="f">EXPOSE</span> <span class="n">8080</span>
+<span class="f">CMD</span> [<span class="s">"/server"</span>]</code></pre>
+        </div>
+        <h2 id="resources">Resources<a class="anchor" href="#resources" aria-label="Link to this section">#</a></h2>
+        <div class="resources">
+          <a href="https://docs.docker.com"><strong>Docker Official Docs</strong><span class="mono">docs.docker.com</span><span>Official Docker documentation</span></a>
+          <a href="https://gobyexample.com"><strong>Go by Example</strong><span class="mono">gobyexample.com</span><span>Hands-on Go examples</span></a>
+        </div>
+      </div>
+
+      <div class="react">
+        <p class="react__q">Was this useful?</p>
+        <button class="like" type="button" data-toggle aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-heart"/></svg><span data-n>12</span><span class="gk-sr-only">likes. Like this post</span></button>
+        <details class="share" open>
+          <summary class="btn btn--sm"><svg class="ico" aria-hidden="true"><use href="#i-share"/></svg>Share</summary>
+          <span class="mobile-only ref__meta" style="margin-left:var(--gk-space-2)">Opens the phone's share sheet</span>
+          <div class="share__menu desk-only" role="menu">
+            <span class="share__url">gokulsaraswat.com/blog/dockerize-go</span>
+            <button type="button" role="menuitem"><svg class="ico" aria-hidden="true"><use href="#i-link"/></svg>Copy link<span class="done">Copied</span></button>
+            <a role="menuitem" href="#"><span class="si" style="--si:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/x.svg)" aria-hidden="true"></span>Post on X</a>
+            <a role="menuitem" href="#"><span class="si" style="--si:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/linkedin.svg)" aria-hidden="true"></span>Share on LinkedIn</a>
+            <hr>
+            <button type="button" role="menuitem"><svg class="ico" aria-hidden="true"><use href="#i-share"/></svg>More options<span class="done" style="color:var(--gk-color-text-subtle)">phones</span></button>
+          </div>
+        </details>
+      </div>
+
+      <nav class="pager" aria-label="More posts">
+        <a href="#"><span><svg class="ico" aria-hidden="true"><use href="#i-left"/></svg>Previous</span><strong>Vite is Too Fast</strong></a>
+        <a class="next" href="#"><span>Next<svg class="ico" aria-hidden="true"><use href="#i-right"/></svg></span><strong>Getting Started with NATS</strong></a>
+      </nav>
+    </article>
+
+    <section class="comments" id="comments" aria-labelledby="c-title">
+      <div class="comments__head"><h2 id="c-title">Comments <span class="num" style="color:var(--gk-color-text-subtle);font-weight:400">3</span></h2><p>Reviewed before they appear</p></div>
+      <form class="cform" onsubmit="return false">
+        <div class="cform__row">
+          <label>Name<input name="name" autocomplete="name" placeholder="How you'd like to be shown"></label>
+          <label>Email <span>(optional)</span><input name="email" type="email" autocomplete="email" placeholder="Only for reply alerts, never shown"></label>
+        </div>
+        <label>Comment<textarea name="body" placeholder="Ask a question or add what worked for you"></textarea></label>
+        <div class="cform__foot"><span>Plain text and `code`. Links are not clickable.</span><button class="btn btn--primary btn--sm" type="submit">Post comment</button></div>
+      </form>
+
+      <ol class="thread" role="list">
+        <li class="cmt">
+          <span class="avatar" aria-hidden="true">AR</span>
+          <div class="cmt__main">
+            <div class="cmt__head"><strong>Ananya R.</strong><time datetime="2026-11-23">2 days ago</time></div>
+            <p class="cmt__body">The multi-stage build took our image from around 800 MB to under 20 MB. Is there a reason to prefer <code class="mono">alpine:latest</code> over distroless for the last stage?</p>
+            <div class="cmt__actions">
+              <button type="button" data-toggle aria-pressed="true"><svg class="ico" aria-hidden="true"><use href="#i-heart"/></svg><span data-n>4</span><span class="gk-sr-only">likes</span></button>
+              <button type="button"><svg class="ico" aria-hidden="true"><use href="#i-reply"/></svg>Reply</button>
+              <button type="button"><svg class="ico" aria-hidden="true"><use href="#i-link"/></svg>Copy link</button>
+            </div>
+          </div>
+          <ol class="replies" role="list" aria-label="Replies to Ananya R.">
+            <li class="cmt cmt--author">
+              <span class="avatar avatar--me" aria-hidden="true">GS</span>
+              <div class="cmt__main">
+                <div class="cmt__head"><strong>Gokul Saraswat</strong><span class="badge-author">Author</span><time datetime="2026-11-24">1 day ago</time></div>
+                <p class="cmt__body">Distroless is the better default when you don't need a shell. I kept Alpine so readers can exec into the container while following along. A distroless variant is going into the post.</p>
+                <div class="cmt__actions">
+                  <button type="button" data-toggle aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-heart"/></svg><span data-n>2</span><span class="gk-sr-only">likes</span></button>
+                </div>
+              </div>
+            </li>
+          </ol>
+        </li>
+        <li class="cmt">
+          <span class="avatar" aria-hidden="true">M</span>
+          <div class="cmt__main">
+            <div class="cmt__head"><strong>Marco</strong><time datetime="2026-11-20">5 days ago</time></div>
+            <p class="cmt__body"><code class="mono">CGO_ENABLED=0</code> was the missing piece for me. The binary kept failing on Alpine without it.</p>
+            <div class="cmt__actions">
+              <button type="button" data-toggle aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-heart"/></svg><span data-n>1</span><span class="gk-sr-only">like</span></button>
+              <button type="button"><svg class="ico" aria-hidden="true"><use href="#i-reply"/></svg>Reply</button>
+              <button type="button"><svg class="ico" aria-hidden="true"><use href="#i-link"/></svg>Copy link</button>
+            </div>
+          </div>
+          <ol class="replies" role="list" aria-label="Replies to Marco">
+            <li class="cmt cmt--pending" role="status">
+              <span class="avatar" aria-hidden="true">You</span>
+              <div class="cmt__main">
+                <div class="cmt__head"><strong>You</strong><span class="pending-note"><svg class="ico" aria-hidden="true"><use href="#i-clock"/></svg>Awaiting review</span><time datetime="2026-11-25">just now</time></div>
+                <p class="cmt__body">Same here. Would love a follow-up on caching <code class="mono">go mod download</code> in CI.</p>
+                <p class="ref__meta" style="margin-top:var(--gk-space-2)">Only you can see this until it is approved. You can edit it for 10 minutes.</p>
+              </div>
+            </li>
+          </ol>
+        </li>
+      </ol>
+    </section>
+  </main>
+
+  <aside class="docs__toc" aria-label="On this page">
+    <h2>On this page</h2>
+    <a href="#why" aria-current="true">Why Docker for Go?</a>
+    <a href="#multi">Multi-Stage Builds</a>
+    <a href="#resources">Resources</a>
+    <a href="#comments">Comments (3)</a>
+    <div class="toc-tools">
+      <button type="button" data-toggle aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-heart"/></svg>Like</button>
+      <button type="button"><svg class="ico" aria-hidden="true"><use href="#i-link"/></svg>Copy link</button>
+      <a href="#"><svg class="ico" aria-hidden="true"><use href="#i-chat"/></svg>Ask about this post</a>
+    </div>
+  </aside>
+
+</div>
+</div>
+</div>
+<footer class="foot">
+  <div class="frame">
+    <div class="foot__top">
+      <nav aria-labelledby="f-work"><h2 id="f-work">Work</h2><ul role="list">
+        <li><a href="projects.html">Projects</a></li><li><a href="#">Snippets</a></li><li><a href="#">Résumé (PDF)</a></li></ul></nav>
+      <nav aria-labelledby="f-writing"><h2 id="f-writing">Writing</h2><ul role="list">
+        <li><a href="post.html">Blog</a></li><li><a href="#">Courses</a></li><li><a href="#">Tags</a></li></ul></nav>
+      <nav aria-labelledby="f-about"><h2 id="f-about">About</h2><ul role="list">
+        <li><a href="#">About me</a></li><li><a href="#">Gallery</a></li><li><a href="#">Contact</a></li></ul></nav>
+      <nav aria-labelledby="f-else"><h2 id="f-else">Elsewhere</h2><ul role="list">
+        <li><a href="https://github.com/gokulsaraswat"><span class="si" style="--si:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/github.svg)" aria-hidden="true"></span>GitHub</a></li>
+        <li><a href="https://www.linkedin.com/in/gokulsaraswat"><span class="si" style="--si:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/linkedin.svg)" aria-hidden="true"></span>LinkedIn</a></li>
+        <li><a href="https://twitter.com/gokulsaraswat"><span class="si" style="--si:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/x.svg)" aria-hidden="true"></span>X</a></li>
+        <li><a href="mailto:gokulsaraswat07@gmail.com"><svg class="ico" aria-hidden="true" style="width:.875rem;height:.875rem"><use href="#i-mail"/></svg>Email</a></li></ul></nav>
+      <div class="foot__side">
+        <div>
+          <h2 id="f-theme">Theme</h2>
+          <div class="seg" role="radiogroup" aria-labelledby="f-theme">
+            <button type="button" role="radio" data-theme-set="system" aria-checked="true"><svg class="ico" aria-hidden="true"><use href="#i-monitor"/></svg>System</button>
+            <button type="button" role="radio" data-theme-set="light" aria-checked="false"><svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg>Light</button>
+            <button type="button" role="radio" data-theme-set="dark" aria-checked="false"><svg class="ico" aria-hidden="true"><use href="#i-moon"/></svg>Dark</button>
+          </div>
+        </div>
+        <div>
+          <h2>Now playing</h2>
+          <div class="nowline"><button class="play" type="button" style="width:2.25rem;height:2.25rem" aria-label="Pause Background music"><svg class="ico ico--fill" aria-hidden="true" style="width:.875rem;height:.875rem"><use href="#i-pause"/></svg></button><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span><b>Background music</b> by Site default</span></div>
+        </div>
+        <p class="copy">© 2026 Gokul Saraswat. Words and code here are mine unless a post says otherwise.</p>
+      </div>
+    </div>
+    <div class="foot__bottom">
+      <a href="#">Privacy</a><a href="#">Terms</a><a href="#">Cookies</a><a href="#">Accessibility</a><a href="#">Sitemap</a><a href="#"><svg class="ico" aria-hidden="true" style="width:.875rem;height:.875rem"><use href="#i-rss"/></svg>RSS</a>
+      <span class="mono">Bangalore, India</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

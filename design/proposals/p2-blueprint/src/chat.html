@@ -1,0 +1,98 @@
+<!--@page title="Chat widget, Blueprint mockup" desc="The site assistant: greeting, starter questions, a sourced answer and follow-up questions." nav="none"-->
+<main id="main">
+<section class="band band--flush">
+  <div class="frame">
+    <header class="page-head" style="padding-bottom:var(--gk-space-8)">
+      <h1>Chat widget</h1>
+      <p>Opens from "Ask about my work" at the bottom right. Answers come from this site's posts, projects and courses (Gemini 2.5 Flash with retrieval), and every answer links its sources.</p>
+    </header>
+    <div class="sheet">
+      <div class="sheet__cell">
+        <div class="sheet__cap"><h2>Opened, before the first message</h2><p>Greeting and four starter questions come from admin. The starters disappear once a message is sent.</p></div>
+        <div class="sheet__stage">
+          <section class="chat" role="dialog" aria-label="Ask about Gokul's work">
+            <header class="chat__head">
+              <span class="avatar avatar--me" aria-hidden="true">GS</span>
+              <div><h2>Ask about my work</h2><p>Answers from posts, projects and courses</p></div>
+              <button class="icon-btn" type="button" aria-label="Close chat"><svg class="ico" aria-hidden="true"><use href="#i-close"/></svg></button>
+            </header>
+            <div class="chat__log" aria-live="polite">
+              <div class="msg msg--bot">
+                <div class="msg__who"><svg class="ico" aria-hidden="true" style="width:.875rem;height:.875rem"><use href="#i-terminal"/></svg>Assistant</div>
+                <div class="msg__text"><p>Hi, I'm the assistant on Gokul's site. I can find his posts, projects and courses, or tell you how to reach him.</p></div>
+              </div>
+              <div>
+                <p class="chips__label">Try one of these</p>
+                <div class="chips chips--stack">
+                  <button class="chip" type="button">What does Gokul work on?</button>
+                  <button class="chip" type="button">What has he written about Docker?</button>
+                  <button class="chip" type="button">Is he open to new roles?</button>
+                  <button class="chip" type="button">How do I contact him?</button>
+                </div>
+              </div>
+            </div>
+            <form class="chat__form" onsubmit="return false">
+              <div class="chat__input"><label class="gk-sr-only" for="q1">Your question</label><textarea id="q1" rows="1" placeholder="Ask a question"></textarea><button class="send" type="submit" aria-label="Send"><svg class="ico" aria-hidden="true"><use href="#i-send"/></svg></button></div>
+              <p class="chat__note">Answers can be wrong. Check the linked source.</p>
+            </form>
+          </section>
+        </div>
+      </div>
+      <div class="sheet__cell">
+        <div class="sheet__cap"><h2>After an answer</h2><p>The reply cites its sources as routes. Up to three follow-up questions arrive with the same response.</p></div>
+        <div class="sheet__stage">
+          <section class="chat" role="dialog" aria-label="Ask about Gokul's work">
+            <header class="chat__head">
+              <span class="avatar avatar--me" aria-hidden="true">GS</span>
+              <div><h2>Ask about my work</h2><p>Answers from posts, projects and courses</p></div>
+              <button class="icon-btn" type="button" aria-label="Close chat"><svg class="ico" aria-hidden="true"><use href="#i-close"/></svg></button>
+            </header>
+            <div class="chat__log" aria-live="polite">
+              <div class="msg msg--me">What has he written about Docker?</div>
+              <div class="msg msg--bot">
+                <div class="msg__who"><svg class="ico" aria-hidden="true" style="width:.875rem;height:.875rem"><use href="#i-terminal"/></svg>Assistant</div>
+                <div class="msg__text">
+                  <p>One post is about Docker directly: <a href="post.html">Dockerize Your Go Applications</a>. It explains why Go's single binary suits containers and walks through a multi-stage build that ends in a small Alpine image.</p>
+                  <p>The Banking Microservices Platform also runs on Docker and Kubernetes.</p>
+                </div>
+                <div class="sources">
+                  <a href="post.html"><span class="method method--get">GET</span>/blog/dockerize-go</a>
+                  <a href="#"><span class="method method--get">GET</span>/projects/banking-microservices</a>
+                </div>
+              </div>
+              <div>
+                <p class="chips__label">Ask next</p>
+                <div class="chips chips--stack">
+                  <button class="chip chip--follow" type="button">Show the multi-stage Dockerfile</button>
+                  <button class="chip chip--follow" type="button">What else is in DevOps?</button>
+                  <button class="chip chip--follow" type="button">Does he have a Go course?</button>
+                </div>
+              </div>
+            </div>
+            <form class="chat__form" onsubmit="return false">
+              <div class="chat__input"><label class="gk-sr-only" for="q2">Your question</label><textarea id="q2" rows="1" placeholder="Ask a follow-up"></textarea><button class="send" type="submit" aria-label="Send"><svg class="ico" aria-hidden="true"><use href="#i-send"/></svg></button></div>
+              <p class="chat__note">Answers can be wrong. Check the linked source.</p>
+            </form>
+          </section>
+        </div>
+      </div>
+      <div class="sheet__cell">
+        <div class="sheet__cap"><h2>Waiting and failing</h2><p>A typing line while the answer streams; when the model is busy, the error says what happened and keeps the question.</p></div>
+        <div class="sheet__stage">
+          <div class="msg msg--bot" style="width:100%">
+            <div class="msg__who"><span class="gk-spinner" aria-hidden="true" style="color:var(--gk-color-accent)"></span>Searching posts and projects</div>
+            <span class="skel" style="width:90%"></span><span class="skel" style="width:70%;margin-top:.5rem"></span>
+          </div>
+          <div class="state state--error" role="alert" style="width:100%">
+            <h3>The assistant didn't answer</h3>
+            <p>The model is busy right now (503). Your question is still in the box; send it again in a few seconds.</p>
+            <button class="btn btn--sm" type="button"><svg class="ico" aria-hidden="true"><use href="#i-refresh"/></svg>Send again</button>
+          </div>
+          <button class="launcher" type="button" aria-haspopup="dialog"><svg class="ico" aria-hidden="true"><use href="#i-chat"/></svg>Ask about my work</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+<!--@foot-->

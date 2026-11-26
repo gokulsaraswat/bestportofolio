@@ -1,0 +1,209 @@
+<!--@page title="Gokul Saraswat, full stack developer" desc="Backend systems, the tooling around them, and notes on what I learned building them." nav="home"-->
+<main id="main">
+
+<section class="band band--flush hero" aria-labelledby="hero-title">
+  <div class="frame">
+    <div class="hero__inner">
+      <span class="avail"><span class="avail__dot" aria-hidden="true"></span>Open to work</span>
+      <h1 id="hero-title"><span class="wave">Hi, I'm</span> Gokul Saraswat</h1>
+      <p class="roles" aria-live="off">
+        <span class="roles__slot" data-roles>
+          <span class="roles__item">Full Stack Developer</span>
+          <span class="roles__item" aria-hidden="true">Problem Solver</span>
+          <span class="roles__item" aria-hidden="true">FDE</span>
+          <span class="roles__item" aria-hidden="true">SDE</span>
+        </span>
+        <span>in Bangalore, India</span>
+      </p>
+      <p class="lede">I build backend systems and the tooling around them, then write down what I learned. Lately that means Go, NATS, Docker and Terraform.</p>
+      <div class="hero__actions">
+        <a class="btn btn--primary" href="#">Get in touch</a>
+        <a class="btn" href="#"><svg class="ico" aria-hidden="true"><use href="#i-download"/></svg>Download résumé</a>
+      </div>
+
+      <figure class="req" aria-label="A sample API request about Gokul and its response">
+        <div class="req__bar">
+          <span class="method method--get">GET</span>
+          <span class="req__path">/gokul</span>
+          <span class="req__status"><span><b>200</b> OK</span><span class="ms">38 ms</span></span>
+          <button class="icon-btn" type="button" aria-label="Copy as curl"><svg class="ico" aria-hidden="true"><use href="#i-copy"/></svg></button>
+        </div>
+        <div class="req__tabs" role="tablist" aria-label="Request view">
+          <button role="tab" type="button" aria-selected="true" aria-controls="r-json" id="t-json">Response</button>
+          <button role="tab" type="button" aria-selected="false" aria-controls="r-curl" id="t-curl">curl</button>
+        </div>
+<pre class="code" id="r-json" role="tabpanel" aria-labelledby="t-json"><code>{
+  <span class="k">"name"</span>: <span class="s">"Gokul Saraswat"</span>,
+  <span class="k">"role"</span>: <span class="s live" data-role-live>"Full Stack Developer"</span>,
+  <span class="k">"stack"</span>: [<span class="s">"Java"</span>, <span class="s">"Spring Boot"</span>, <span class="s">"Go"</span>, <span class="s">"Docker"</span>, <span class="s">"Kubernetes"</span>],
+  <span class="k">"location"</span>: <span class="s">"Bangalore, India"</span>,
+  <span class="k">"open_to_work"</span>: <span class="b">true</span>,
+  <span class="k">"latest_post"</span>: <span class="s">"/blog/system-design-fundamentals"</span>
+}</code></pre>
+<pre class="code" id="r-curl" role="tabpanel" aria-labelledby="t-curl" hidden><code><span class="c"># the same data, from the public API</span>
+curl https://gokulsaraswat.com/api/gokul</code></pre>
+        <figcaption class="req__foot"><span>Role, stack and location come from the admin profile.</span><a class="route" href="#">/about</a></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="band stats-wrap" aria-label="Numbers">
+  <div class="frame">
+    <div class="stats" id="stats">
+      <div class="stat"><span class="stat__value" data-count="30"><span>0</span><small>%</small></span><span class="stat__label">API latency cut</span><span class="stat__desc">Banking microservices platform</span></div>
+      <div class="stat"><span class="stat__value" data-count="98"><span>0</span><small>%</small></span><span class="stat__label">Service uptime</span><span class="stat__desc">Same platform, in production</span></div>
+      <div class="stat"><span class="stat__value" data-count="12"><span>0</span></span><span class="stat__label">Course chapters</span><span class="stat__desc">Learn Go and System Design</span></div>
+      <div class="stat"><span class="stat__value" data-count="5"><span>0</span></span><span class="stat__label">Posts published</span><span class="stat__desc">Architecture, DevOps, open source</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="band section" aria-labelledby="skills-title">
+  <div class="frame">
+    <div class="sec-head">
+      <div><h2 id="skills-title">Skills and tools</h2><p>What I reach for, grouped by where it sits in a system.</p></div>
+      <span class="legend"><i aria-hidden="true"></i>Daily driver</span>
+    </div>
+    <div class="skills">
+      <div class="skills__row">
+        <div class="skills__cat"><h3>Languages</h3><span>3 items</span></div>
+        <ul class="skills__items" role="list">
+          <li class="skill skill--primary"><span class="si" style="--si:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/openjdk.svg)" aria-hidden="true"></span>Java<span class="gk-sr-only">, daily driver</span></li>
+          <li class="skill skill--primary"><span class="si" style="--si:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/go.svg)" aria-hidden="true"></span>Go<span class="gk-sr-only">, daily driver</span></li>
+          <li class="skill"><span class="skill__glyph" aria-hidden="true">S</span>SQL</li>
+        </ul>
+      </div>
+      <div class="skills__row">
+        <div class="skills__cat"><h3>Backend and APIs</h3><span>4 items</span></div>
+        <ul class="skills__items" role="list">
+          <li class="skill skill--primary"><span class="si" style="--si:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/springboot.svg)" aria-hidden="true"></span>Spring Boot<span class="gk-sr-only">, daily driver</span></li>
+          <li class="skill"><span class="si" style="--si:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/swagger.svg)" aria-hidden="true"></span>REST APIs</li>
+          <li class="skill"><span class="si" style="--si:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/natsdotio.svg)" aria-hidden="true"></span>NATS</li>
+          <li class="skill"><span class="skill__glyph" aria-hidden="true">M</span>Microservices</li>
+        </ul>
+      </div>
+      <div class="skills__row">
+        <div class="skills__cat"><h3>Cloud and delivery</h3><span>5 items</span></div>
+        <ul class="skills__items" role="list">
+          <li class="skill skill--primary"><span class="si" style="--si:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/docker.svg)" aria-hidden="true"></span>Docker<span class="gk-sr-only">, daily driver</span></li>
+          <li class="skill"><span class="si" style="--si:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/kubernetes.svg)" aria-hidden="true"></span>Kubernetes</li>
+          <li class="skill"><span class="si" style="--si:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/terraform.svg)" aria-hidden="true"></span>Terraform</li>
+          <li class="skill"><span class="si" style="--si:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/amazonwebservices.svg)" aria-hidden="true"></span>AWS</li>
+          <li class="skill"><span class="si" style="--si:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/githubactions.svg)" aria-hidden="true"></span>GitHub Actions</li>
+        </ul>
+      </div>
+      <div class="skills__row">
+        <div class="skills__cat"><h3>Frontend</h3><span>2 items</span></div>
+        <ul class="skills__items" role="list">
+          <li class="skill"><span class="si" style="--si:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/react.svg)" aria-hidden="true"></span>React</li>
+          <li class="skill"><span class="si" style="--si:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/vite.svg)" aria-hidden="true"></span>Vite</li>
+        </ul>
+      </div>
+      <div class="skills__row">
+        <div class="skills__cat"><h3>Observability and design</h3><span>2 items</span></div>
+        <ul class="skills__items" role="list">
+          <li class="skill"><span class="si" style="--si:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/grafana.svg)" aria-hidden="true"></span>Grafana</li>
+          <li class="skill"><span class="skill__glyph" aria-hidden="true">D</span>System design</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band section" aria-labelledby="work-title">
+  <div class="frame">
+    <div class="sec-head">
+      <div><h2 id="work-title">Featured project</h2><p>The write-up includes the decision record, pipeline and infrastructure code.</p></div>
+      <a class="route" href="projects.html">/projects<svg class="ico" aria-hidden="true"><use href="#i-right"/></svg><span class="gk-sr-only">All projects</span></a>
+    </div>
+    <article class="endpoint">
+      <div class="endpoint__main">
+        <span class="star"><svg class="ico" aria-hidden="true"><use href="#i-star"/></svg>Featured</span>
+        <h3><a href="#">Banking Microservices Platform</a></h3>
+        <p>Enterprise banking microservices with 30% API latency reduction and 98% uptime.</p>
+        <dl class="endpoint__facts">
+          <dt>Role</dt><dd>Backend Engineer</dd>
+          <dt>Complexity</dt><dd><span class="complex" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i></span> <span class="gk-sr-only">3 of 3</span></dd>
+          <dt>Stack</dt><dd><div class="tags"><span class="tag">java</span><span class="tag">spring-boot</span><span class="tag">sql</span><span class="tag">rest</span><span class="tag">docker</span><span class="tag">kubernetes</span><span class="tag">grafana</span></div></dd>
+        </dl>
+        <div><a class="btn" href="#">Read the case study</a></div>
+      </div>
+      <div class="endpoint__side">
+        <div class="file-tabs" role="tablist" aria-label="Project files">
+          <button role="tab" type="button" aria-selected="true" aria-controls="f-adr">ADR-001.md</button>
+          <button role="tab" type="button" aria-selected="false" aria-controls="f-ci">ci.yml</button>
+          <button role="tab" type="button" aria-selected="false" aria-controls="f-iac">main.tf</button>
+        </div>
+<pre class="code" id="f-adr" role="tabpanel"><code><span class="k"># ADR-001: Use Spring Boot for Microservices</span>
+
+<span class="f">## Context</span>
+We need a framework that supports rapid
+microservice development with strong
+ecosystem support.
+
+<span class="f">## Decision</span>
+Adopt Spring Boot 2.7 with Java 17.
+
+<span class="f">## Consequences</span>
+- Mature dependency injection
+- Excellent observability integrations
+- Large talent pool</code></pre>
+<pre class="code" id="f-ci" role="tabpanel" hidden><code><span class="k">name</span>: CI
+<span class="k">on</span>: [push]
+<span class="k">jobs</span>:
+  <span class="k">build</span>:
+    <span class="k">runs-on</span>: ubuntu-latest
+    <span class="k">steps</span>:
+      - <span class="k">uses</span>: actions/checkout@v4
+      - <span class="k">name</span>: Set up JDK 17
+        <span class="k">uses</span>: actions/setup-java@v4
+        <span class="k">with</span>:
+          <span class="k">java-version</span>: <span class="s">"17"</span>
+      - <span class="k">name</span>: Build with Maven
+        <span class="k">run</span>: mvn -B package --file pom.xml</code></pre>
+<pre class="code" id="f-iac" role="tabpanel" hidden><code><span class="f">resource</span> <span class="s">"aws_ecs_cluster"</span> <span class="s">"banking"</span> {
+  <span class="k">name</span> = <span class="s">"banking-prod"</span>
+}
+
+<span class="f">resource</span> <span class="s">"aws_ecs_service"</span> <span class="s">"report"</span> {
+  <span class="k">name</span>            = <span class="s">"report-svc"</span>
+  <span class="k">cluster</span>         = aws_ecs_cluster.banking.id
+  <span class="k">desired_count</span>   = <span class="n">3</span>
+}</code></pre>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="band section" aria-labelledby="posts-title">
+  <div class="frame">
+    <div class="sec-head">
+      <div><h2 id="posts-title">Latest posts</h2></div>
+      <a class="route" href="post.html">/blog<svg class="ico" aria-hidden="true"><use href="#i-right"/></svg><span class="gk-sr-only">All posts</span></a>
+    </div>
+    <ol class="ref" role="list">
+      <li class="ref__row post-row"><time datetime="2026-08-03">3 Aug 2026</time><span><span class="method method--arch">architecture</span></span><div><h3><a href="#">System Design Fundamentals</a></h3><p>Comprehensive course covering system design from networking basics to designing scalable distributed systems.</p></div><span class="read">1 min read</span></li>
+      <li class="ref__row post-row"><time datetime="2026-08-03">3 Aug 2026</time><span><span class="method method--devops">devops</span></span><div><h3><a href="#">Introduction to IaC with Terraform</a></h3><p>Learn Infrastructure as Code fundamentals with Terraform for managing cloud resources declaratively.</p></div><span class="read">2 min read</span></li>
+      <li class="ref__row post-row"><time datetime="2026-08-03">3 Aug 2026</time><span><span class="method method--arch">architecture</span></span><div><h3><a href="#">Getting Started with NATS</a></h3><p>An introduction to NATS, the high-performance messaging system for distributed systems.</p></div><span class="read">2 min read</span></li>
+      <li class="ref__row post-row"><time datetime="2026-08-03">3 Aug 2026</time><span><span class="method method--devops">devops</span></span><div><h3><a href="post.html">Dockerize Your Go Applications</a></h3><p>Learn how to containerize your Go applications using Docker for consistent development and deployment.</p></div><span class="read">3 min read</span></li>
+    </ol>
+  </div>
+</section>
+
+<section class="band section" aria-labelledby="courses-title">
+  <div class="frame">
+    <div class="sec-head">
+      <div><h2 id="courses-title">Courses</h2><p>Long-form, chapter by chapter, with a docs-style reader.</p></div>
+      <a class="route" href="#">/courses<svg class="ico" aria-hidden="true"><use href="#i-right"/></svg><span class="gk-sr-only">All courses</span></a>
+    </div>
+    <ul class="ref" role="list">
+      <li class="ref__row course-row"><div><h3><a href="#">Learn Go</a></h3><p>Master Go from fundamentals to advanced concurrency patterns.</p></div><span class="chapters z"><span class="chapters__bar" aria-hidden="true"><i></i><i></i><i></i><i></i></span>4 chapters</span></li>
+      <li class="ref__row course-row"><div><h3><a href="#">System Design</a></h3><p>Deisgn Big Apps</p></div><span class="chapters z"><span class="chapters__bar" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>8 chapters</span></li>
+    </ul>
+  </div>
+</section>
+
+</main>
+<!--@foot-->
+<div class="dock dock--right"><button class="launcher" type="button" aria-haspopup="dialog"><svg class="ico" aria-hidden="true"><use href="#i-chat"/></svg>Ask about my work</button></div>

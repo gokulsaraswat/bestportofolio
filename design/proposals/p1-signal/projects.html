@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en" data-gk-flavor="portfolio" data-gk-theme="system">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Projects, Gokul Saraswat</title>
+<meta name="description" content="Systems Gokul Saraswat designed, built or kept running.">
+<script>(function(){try{var q=new URLSearchParams(location.search).get('theme');var t=q||JSON.parse(localStorage.getItem('pf-theme')||'"system"');document.documentElement.setAttribute('data-gk-theme',t);}catch(e){}})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@75..125,200..900&family=Martian+Mono:wdth,wght@75..112.5,300..700&display=swap">
+<link rel="stylesheet" href="../../vendor/tokens.css">
+<link rel="stylesheet" href="../../vendor/components.css">
+<link rel="stylesheet" href="signal-tokens.css">
+<link rel="stylesheet" href="signal.css">
+</head>
+<body class="gk-app">
+<a class="pf-skip" href="#main">Skip to content</a>
+<div data-pf="nav" data-current="work"></div>
+
+<main id="main" class="pf-wrap">
+  <header class="pf-pagehead">
+    <h1>Projects. <span class="pf-dim">Systems I designed, built or kept running.</span></h1>
+    <p>Each one links to the decisions behind it: architecture diagrams, ADRs, CI and infrastructure code.</p>
+  </header>
+
+  <div class="pf-filter" role="group" aria-label="Filter projects">
+    <button class="pf-chip" type="button" aria-pressed="true">All <span class="pf-num">2</span></button>
+    <button class="pf-chip" type="button" aria-pressed="false">Featured <span class="pf-num">1</span></button>
+    <button class="pf-chip" type="button" aria-pressed="false">Backend <span class="pf-num">1</span></button>
+    <button class="pf-chip" type="button" aria-pressed="false">Has write-up <span class="pf-num">1</span></button>
+  </div>
+
+  <ul class="pf-projects" role="list">
+    <li class="pf-proj">
+      <div>
+        <div class="pf-proj__top"><span class="pf-badge">Featured</span><span class="pf-badge pf-badge--plain">Aug 2026</span></div>
+        <h2 class="pf-proj__title"><a href="#">Banking Microservices Platform</a></h2>
+        <p class="pf-proj__desc">Enterprise banking microservices with 30% API latency reduction and 98% uptime.</p>
+        <div class="pf-proj__artifacts" aria-label="Included in the write-up">
+          <span class="pf-tag">High-level architecture</span><span class="pf-tag">Data flow diagram</span><span class="pf-tag">ADR-001</span><span class="pf-tag">ci.yml</span><span class="pf-tag">main.tf</span>
+        </div>
+      </div>
+      <dl class="pf-proj__aside">
+        <div><dt>Role</dt><dd>Backend Engineer</dd></div>
+        <div><dt>Stack</dt><dd><ul class="pf-tags"><li class="pf-tag">java</li><li class="pf-tag">spring-boot</li><li class="pf-tag">sql</li><li class="pf-tag">rest</li><li class="pf-tag">docker</li><li class="pf-tag">kubernetes</li><li class="pf-tag">grafana</li></ul></dd></div>
+        <div><dt>Results</dt><dd>30% lower API latency, 98% uptime</dd></div>
+      </dl>
+    </li>
+    <li class="pf-proj pf-proj--sparse">
+      <div>
+        <div class="pf-proj__top"><span class="pf-badge pf-badge--plain">Jun 2026</span></div>
+        <h2 class="pf-proj__title"><a href="#">asdfasf</a></h2>
+        <p class="pf-proj__desc">adsf</p>
+      </div>
+      <dl class="pf-proj__aside">
+        <div><dt>Role</dt><dd class="pf-empty-inline">Not listed</dd></div>
+        <div><dt>Stack</dt><dd class="pf-empty-inline">Not listed</dd></div>
+      </dl>
+    </li>
+  </ul>
+  <p class="gk-muted" style="margin-top:var(--gk-space-6);font-size:var(--gk-text-sm)">Projects with a banner image render as a card with the image on top; see <a href="states.html">states.html</a>. The second row is a fixture test row, kept to show how sparse data degrades.</p>
+</main>
+
+<div data-pf="footer"></div>
+<div data-pf="dock"></div>
+<div data-pf="launcher"></div>
+<script src="signal.js"></script>
+</body>
+</html>

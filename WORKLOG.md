@@ -12,6 +12,12 @@ Master status of all repos: platform/docs/WORKLOG.md (planning chat syncs it fro
    - Browser pane is often hidden: framer-motion/CSS transitions freeze there; do not report frozen fades as bugs.
 4. Another chat may be working here at the same time (security steps sec-*): pull before committing, commit only your own files.
 
+## Branch `astro` (design track for the Astro rebuild; this section exists only on this branch)
+- Worktree: `.worktrees/bestportofolio-astro` (workspace root). Branch `astro` from `origin/main` 40679fc, no upstream to main; push with `git push origin astro`.
+- State (2026-11-25): `design/README.md` (purpose, Gokul's brief, accent contrast, deviations from v2), `design/vendor/` (v2 `tokens.css` + `components.css` from `@gokulsaraswat/ui` 0.2.0, verbatim), `design/fixtures/*.json` (public API content of the live site; `_manifest.json` lists counts, dropped and sanitized fields).
+- Next: load the frontend-design skill, then mockups in `design/mockups/` (tokens sheet first: portfolio flavor block + AA-tuned red, light/dark), screenshots desktop/mobile x light/dark.
+- Assumptions: fixtures drop `acceptedBy`/`writtenBy`/`includeInRag`; employer-identifying fields of project `banking-microservices` blanked (RULES.md section 7); no backlog rows added on this branch (avoids ID collisions with work on `main`); own `data-gk-flavor="portfolio"` block proposed instead of editing v2.
+
 ## Current state (2026-10-31, end of session)
 - Live: https://bestportofolio.vercel.app (Vercel, auto-deploys `main`; production green since `8a5d378`). `gokulsaraswat.com` does not resolve.
 - Data: OLD Supabase project (Prisma). Most live content is the old sample seed (Learn Go, System Design, 5 blogs, Banking Microservices project, snippets), plus test rows like project `asdfasf`.

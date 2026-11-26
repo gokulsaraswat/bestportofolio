@@ -1,0 +1,137 @@
+/*
+ * p1 "Signal": portfolio flavor on the v2 foundation. Load AFTER ../../vendor/tokens.css.
+ * Same --gk-* names; values only. Every neutral = one ink mixed over one paper at a fixed percentage
+ * (numbers mirrored in contrast.mjs). Theme: data-gk-theme="system" (default) | "light" | "dark".
+ */
+
+:root[data-gk-flavor="portfolio"] {
+  --pf-ink: #1B1517;
+  --pf-paper: #FDFCFC;
+  --pf-deep: color-mix(in srgb, var(--pf-ink) 6%, var(--pf-paper));
+  --pf-accent: #C81E1E;
+  --pf-accent-hover: #A31616;
+  --pf-on-accent: #FFFFFF;
+  --pf-accent-subtle-pct: 9%;
+  --pf-on-accent-subtle: #8F1414;
+  --pf-p-surface: 3.5%;
+  --pf-p-border: 12%;
+  --pf-p-strong: 52%;
+  --pf-p-subtle: 66%;
+  --pf-p-muted: 78%;
+  --pf-success: #16713A;
+  --pf-danger: #A8200F;
+  --pf-warning: #8A5300;
+  --pf-shadow: 27 21 23;
+  --pf-shadow-k: 1;
+  color-scheme: light;
+
+  --gk-font-sans: 'Mona Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --gk-font-display: 'Mona Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --gk-font-reading: 'Mona Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --gk-font-mono: 'Martian Mono', 'Cascadia Mono', Consolas, ui-monospace, monospace;
+  --gk-text-xs: 0.8125rem;
+  --gk-text-sm: 0.875rem;
+  --gk-text-base: 1.0625rem;
+  --gk-text-lg: 1.1875rem;
+  --gk-text-xl: 1.5rem;
+  --gk-text-2xl: 2rem;
+  --gk-text-3xl: 2.75rem;
+  --pf-text-display: clamp(2.6rem, 1.55rem + 4.4vw, 5.25rem);
+  --pf-text-stat: clamp(2.5rem, 1.9rem + 2.4vw, 3.75rem);
+  --gk-leading-tight: 1.02;
+  --gk-leading-snug: 1.3;
+  --gk-leading-body: 1.62;
+  --gk-weight-regular: 400;
+  --gk-weight-medium: 530;
+  --gk-weight-strong: 640;
+  --gk-weight-display: 680;
+  --gk-tracking-display: -0.035em;
+  --gk-tracking-body: -0.003em;
+  --pf-stretch-display: 108%;
+  --pf-stretch-stat: 82%;
+  --pf-mono-stretch: 87.5%;
+  --gk-radius-sm: 0.25rem;
+  --gk-radius-md: 0.5rem;
+  --gk-radius-lg: 0.75rem;
+  --gk-radius-xl: 1.125rem;
+  --gk-radius-full: 999px;
+  --gk-control-h: 2.5rem;
+  --gk-press: translateY(1px);
+  --gk-measure: 41.25rem;
+  --pf-wrap: 70rem;
+
+  --gk-color-bg: var(--pf-paper);
+  --gk-color-surface: color-mix(in srgb, var(--pf-ink) var(--pf-p-surface), var(--pf-paper));
+  --gk-color-sunken: var(--pf-deep);
+  --gk-color-border: color-mix(in srgb, var(--pf-ink) var(--pf-p-border), var(--pf-paper));
+  --gk-color-border-strong: color-mix(in srgb, var(--pf-ink) var(--pf-p-strong), var(--pf-paper));
+  --gk-color-text: var(--pf-ink);
+  --gk-color-text-muted: color-mix(in srgb, var(--pf-ink) var(--pf-p-muted), var(--pf-paper));
+  --gk-color-text-subtle: color-mix(in srgb, var(--pf-ink) var(--pf-p-subtle), var(--pf-paper));
+  --gk-color-accent: var(--pf-accent);
+  --gk-color-accent-hover: var(--pf-accent-hover);
+  --gk-color-on-accent: var(--pf-on-accent);
+  --gk-color-accent-subtle: color-mix(in srgb, var(--pf-accent) var(--pf-accent-subtle-pct), var(--pf-paper));
+  --gk-color-on-accent-subtle: var(--pf-on-accent-subtle);
+  --gk-color-focus: var(--pf-accent);
+  --gk-color-danger: var(--pf-danger);
+  --gk-color-danger-subtle: color-mix(in srgb, var(--pf-danger) 10%, var(--pf-paper));
+  --gk-color-on-danger: var(--pf-on-accent);
+  --gk-color-success: var(--pf-success);
+  --gk-color-success-subtle: color-mix(in srgb, var(--pf-success) 12%, var(--pf-paper));
+  --gk-color-warning: var(--pf-warning);
+  --gk-color-warning-subtle: color-mix(in srgb, var(--pf-warning) 12%, var(--pf-paper));
+  --gk-color-info: var(--gk-color-text-muted);
+  --gk-color-info-subtle: var(--gk-color-surface);
+  --gk-color-highlight: color-mix(in srgb, var(--pf-accent) 22%, var(--pf-paper));
+  --gk-color-on-highlight: var(--pf-ink);
+  --gk-color-overlay: color-mix(in srgb, var(--pf-ink) 45%, transparent);
+  --gk-shadow-color: var(--pf-shadow);
+  --gk-shadow-k: var(--pf-shadow-k);
+}
+
+:root[data-gk-flavor="portfolio"][data-gk-theme="dark"] {
+  --pf-ink: #F3EEEB;
+  --pf-paper: #141112;
+  --pf-deep: #0D0B0C;
+  --pf-accent: #F73B3B;
+  --pf-accent-hover: #FF6663;
+  --pf-on-accent: #141112;
+  --pf-accent-subtle-pct: 15%;
+  --pf-on-accent-subtle: #FFA9A5;
+  --pf-p-surface: 5%;
+  --pf-p-border: 14%;
+  --pf-p-strong: 46%;
+  --pf-p-subtle: 60%;
+  --pf-p-muted: 74%;
+  --pf-success: #5FCB8C;
+  --pf-danger: #FF8A7A;
+  --pf-warning: #E9B44E;
+  --pf-shadow: 0 0 0;
+  --pf-shadow-k: 2.5;
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-gk-flavor="portfolio"][data-gk-theme="system"] {
+    --pf-ink: #F3EEEB;
+    --pf-paper: #141112;
+    --pf-deep: #0D0B0C;
+    --pf-accent: #F73B3B;
+    --pf-accent-hover: #FF6663;
+    --pf-on-accent: #141112;
+    --pf-accent-subtle-pct: 15%;
+    --pf-on-accent-subtle: #FFA9A5;
+    --pf-p-surface: 5%;
+    --pf-p-border: 14%;
+    --pf-p-strong: 46%;
+    --pf-p-subtle: 60%;
+    --pf-p-muted: 74%;
+    --pf-success: #5FCB8C;
+    --pf-danger: #FF8A7A;
+    --pf-warning: #E9B44E;
+    --pf-shadow: 0 0 0;
+    --pf-shadow-k: 2.5;
+    color-scheme: dark;
+  }
+}

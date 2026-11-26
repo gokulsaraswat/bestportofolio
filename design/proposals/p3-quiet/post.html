@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en" data-gk-flavor="portfolio" data-gk-theme="system">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dockerize Your Go Applications, Gokul Saraswat</title>
+<meta name="description" content="Learn how to containerize your Go applications using Docker for consistent development and deployment.">
+<script>(function(){var t=new URLSearchParams(location.search).get('theme');if(!t){try{t=localStorage.getItem('q-theme')}catch(e){}}document.documentElement.dataset.gkTheme=t||'system';if(new URLSearchParams(location.search).has('still'))document.documentElement.dataset.still=''})()</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..600&family=JetBrains+Mono:wght@400;600&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&display=swap">
+<link rel="stylesheet" href="../../vendor/tokens.css">
+<link rel="stylesheet" href="../../vendor/components.css">
+<link rel="stylesheet" href="assets/quiet.css">
+</head>
+<body class="gk-app">
+<a class="q-skip" href="#main">Skip to content</a>
+
+<header class="q-nav">
+  <div class="q-wrap q-nav__in">
+    <a class="q-brand" href="index.html" aria-label="Gokul Saraswat, home"><span class="q-brand__mark" aria-hidden="true">g</span>Gokul Saraswat</a>
+    <nav aria-label="Main">
+      <div class="q-nav__links">
+        <a href="projects.html">Work</a>
+        <a href="post.html" aria-current="page">Writing</a>
+        <a href="#courses">Courses</a>
+        <a href="#">Snippets</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+      </div>
+      <button class="gk-btn gk-btn--quiet q-nav__menu" type="button" aria-expanded="false" aria-controls="menu"><svg class="q-icon" aria-hidden="true"><use href="#i-menu"/></svg>Menu</button>
+    </nav>
+  </div>
+</header>
+<main id="main" class="q-wrap">
+  <div class="q-doc">
+    <nav class="q-docnav" aria-label="Writing">
+      <div class="q-sticky">
+        <a class="q-plain gk-muted" href="index.html#writing" style="font-size:var(--gk-text-sm);display:inline-flex;gap:.375rem;align-items:center"><svg class="q-icon" aria-hidden="true" style="width:1rem;height:1rem"><use href="#i-left"/></svg>All writing</a>
+        <div>
+          <p class="q-cat">Architecture</p>
+          <ul>
+            <li><a href="#">System Design Fundamentals</a></li>
+            <li><a href="#">Getting Started with NATS</a></li>
+          </ul>
+          <p class="q-cat">DevOps</p>
+          <ul>
+            <li><a href="#">Introduction to IaC with Terraform</a></li>
+            <li><a href="post.html" aria-current="page">Dockerize Your Go Applications</a></li>
+          </ul>
+          <p class="q-cat">Open Source</p>
+          <ul>
+            <li><a href="#">Vite is Too Fast</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <article aria-labelledby="t">
+      <header class="q-art-head">
+        <p class="q-crumb"><a href="index.html#writing">Writing</a><span aria-hidden="true">/</span><a href="#">DevOps</a></p>
+        <h1 id="t">Dockerize Your Go Applications</h1>
+        <p class="q-lede">Learn how to containerize your Go applications using Docker for consistent development and deployment.</p>
+        <div class="q-meta">
+          <dl>
+            <div><dt>Published</dt><dd><time datetime="2026-08-03">3 Aug 2026</time></dd></div>
+            <div><dt>Reading time</dt><dd>2 min</dd></div>
+          </dl>
+          <div class="q-tags"><a class="q-tag" href="#">docker</a><a class="q-tag" href="#">go</a><a class="q-tag" href="#">devops</a></div>
+        </div>
+      </header>
+
+      <details class="q-toc-m" style="margin-block-start:1.5rem">
+        <summary>On this page</summary>
+        <ul>
+          <li><a href="#why">Why Docker for Go?</a></li>
+          <li><a href="#multi">Multi-stage builds</a></li>
+          <li><a href="#resources">Resources</a></li>
+          <li><a href="#comments">Comments</a></li>
+        </ul>
+      </details>
+
+      <div class="q-prose">
+        <p>Docker has revolutionized the way we build, ship, and run applications. In this guide, we explore how to effectively containerize Go applications.</p>
+        <h2 id="why">Why Docker for Go?<a class="q-anchor" href="#why" aria-label="Link to this section">#</a></h2>
+        <p>Go compiles to a single binary, making it an excellent candidate for containerization.</p>
+        <h2 id="multi">Multi-stage builds<a class="q-anchor" href="#multi" aria-label="Link to this section">#</a></h2>
+        <figure class="q-code">
+          <figcaption class="q-code__bar"><span>Dockerfile</span><button class="gk-btn gk-btn--quiet gk-btn--sm" type="button"><svg class="q-icon" aria-hidden="true" style="width:.9rem;height:.9rem"><use href="#i-copy"/></svg>Copy</button></figcaption>
+<pre><code><span class="q-c-k">FROM</span> golang:1.21-alpine <span class="q-c-k">AS</span> builder
+<span class="q-c-k">WORKDIR</span> /app
+<span class="q-c-k">COPY</span> go.mod go.sum ./
+<span class="q-c-k">RUN</span> go mod download
+<span class="q-c-k">COPY</span> . .
+<span class="q-c-k">RUN</span> CGO_ENABLED=0 go build -o server .
+
+<span class="q-c-k">FROM</span> alpine:latest
+<span class="q-c-k">COPY</span> --from=builder /app/server /server
+<span class="q-c-k">EXPOSE</span> 8080
+<span class="q-c-k">CMD</span> ["/server"]</code></pre>
+        </figure>
+
+        <h2 id="resources">Resources<a class="q-anchor" href="#resources" aria-label="Link to this section">#</a></h2>
+        <ul class="q-res" role="list">
+          <li><a href="https://docs.docker.com">Docker Official Docs</a><span>Official Docker documentation</span></li>
+          <li><a href="https://gobyexample.com">Go by Example</a><span>Hands-on Go examples</span></li>
+        </ul>
+      </div>
+
+      <div class="q-react">
+        <p>Was this useful?</p>
+        <div class="q-react__btns">
+          <button class="gk-btn gk-btn--ghost q-like" type="button" aria-pressed="true"><svg class="q-icon" aria-hidden="true"><use href="#i-heart"/></svg>Like<span class="gk-num gk-muted" data-n>24</span></button>
+          <div class="q-share">
+            <button class="gk-btn gk-btn--ghost" type="button" aria-haspopup="menu" aria-expanded="true" aria-controls="share-menu"><svg class="q-icon" aria-hidden="true"><use href="#i-share"/></svg>Share</button>
+            <div class="q-menu" id="share-menu" role="menu">
+              <button type="button" role="menuitem" data-copy><svg class="q-icon" aria-hidden="true"><use href="#i-link"/></svg>Copy link</button>
+              <a role="menuitem" href="https://x.com/intent/post?url=https%3A%2F%2Fgokulsaraswat.com%2Fblog%2Fdockerize-go"><svg class="q-icon" aria-hidden="true"><use href="#i-x"/></svg>Share on X</a>
+              <a role="menuitem" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fgokulsaraswat.com%2Fblog%2Fdockerize-go"><svg class="q-icon" aria-hidden="true"><use href="#i-linkedin"/></svg>Share on LinkedIn</a>
+              <hr>
+              <button type="button" role="menuitem"><svg class="q-icon" aria-hidden="true"><use href="#i-share"/></svg>More options</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <nav class="q-pn" aria-label="More writing">
+        <a href="#"><span>Previous</span><strong>Vite is Too Fast</strong></a>
+        <a href="#"><span>Next</span><strong>Getting Started with NATS</strong></a>
+      </nav>
+
+      <section class="q-comments" id="comments" aria-labelledby="h-comments">
+        <div class="q-sec__head">
+          <h2 class="q-h2" id="h-comments">5 comments</h2>
+          <a class="q-more" href="#comment-form">Write a comment</a>
+        </div>
+        <ol class="q-thread" role="list">
+          <li class="q-cm">
+            <span class="q-cm__av" aria-hidden="true">AR</span>
+            <div>
+              <p class="q-cm__h"><strong>Ananya R.</strong><time datetime="2026-11-23">2 days ago</time></p>
+              <p class="q-cm__body">The multi-stage build took our image from about 900 MB to under 20 MB. Is it safe to keep <code class="gk-mono">alpine:latest</code> in the final stage, or should it be pinned?</p>
+              <div class="q-cm__acts">
+                <button class="gk-btn gk-btn--quiet q-like" type="button" aria-pressed="false" aria-label="Like comment by Ananya R."><svg class="q-icon" aria-hidden="true"><use href="#i-heart"/></svg><span class="gk-num" data-n>6</span></button>
+                <button class="gk-btn gk-btn--quiet" type="button"><svg class="q-icon" aria-hidden="true"><use href="#i-reply"/></svg>Reply</button>
+              </div>
+            </div>
+            <ol class="q-replies" role="list" aria-label="Replies to Ananya R.">
+              <li class="q-cm">
+                <span class="q-cm__av q-cm__av--me" aria-hidden="true">g</span>
+                <div>
+                  <p class="q-cm__h"><strong>Gokul Saraswat</strong><span class="q-author">Author</span><time datetime="2026-11-23">2 days ago</time></p>
+                  <p class="q-cm__body">Pin it. A floating tag can change between two deploys. Use a version such as <code class="gk-mono">alpine:3.20</code>, or a digest if you want builds you can reproduce byte for byte.</p>
+                  <div class="q-cm__acts">
+                    <button class="gk-btn gk-btn--quiet q-like" type="button" aria-pressed="true" aria-label="Like reply by Gokul Saraswat"><svg class="q-icon" aria-hidden="true"><use href="#i-heart"/></svg><span class="gk-num" data-n>4</span></button>
+                  </div>
+                </div>
+              </li>
+              <li class="q-cm">
+                <span class="q-cm__av" aria-hidden="true">RK</span>
+                <div>
+                  <p class="q-cm__h"><strong>Ravi K.</strong><time datetime="2026-11-24">yesterday</time></p>
+                  <p class="q-cm__body">We pinned to a digest too. Cache hits in CI became a lot more predictable.</p>
+                  <div class="q-cm__acts">
+                    <button class="gk-btn gk-btn--quiet q-like" type="button" aria-pressed="false" aria-label="Like reply by Ravi K."><svg class="q-icon" aria-hidden="true"><use href="#i-heart"/></svg><span class="gk-num" data-n>1</span></button>
+                  </div>
+                </div>
+              </li>
+            </ol>
+          </li>
+          <li class="q-cm">
+            <span class="q-cm__av" aria-hidden="true">TM</span>
+            <div>
+              <p class="q-cm__h"><strong>Tomás M.</strong><time datetime="2026-11-24">yesterday</time></p>
+              <p class="q-cm__body">Since CGO is off, would <code class="gk-mono">distroless/static</code> or even <code class="gk-mono">scratch</code> work for the final stage?</p>
+              <div class="q-cm__acts">
+                <button class="gk-btn gk-btn--quiet q-like" type="button" aria-pressed="false" aria-label="Like comment by Tomás M."><svg class="q-icon" aria-hidden="true"><use href="#i-heart"/></svg><span class="gk-num" data-n>2</span></button>
+                <button class="gk-btn gk-btn--quiet" type="button"><svg class="q-icon" aria-hidden="true"><use href="#i-reply"/></svg>Reply</button>
+              </div>
+            </div>
+          </li>
+          <li class="q-cm q-cm--pending">
+            <span class="q-cm__av" aria-hidden="true">PN</span>
+            <div>
+              <p class="q-cm__h"><strong>Priya N.</strong><span class="q-pending">Waiting for approval</span><time datetime="2026-11-25">just now</time></p>
+              <p class="q-cm__body">Does the <code class="gk-mono">go mod download</code> layer still cache well if go.sum changes on most commits?</p>
+              <p class="q-cm__note">Only you can see this until Gokul approves it. It stays on this device for now.</p>
+            </div>
+          </li>
+        </ol>
+
+        <form class="q-form" id="comment-form" aria-labelledby="h-form" onsubmit="return false">
+          <h3 class="q-h2" id="h-form" style="font-size:1.1875rem">Reply to Tomás M.</h3>
+          <div class="q-replyto"><span>Your reply will appear under Tomás M.'s comment.</span><button class="gk-btn gk-btn--quiet gk-btn--sm" type="button">Write a new comment instead</button></div>
+          <div class="q-form__row">
+            <div class="gk-field"><label class="gk-label" for="c-name">Name</label><input class="gk-input" id="c-name" autocomplete="name" value="Priya N."></div>
+            <div class="gk-field"><label class="gk-label" for="c-mail">Email <span class="gk-muted">(optional, never shown)</span></label><input class="gk-input" id="c-mail" type="email" autocomplete="email"></div>
+          </div>
+          <div class="gk-field"><label class="gk-label" for="c-body">Reply</label><textarea class="gk-textarea" id="c-body" rows="4" placeholder="Add to the conversation"></textarea></div>
+          <div class="q-form__foot">
+            <p class="gk-hint">Comments are reviewed before they appear.</p>
+            <button class="gk-btn gk-btn--primary" type="submit">Post reply</button>
+          </div>
+        </form>
+      </section>
+    </article>
+
+    <aside class="q-toc" aria-label="On this page">
+      <div class="q-sticky">
+        <p class="q-side-h">On this page</p>
+        <ul>
+          <li><a href="#why" aria-current="true">Why Docker for Go?</a></li>
+          <li><a href="#multi">Multi-stage builds</a></li>
+          <li><a href="#resources">Resources</a></li>
+          <li><a href="#comments">Comments</a></li>
+        </ul>
+        <div style="display:flex;gap:.25rem;margin-block-start:.5rem">
+          <button class="gk-btn gk-btn--quiet gk-btn--sm q-like" type="button" aria-pressed="true" aria-label="Like this post"><svg class="q-icon" aria-hidden="true"><use href="#i-heart"/></svg><span class="gk-num" data-n>24</span></button>
+          <a class="gk-btn gk-btn--quiet gk-btn--sm" href="#comments" aria-label="5 comments"><svg class="q-icon" aria-hidden="true"><use href="#i-chat"/></svg><span class="gk-num">5</span></a>
+        </div>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<footer class="q-foot">
+  <div class="q-wrap">
+    <div class="q-foot__top">
+      <nav class="q-foot__groups" aria-label="Footer">
+        <div><h2>Work</h2><ul><li><a href="projects.html">Projects</a></li><li><a href="#">Résumé (PDF)</a></li></ul></div>
+        <div><h2>Writing</h2><ul><li><a href="post.html">Blog</a></li><li><a href="#">Courses</a></li><li><a href="#">Snippets</a></li></ul></div>
+        <div><h2>About</h2><ul><li><a href="#">About me</a></li><li><a href="#">Contact</a></li><li><a href="chat.html">Ask the assistant</a></li></ul></div>
+        <div><h2>Elsewhere</h2><ul><li><a href="https://github.com/gokulsaraswat">GitHub</a></li><li><a href="https://www.linkedin.com/in/gokulsaraswat">LinkedIn</a></li><li><a href="https://twitter.com/gokulsaraswat">X</a></li><li><a href="mailto:gokulsaraswat07@gmail.com">Email</a></li></ul></div>
+      </nav>
+      <div class="q-foot__side">
+        <div>
+          <p class="q-foot__label" id="theme-l">Theme</p>
+          <div class="q-theme" role="radiogroup" aria-labelledby="theme-l">
+            <label><input type="radio" name="theme" value="system"><svg class="q-icon" aria-hidden="true"><use href="#i-system"/></svg>System</label>
+            <label><input type="radio" name="theme" value="light"><svg class="q-icon" aria-hidden="true"><use href="#i-sun"/></svg>Light</label>
+            <label><input type="radio" name="theme" value="dark"><svg class="q-icon" aria-hidden="true"><use href="#i-moon"/></svg>Dark</label>
+          </div>
+        </div>
+        <div data-playing>
+          <p class="q-foot__label">Now playing</p>
+          <p style="display:flex;align-items:center;gap:.625rem"><span class="q-eq" aria-hidden="true"><i></i><i></i><i></i></span><span>Monsoon Study <span class="gk-muted">by Saanjh</span></span></p>
+        </div>
+        <p class="gk-muted">© 2026 Gokul Saraswat</p>
+      </div>
+    </div>
+    <div class="q-foot__bottom">
+      <ul role="list">
+        <li><a href="#">Privacy</a></li><li><a href="#">Terms</a></li><li><a href="#">Cookies</a></li><li><a href="#">Accessibility</a></li><li><a href="#">Sitemap</a></li><li><a href="#">RSS</a></li>
+      </ul>
+      <p>Built with Astro in Bangalore</p>
+    </div>
+  </div>
+</footer>
+
+<div class="q-dock">
+  <div class="q-mini" data-player data-playing aria-label="Music player">
+    <button class="q-mini__play" type="button" data-play aria-label="Pause"><svg class="q-icon" aria-hidden="true"><use href="#i-pause"/></svg></button>
+    <div class="q-mini__meta"><span class="q-mini__t">Monsoon Study</span><span class="q-mini__a">Saanjh</span></div>
+    <span class="q-eq" aria-hidden="true" style="margin-inline:.25rem"><i></i><i></i><i></i></span>
+    <button class="q-mini__open" type="button" aria-label="Open player" onclick="location.href='player.html'"><svg class="q-icon" aria-hidden="true"><use href="#i-expand"/></svg></button>
+  </div>
+</div>
+<button class="q-launch" type="button" onclick="location.href='chat.html'"><svg class="q-icon" aria-hidden="true"><use href="#i-chat"/></svg><span>Ask about my work</span></button>
+
+<p class="q-toast" role="status" hidden></p>
+<script src="assets/quiet.js"></script>
+</body>
+</html>
