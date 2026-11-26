@@ -58,20 +58,15 @@ export function RagSettings() {
   const [batchProgress, setBatchProgress] = useState('')
 
   const checkConfig = async () => {
-  setConfigStatus('checking')
-  try {
-    const res = await fetch('/api/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ messages: [{ role: 'user', content: 'test' }] }),
-    })
-    setConfigStatus('ok')
-  } catch {
-    setConfigStatus('missing')
+    setConfigStatus('checking')
+    try {
+      const res = await fetch('/api/chat/config')
+      const data = res.ok ? await res.json() : null
+      setConfigStatus(data?.configured ? 'ok' : 'missing')
+    } catch {
+      setConfigStatus('missing')
+    }
   }
-}
-
-
 
 useEffect(() => {
     let cancelled = false
@@ -87,19 +82,7 @@ useEffect(() => {
         if (!cancelled) setLoading(false)
       }
     })()
-    void (async () => {
-      setConfigStatus('checking')
-      try {
-        await fetch('/api/chat', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ messages: [{ role: 'user', content: 'test' }] }),
-        })
-        if (!cancelled) setConfigStatus('ok')
-      } catch {
-        if (!cancelled) setConfigStatus('missing')
-      }
-    })()
+    void checkConfig()
     return () => { cancelled = true }
   }, [])
 
@@ -287,7 +270,7 @@ useEffect(() => {
             )}
             <span className="text-sm">
               {configStatus === 'checking' && 'Checking configuration...'}
-              {configStatus === 'ok' && 'API routes are reachable'}
+              {configStatus === 'ok' && 'API keys are configured'}
               {configStatus === 'missing' && 'API keys not configured — see .env.example'}
             </span>
             {/* Issue #3: the env-var reference used to be a permanent block
