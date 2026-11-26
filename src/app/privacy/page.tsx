@@ -15,7 +15,7 @@ export default function PrivacyPage() {
 
             <section>
               <h2 className="text-lg font-semibold text-foreground mb-2">1. Information We Collect</h2>
-              <p>When you use the contact form on this website, we collect your name, email address, and the content of your message. We do not use cookies for tracking, and we do not collect any personal data automatically through browsing.</p>
+              <p>When you use the contact form on this website, we collect your name, email address, and the content of your message. If you use the chat assistant, your question is sent to Google's Gemini API to generate an answer and is not stored on our servers. This site sets no tracking or advertising cookies; the only cookie is a sign-in session cookie used by the site owner in the admin area. Our hosting provider may keep standard server logs (for example IP address and request time).</p>
             </section>
 
             <section>
