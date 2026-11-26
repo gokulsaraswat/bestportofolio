@@ -100,3 +100,5 @@ Master status of all repos: platform/docs/WORKLOG.md (planning chat syncs it fro
 - Deploy status without Vercel login: `gh api repos/gokulsaraswat/bestportofolio/commits/<sha>/status --jq '.statuses[]|{context,state}'`. Vercel build logs need Gokul (dashboard login).
 - Vercel needs `NODE_AUTH_TOKEN` (read:packages) for `@gokulsaraswat/ui`; never set `NEXT_OUTPUT=standalone` on Vercel (breaks its builder).
 - Public GETs of blogs/snippets return only published items without an admin session; public pages must keep requesting `published=true` and the admin UI must send its session cookie.
+
+- 2026-11-26 Upgrade program: status of all 7 repos and how to resume is in platform/docs/UPGRADE-PROGRAM.md (read it first).
